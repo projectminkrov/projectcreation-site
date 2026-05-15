@@ -186,18 +186,25 @@
         submitBtn.textContent = 'AUTHENTICATING...';
         submitBtn.disabled = true;
 
-        const { error } = await db.auth.signInWithPassword({ email, password });
+        try {
+          const { error } = await db.auth.signInWithPassword({ email, password });
 
-        if (error) {
-          // Generic message — do not reveal whether email exists
-          errorMsg.textContent = 'Invalid credentials. Please check your email and password.';
+          if (error) {
+            // Generic message — do not reveal whether email exists
+            errorMsg.textContent = 'Invalid credentials. Please check your email and password.';
+            errorMsg.classList.remove('hidden');
+            submitBtn.textContent = 'AUTHENTICATE';
+            submitBtn.disabled = false;
+            return;
+          }
+
+          window.location.replace('/account.html');
+        } catch {
+          errorMsg.textContent = 'Connection error. Please check your network and try again.';
           errorMsg.classList.remove('hidden');
           submitBtn.textContent = 'AUTHENTICATE';
           submitBtn.disabled = false;
-          return;
         }
-
-        window.location.replace('/account.html');
       });
     })();
   </script>

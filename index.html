@@ -711,9 +711,15 @@
         dropSince.textContent = d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
       }
 
-      // Check session on load
+      // Check session on load — also hides profile if local session is revoked server-side
       db.auth.getUser().then(({ data: { user } }) => {
-        if (user) showProfile(user);
+        if (user) {
+          showProfile(user);
+        } else {
+          profileWrapper.classList.remove('visible');
+          navSignIn.style.display        = '';
+          navCreateAccount.style.display = '';
+        }
       }).catch(() => {});
 
       // Toggle dropdown
@@ -722,9 +728,12 @@
         profileDropdown.classList.toggle('open');
       });
 
-      // Close on outside click
+      // Close on outside click or Escape key
       document.addEventListener('click', () => {
         profileDropdown.classList.remove('open');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') profileDropdown.classList.remove('open');
       });
       profileDropdown.addEventListener('click', (e) => e.stopPropagation());
 

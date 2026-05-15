@@ -211,25 +211,31 @@
         submitBtn.textContent = 'INITIALIZING...';
         submitBtn.disabled = true;
 
-        const { error } = await db.auth.signUp({ email, password: pass });
+        try {
+          const { error } = await db.auth.signUp({ email, password: pass });
 
-        if (error) {
-          // Rate limit — a code was already sent, redirect to verify page
-          if (error.status === 429 || (error.code && error.code.includes('rate_limit'))) {
-            sessionStorage.setItem('pendingEmail', email);
-            window.location.replace('/verify.html');
+          if (error) {
+            // Rate limit — a code was already sent, redirect to verify page
+            if (error.status === 429 || (error.code && error.code.includes('rate_limit'))) {
+              sessionStorage.setItem('pendingEmail', email);
+              window.location.replace('/verify.html');
+              return;
+            }
+            // Generic error — do not reveal whether email is already registered
+            showError('Unable to create account. Please check your details and try again.');
+            submitBtn.textContent = 'INITIALIZE ACCOUNT';
+            submitBtn.disabled = false;
             return;
           }
-          // Generic error — do not reveal whether email is already registered
-          showError('Unable to create account. Please check your details and try again.');
+
+          // Store email temporarily for the verification step
+          sessionStorage.setItem('pendingEmail', email);
+          window.location.replace('/verify.html');
+        } catch {
+          showError('Connection error. Please check your network and try again.');
           submitBtn.textContent = 'INITIALIZE ACCOUNT';
           submitBtn.disabled = false;
-          return;
         }
-
-        // Store email temporarily for the verification step
-        sessionStorage.setItem('pendingEmail', email);
-        window.location.replace('/verify.html');
       });
     })();
   </script>

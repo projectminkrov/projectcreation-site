@@ -181,7 +181,11 @@
 
       // Sign out
       document.getElementById('signOutBtn').addEventListener('click', async () => {
-        await db.auth.signOut();
+        try {
+          await db.auth.signOut();
+        } catch {
+          // Ignore — navigate regardless
+        }
         window.location.replace('/login.html');
       });
     })();

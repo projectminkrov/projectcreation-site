@@ -253,23 +253,29 @@
         verifyBtn.textContent = 'VERIFYING...';
         verifyBtn.disabled = true;
 
-        const { error } = await db.auth.verifyOtp({
-          email,
-          token: code,
-          type: 'signup'
-        });
+        try {
+          const { error } = await db.auth.verifyOtp({
+            email,
+            token: code,
+            type: 'signup'
+          });
 
-        if (error) {
-          showError('Invalid or expired code. Please try again or request a new one.');
+          if (error) {
+            showError('Invalid or expired code. Please try again or request a new one.');
+            verifyBtn.textContent = 'VERIFY CODE';
+            verifyBtn.disabled = false;
+            inputs.forEach(i => { i.value = ''; i.classList.remove('filled'); });
+            inputs[0].focus();
+            return;
+          }
+
+          sessionStorage.removeItem('pendingEmail');
+          window.location.replace('/account.html');
+        } catch {
+          showError('Connection error. Please check your network and try again.');
           verifyBtn.textContent = 'VERIFY CODE';
           verifyBtn.disabled = false;
-          inputs.forEach(i => { i.value = ''; i.classList.remove('filled'); });
-          inputs[0].focus();
-          return;
         }
-
-        sessionStorage.removeItem('pendingEmail');
-        window.location.replace('/account.html');
       });
 
       // --- Resend ---
@@ -279,22 +285,28 @@
         if (resendCooldown > 0) return;
 
         resendBtn.disabled = true;
-        const { error } = await db.auth.resend({ email, type: 'signup' });
 
-        if (error) {
-          resendBtn.disabled = false; // re-enable so user can try again
-          showError('Could not resend code. Please wait a moment and try again.');
-        } else {
-          showSuccess('New code sent — check your inbox.');
-          resendCooldown = 60;
-          const tick = setInterval(() => {
-            resendCooldown--;
-            resendBtn.textContent = resendCooldown > 0 ? `Resend code (${resendCooldown}s)` : 'Resend code';
-            if (resendCooldown <= 0) {
-              resendBtn.disabled = false;
-              clearInterval(tick);
-            }
-          }, 1000);
+        try {
+          const { error } = await db.auth.resend({ email, type: 'signup' });
+
+          if (error) {
+            resendBtn.disabled = false;
+            showError('Could not resend code. Please wait a moment and try again.');
+          } else {
+            showSuccess('New code sent — check your inbox.');
+            resendCooldown = 60;
+            const tick = setInterval(() => {
+              resendCooldown--;
+              resendBtn.textContent = resendCooldown > 0 ? `Resend code (${resendCooldown}s)` : 'Resend code';
+              if (resendCooldown <= 0) {
+                resendBtn.disabled = false;
+                clearInterval(tick);
+              }
+            }, 1000);
+          }
+        } catch {
+          resendBtn.disabled = false;
+          showError('Connection error. Please check your network and try again.');
         }
       });
 
