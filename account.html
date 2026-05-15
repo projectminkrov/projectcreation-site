@@ -68,9 +68,45 @@
         linear-gradient(90deg, rgba(42, 168, 255, 0.05) 1px, transparent 1px);
       background-size: 48px 48px;
     }
+    body.theme-red {
+      background-image:
+        linear-gradient(rgba(255, 42, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 42, 42, 0.05) 1px, transparent 1px);
+    }
+    body.theme-green {
+      background-image:
+        linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+    }
+    body.theme-purple {
+      background-image:
+        linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+    }
+    body.theme-red .text-primary-fixed-dim { color: #ff2a2a !important; }
+    body.theme-red .bg-primary-fixed-dim { background-color: #ff2a2a !important; }
+    body.theme-red .border-outline-variant { border-color: #4b3737 !important; }
+    body.theme-red .text-on-surface-variant { color: #ccb2b2 !important; }
+    body.theme-red .text-outline { color: #967e7e !important; }
+    body.theme-red .hover\:text-primary-fixed-dim:hover { color: #ff2a2a !important; }
+
+    body.theme-green .text-primary-fixed-dim { color: #39ff14 !important; }
+    body.theme-green .bg-primary-fixed-dim { background-color: #39ff14 !important; }
+    body.theme-green .border-outline-variant { border-color: #374b37 !important; }
+    body.theme-green .text-on-surface-variant { color: #b2d6b2 !important; }
+    body.theme-green .text-outline { color: #7e9680 !important; }
+    body.theme-green .hover\:text-primary-fixed-dim:hover { color: #39ff14 !important; }
+
+    body.theme-purple .text-primary-fixed-dim { color: #a855f7 !important; }
+    body.theme-purple .bg-primary-fixed-dim { background-color: #a855f7 !important; }
+    body.theme-purple .border-outline-variant { border-color: #3d374b !important; }
+    body.theme-purple .text-on-surface-variant { color: #c4b2d6 !important; }
+    body.theme-purple .text-outline { color: #8e7e96 !important; }
+    body.theme-purple .hover\:text-primary-fixed-dim:hover { color: #a855f7 !important; }
   </style>
 </head>
 <body class="bg-background text-on-background min-h-screen overflow-x-hidden">
+<script>(function(){var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);})()</script>
 
   <header class="bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base">
