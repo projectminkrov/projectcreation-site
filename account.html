@@ -106,7 +106,7 @@
   </style>
 </head>
 <body class="bg-background text-on-background min-h-screen overflow-x-hidden">
-<script>(function(){var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);})()</script>
+<script>(function(){try{var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);}catch(e){}})()</script>
 
   <header class="bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base">
@@ -116,6 +116,7 @@
       <button
         id="signOutBtn"
         class="font-label-md text-label-md text-on-surface-variant hover:text-error transition-colors"
+        style="visibility:hidden"
       >
         Sign out
       </button>
@@ -202,6 +203,7 @@
 
           // Only reveal the page after auth is confirmed — prevents flash of unauthenticated shell
           document.getElementById('mainContent').style.visibility = 'visible';
+          document.getElementById('signOutBtn').style.visibility = 'visible';
         })
         .catch(() => {
           // Network error or Supabase unreachable — fail safe to login

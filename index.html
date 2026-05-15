@@ -426,19 +426,30 @@
     /* Dropdown accent colors — follow active theme */
     .drop-accent { color: #2aa8ff; }
     .drop-cta { border: 1px solid #2aa8ff; color: #2aa8ff; }
+    .drop-divider { border-bottom: 1px solid #37444b; }
+    .drop-signout { border: 1px solid #37444b; color: #7e9096; }
+
     body.theme-red #profileDropdown { border-color: #4b3737; }
     body.theme-red .drop-accent { color: #ff2a2a; }
     body.theme-red .drop-cta { border-color: #ff2a2a; color: #ff2a2a; }
+    body.theme-red .drop-divider { border-bottom-color: #4b3737; }
+    body.theme-red .drop-signout { border-color: #4b3737; color: #967e7e; }
+
     body.theme-green #profileDropdown { border-color: #374b37; }
     body.theme-green .drop-accent { color: #39ff14; }
     body.theme-green .drop-cta { border-color: #39ff14; color: #39ff14; }
+    body.theme-green .drop-divider { border-bottom-color: #374b37; }
+    body.theme-green .drop-signout { border-color: #374b37; color: #7e9680; }
+
     body.theme-purple #profileDropdown { border-color: #3d374b; }
     body.theme-purple .drop-accent { color: #a855f7; }
     body.theme-purple .drop-cta { border-color: #a855f7; color: #a855f7; }
+    body.theme-purple .drop-divider { border-bottom-color: #3d374b; }
+    body.theme-purple .drop-signout { border-color: #3d374b; color: #8e7e96; }
   </style>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-<script>(function(){var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);})()</script>
+<script>(function(){try{var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);}catch(e){}})()</script>
   <div class="scan-line"></div>
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
@@ -467,7 +478,7 @@
             <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_circle</span>
           </button>
           <div id="profileDropdown">
-            <div style="padding:16px;border-bottom:1px solid #37444b;">
+            <div class="drop-divider" style="padding:16px;">
               <p class="drop-accent" style="margin:0 0 10px 0;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;">&#9646; Session_Active</p>
               <p style="margin:0 0 4px 0;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7e9096;text-transform:uppercase;letter-spacing:0.08em;">Email</p>
               <p id="dropEmail" style="margin:0 0 12px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#e2e2e2;word-break:break-all;"></p>
@@ -478,7 +489,7 @@
             </div>
             <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;">
               <a href="/account.html" class="drop-cta" style="display:block;text-align:center;background:#0e0e0e;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;padding:8px;text-transform:uppercase;letter-spacing:0.06em;">GO TO ACCOUNT →</a>
-              <button id="dropSignOut" style="display:block;width:100%;background:transparent;border:1px solid #37444b;color:#7e9096;font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;">SIGN OUT</button>
+              <button id="dropSignOut" class="drop-signout" style="display:block;width:100%;background:transparent;font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;">SIGN OUT</button>
             </div>
           </div>
         </div>
@@ -753,7 +764,7 @@
 
       // Sign out
       dropSignOut.addEventListener('click', async () => {
-        await db.auth.signOut();
+        try { await db.auth.signOut(); } catch(e) {}
         window.location.reload();
       });
 
@@ -777,7 +788,7 @@
 
       const themes = ["", "theme-red", "theme-green", "theme-purple"];
       const nextLabels = ["Switch to red theme", "Switch to green theme", "Switch to purple theme", "Switch to blue theme"];
-      const saved = localStorage.getItem('pc-theme') || '';
+      const saved = (function(){try{return localStorage.getItem('pc-theme')||'';}catch(e){return '';}}());
       let idx = Math.max(0, themes.indexOf(saved));
 
       // Sync aria state to restored theme (body class already applied by inline script)
@@ -790,7 +801,7 @@
         if (themes[idx]) document.body.classList.remove(themes[idx]);
         idx = (idx + 1) % themes.length;
         if (themes[idx]) document.body.classList.add(themes[idx]);
-        localStorage.setItem('pc-theme', themes[idx]);
+        try{localStorage.setItem('pc-theme',themes[idx]);}catch(e){}
         button.setAttribute("aria-label", nextLabels[idx]);
         button.setAttribute("aria-pressed", String(idx !== 0));
       });
