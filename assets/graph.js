@@ -26,6 +26,19 @@
     community: [0.72, 0.70],
   };
 
+  // Wait for the container to have real dimensions before initialising
+  // (offsetWidth can be 0 if layout hasn't run yet)
+  function init() {
+    if (container.offsetWidth === 0) {
+      requestAnimationFrame(init);
+      return;
+    }
+    start();
+  }
+  init();
+
+  function start() {
+
   let W = container.offsetWidth;
   let H = container.offsetHeight;
 
@@ -253,4 +266,6 @@
     });
     calcRestLen();
   });
+
+  } // end start()
 })();
