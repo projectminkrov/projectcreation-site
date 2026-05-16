@@ -68,7 +68,7 @@
 
   // Physics constants
   const SPRING_K = 0.005;  // very gentle spring
-  const REPULSE  = 1200;   // light repulsion
+  const REPULSE  = 350;    // very light repulsion — no rapid sliding away
   const CENTER_K = 0.0004; // barely-there center gravity
   const DAMPING  = 0.97;   // high damping kills velocity fast
   const PAD      = 52;
@@ -125,8 +125,8 @@
     // Return-to-home spring — ramps up smoothly after drag release
     const anyPinned = list.some(n => n.pinned);
     if (isReturning && !anyPinned) {
-      homeStrength = Math.min(1, homeStrength + 0.005); // ~200 frames ≈ 3s to full strength
-      const homeK = homeStrength * 0.018;              // very gentle pull
+      homeStrength = Math.min(1, homeStrength + 0.004); // slow ramp
+      const homeK = homeStrength * 0.006;              // barely-there pull — prevents overshoot
 
       NODES.forEach(({ id }) => {
         const n  = state[id];
@@ -160,7 +160,7 @@
     }
 
     // Euler integration — higher damping during return gives slow, fluid drift
-    const damp = isReturning ? 0.97 : DAMPING;
+    const damp = isReturning ? 0.985 : DAMPING;
     list.forEach(n => {
       if (n.pinned) return;
       n.vx = (n.vx + n.ax) * damp;
