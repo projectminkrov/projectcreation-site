@@ -4,463 +4,22 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>ProjectCreation | Digital Craft Blue</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "surface-container-lowest": "#0e0e0e",
-            "error-container": "#93000a",
-            "background": "#131313",
-            "secondary-fixed": "#ffdea8",
-            "outline-variant": "#37444b",
-            "surface-container-low": "#1b1b1b",
-            "surface-tint": "#2aa8ff",
-            "surface-container-highest": "#353535",
-            "on-surface-variant": "#b2c7d6",
-            "secondary-fixed-dim": "#ffba20",
-            "on-primary-container": "#004d7a",
-            "surface-bright": "#393939",
-            "on-secondary-container": "#6b4b00",
-            "on-primary-fixed-variant": "#003a5a",
-            "surface-variant": "#353535",
-            "error": "#ffb4ab",
-            "secondary": "#ffdb9d",
-            "primary": "#e5f5ff",
-            "on-secondary-fixed": "#271900",
-            "on-tertiary": "#442b10",
-            "tertiary": "#fff8f4",
-            "on-tertiary-fixed": "#2c1701",
-            "on-surface": "#e2e2e2",
-            "primary-container": "#2aa8ff",
-            "secondary-container": "#feb700",
-            "surface-container-high": "#2a2a2a",
-            "surface": "#131313",
-            "on-background": "#e2e2e2",
-            "outline": "#7e9096",
-            "tertiary-fixed-dim": "#e7bf99",
-            "surface-container": "#1f1f1f",
-            "on-tertiary-container": "#7a5b3c",
-            "on-secondary-fixed-variant": "#5e4200",
-            "inverse-surface": "#e2e2e2",
-            "on-primary": "#003907",
-            "inverse-primary": "#1477b8",
-            "on-error": "#690005",
-            "tertiary-fixed": "#ffdcbd",
-            "primary-fixed": "#70c8ff",
-            "primary-fixed-dim": "#2aa8ff",
-            "on-primary-fixed": "#001927",
-            "surface-dim": "#131313",
-            "on-tertiary-fixed-variant": "#5d4124",
-            "inverse-on-surface": "#303030",
-            "tertiary-container": "#ffd5ae",
-            "on-secondary": "#412d00",
-            "on-error-container": "#ffdad6"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          "spacing": {
-            "xl": "64px",
-            "md": "24px",
-            "xs": "8px",
-            "lg": "40px",
-            "margin-mobile": "20px",
-            "gutter": "1px",
-            "sm": "16px",
-            "margin-desktop": "48px",
-            "base": "4px"
-          },
-          "fontFamily": {
-            "headline-lg": ["Space Mono"],
-            "headline-sm": ["Space Mono"],
-            "headline-md": ["Space Mono"],
-            "label-md": ["JetBrains Mono"],
-            "body-lg": ["Geist"],
-            "headline-lg-mobile": ["Space Mono"],
-            "label-sm": ["JetBrains Mono"],
-            "body-md": ["Geist"]
-          },
-          "fontSize": {
-            "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
-            "headline-sm": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
-            "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-            "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
-            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-            "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
-            "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
-            "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    body {
-      background-color: #131313;
-      background-image:
-        linear-gradient(rgba(42, 168, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(42, 168, 255, 0.05) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-
-    .scan-line {
-      width: 100%;
-      height: 2px;
-      background: rgba(42, 168, 255, 0.05);
-      position: fixed;
-      top: 0;
-      z-index: 50;
-      pointer-events: none;
-    }
-
-    .graph-line {
-      stroke: #37444b;
-      stroke-width: 1;
-      stroke-dasharray: 4;
-    }
-
-    .pixel-text {
-      font-family: "Space Mono", monospace;
-      text-transform: uppercase;
-      letter-spacing: -0.05em;
-    }
-
-    @keyframes rotate-globe {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .animate-rotate {
-      animation: rotate-globe 40s linear infinite;
-    }
-
-    .theme-switch {
-      width: 40px;
-      height: 40px;
-    }
-
-    .theme-shape {
-      width: 18px;
-      height: 18px;
-      display: block;
-      background: currentColor;
-      clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
-      transform: translateY(-3px);
-      transition: clip-path 180ms ease, transform 180ms ease;
-    }
-
-    body.theme-red {
-      background-image:
-        linear-gradient(rgba(255, 42, 42, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 42, 42, 0.05) 1px, transparent 1px);
-    }
-
-    body.theme-red .scan-line {
-      background: rgba(255, 42, 42, 0.05);
-    }
-
-    body.theme-red .graph-line {
-      stroke: #4b3737;
-    }
-
-    body.theme-red .text-primary-fixed-dim,
-    body.theme-red .text-primary-container {
-      color: #ff2a2a !important;
-    }
-
-    body.theme-red .text-on-surface-variant {
-      color: #ccb2b2 !important;
-    }
-
-    body.theme-red .text-outline {
-      color: #967e7e !important;
-    }
-
-    body.theme-red .text-on-primary {
-      color: #260000 !important;
-    }
-
-    body.theme-red .bg-primary-fixed-dim {
-      background-color: #ff2a2a !important;
-    }
-
-    body.theme-red .bg-primary-container {
-      background-color: #ff2438 !important;
-    }
-
-    body.theme-red .hover\:bg-transparent:hover {
-      background-color: transparent !important;
-    }
-
-    body.theme-red .border-outline-variant {
-      border-color: #4b3737 !important;
-    }
-
-    body.theme-red .border-outline {
-      border-color: #967e7e !important;
-    }
-
-    body.theme-red .border-primary-fixed-dim,
-    body.theme-red .border-primary-container {
-      border-color: #ff2a2a !important;
-    }
-
-    body.theme-red .hover\:text-primary:hover,
-    body.theme-red .hover\:text-primary-container:hover,
-    body.theme-red .hover\:text-primary-fixed-dim:hover,
-    body.theme-red .group:hover .group-hover\:text-primary-fixed-dim {
-      color: #ff2a2a !important;
-    }
-
-    body.theme-red .group:hover .group-hover\:border-primary-fixed-dim {
-      border-color: #ff2a2a !important;
-    }
-
-    body.theme-red .group:hover .group-hover\:bg-primary-fixed-dim {
-      background-color: #ff2a2a !important;
-    }
-
-    body.theme-red .theme-shape {
-      clip-path: polygon(50% 4%, 96% 94%, 4% 94%);
-      transform: translateY(-3px);
-    }
-
-    body.theme-green {
-      background-image:
-        linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
-    }
-
-    body.theme-green .scan-line {
-      background: rgba(57, 255, 20, 0.05);
-    }
-
-    body.theme-green .graph-line {
-      stroke: #374b37;
-    }
-
-    body.theme-green .text-primary-fixed-dim,
-    body.theme-green .text-primary-container {
-      color: #39ff14 !important;
-    }
-
-    body.theme-green .text-on-surface-variant {
-      color: #b2d6b2 !important;
-    }
-
-    body.theme-green .text-outline {
-      color: #7e9680 !important;
-    }
-
-    body.theme-green .text-on-primary {
-      color: #002600 !important;
-    }
-
-    body.theme-green .bg-primary-fixed-dim {
-      background-color: #39ff14 !important;
-    }
-
-    body.theme-green .bg-primary-container {
-      background-color: #2ce610 !important;
-    }
-
-    body.theme-green .hover\:bg-transparent:hover {
-      background-color: transparent !important;
-    }
-
-    body.theme-green .border-outline-variant {
-      border-color: #374b37 !important;
-    }
-
-    body.theme-green .border-outline {
-      border-color: #7e9680 !important;
-    }
-
-    body.theme-green .border-primary-fixed-dim,
-    body.theme-green .border-primary-container {
-      border-color: #39ff14 !important;
-    }
-
-    body.theme-green .hover\:text-primary:hover,
-    body.theme-green .hover\:text-primary-container:hover,
-    body.theme-green .hover\:text-primary-fixed-dim:hover,
-    body.theme-green .group:hover .group-hover\:text-primary-fixed-dim {
-      color: #39ff14 !important;
-    }
-
-    body.theme-green .group:hover .group-hover\:border-primary-fixed-dim {
-      border-color: #39ff14 !important;
-    }
-
-    body.theme-green .group:hover .group-hover\:bg-primary-fixed-dim {
-      background-color: #39ff14 !important;
-    }
-
-    body.theme-green .theme-shape {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-      transform: translateY(-3px);
-    }
-
-    body.theme-purple {
-      background-image:
-        linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
-    }
-
-    body.theme-purple .scan-line {
-      background: rgba(168, 85, 247, 0.05);
-    }
-
-    body.theme-purple .graph-line {
-      stroke: #3d374b;
-    }
-
-    body.theme-purple .text-primary-fixed-dim,
-    body.theme-purple .text-primary-container {
-      color: #a855f7 !important;
-    }
-
-    body.theme-purple .text-on-surface-variant {
-      color: #c4b2d6 !important;
-    }
-
-    body.theme-purple .text-outline {
-      color: #8e7e96 !important;
-    }
-
-    body.theme-purple .text-on-primary {
-      color: #1a0026 !important;
-    }
-
-    body.theme-purple .bg-primary-fixed-dim {
-      background-color: #a855f7 !important;
-    }
-
-    body.theme-purple .bg-primary-container {
-      background-color: #9333ea !important;
-    }
-
-    body.theme-purple .hover\:bg-transparent:hover {
-      background-color: transparent !important;
-    }
-
-    body.theme-purple .border-outline-variant {
-      border-color: #3d374b !important;
-    }
-
-    body.theme-purple .border-outline {
-      border-color: #8e7e96 !important;
-    }
-
-    body.theme-purple .border-primary-fixed-dim,
-    body.theme-purple .border-primary-container {
-      border-color: #a855f7 !important;
-    }
-
-    body.theme-purple .hover\:text-primary:hover,
-    body.theme-purple .hover\:text-primary-container:hover,
-    body.theme-purple .hover\:text-primary-fixed-dim:hover,
-    body.theme-purple .group:hover .group-hover\:text-primary-fixed-dim {
-      color: #a855f7 !important;
-    }
-
-    body.theme-purple .group:hover .group-hover\:border-primary-fixed-dim {
-      border-color: #a855f7 !important;
-    }
-
-    body.theme-purple .group:hover .group-hover\:bg-primary-fixed-dim {
-      background-color: #a855f7 !important;
-    }
-
-    body.theme-purple .theme-shape {
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: translateY(-3px);
-    }
-
-    @media (max-width: 640px) {
-      header nav,
-      footer > div {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-      }
-    }
-
-    /* Force JetBrains Mono on all dropdown text — overrides browser/Tailwind button resets */
-    #profileDropdown,
-    #profileDropdown a,
-    #profileDropdown button,
-    #profileDropdown p {
-      font-family: 'JetBrains Mono', monospace !important;
-    }
-
-    /* Profile icon + dropdown */
-    #profileWrapper {
-      position: relative;
-      display: none;
-    }
-    #profileWrapper.visible {
-      display: block;
-    }
-    #profileDropdown {
-      display: none;
-      position: absolute;
-      top: calc(100% + 12px);
-      right: 0;
-      width: 268px;
-      background: #1f1f1f;
-      border: 1px solid #37444b;
-      z-index: 200;
-    }
-    #profileDropdown.open {
-      display: block;
-    }
-
-    /* Dropdown accent colors — follow active theme */
-    .drop-accent { color: #2aa8ff; }
-    .drop-cta { border: 1px solid #2aa8ff; color: #2aa8ff; }
-    .drop-divider { border-bottom: 1px solid #37444b; }
-    .drop-signout { border: 1px solid #37444b; color: #7e9096; }
-
-    body.theme-red #profileDropdown { border-color: #4b3737; }
-    body.theme-red .drop-accent { color: #ff2a2a; }
-    body.theme-red .drop-cta { border-color: #ff2a2a; color: #ff2a2a; }
-    body.theme-red .drop-divider { border-bottom-color: #4b3737; }
-    body.theme-red .drop-signout { border-color: #4b3737; color: #967e7e; }
-
-    body.theme-green #profileDropdown { border-color: #374b37; }
-    body.theme-green .drop-accent { color: #39ff14; }
-    body.theme-green .drop-cta { border-color: #39ff14; color: #39ff14; }
-    body.theme-green .drop-divider { border-bottom-color: #374b37; }
-    body.theme-green .drop-signout { border-color: #374b37; color: #7e9680; }
-
-    body.theme-purple #profileDropdown { border-color: #3d374b; }
-    body.theme-purple .drop-accent { color: #a855f7; }
-    body.theme-purple .drop-cta { border-color: #a855f7; color: #a855f7; }
-    body.theme-purple .drop-divider { border-bottom-color: #3d374b; }
-    body.theme-purple .drop-signout { border-color: #3d374b; color: #8e7e96; }
-  </style>
+  <link href="/assets/site.css" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-<script>(function(){try{var t=localStorage.getItem('pc-theme');if(t&&/^theme-(red|green|purple)$/.test(t))document.body.classList.add(t);}catch(e){}})()</script>
+  <script src="/assets/theme-restore.js"></script>
   <div class="scan-line"></div>
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
-      <div class="font-headline-sm text-headline-sm font-bold text-on-background tracking-tighter">
+      <a id="navBrand" href="/" class="font-headline-sm text-headline-sm font-bold tracking-tighter no-underline transition-colors duration-200">
         ProjectCreation
-      </div>
+      </a>
       <div class="hidden md:flex items-center gap-lg">
-        <a class="font-label-md text-label-md text-primary-fixed-dim border-b border-primary-fixed-dim pb-1 hover:text-primary transition-colors duration-200" href="#">Projects</a>
-        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Tools</a>
-        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Vision</a>
-        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Community</a>
+        <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#projects">Projects</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#vision">Vision</a>
+        <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#community">Community</a>
       </div>
       <div class="flex items-center gap-sm">
         <a id="navSignIn" href="/login.html" class="hidden md:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
@@ -475,21 +34,21 @@
         <!-- Profile icon (shown when logged in) -->
         <div id="profileWrapper">
           <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_circle</span>
+            <span class="material-symbols-outlined material-symbols-fill">account_circle</span>
           </button>
           <div id="profileDropdown">
-            <div class="drop-divider" style="padding:16px;">
-              <p class="drop-accent" style="margin:0 0 10px 0;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;">&#9646; Session_Active</p>
-              <p style="margin:0 0 4px 0;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7e9096;text-transform:uppercase;letter-spacing:0.08em;">Email</p>
-              <p id="dropEmail" style="margin:0 0 12px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#e2e2e2;word-break:break-all;"></p>
-              <p style="margin:0 0 4px 0;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7e9096;text-transform:uppercase;letter-spacing:0.08em;">Account ID</p>
-              <p id="dropId" style="margin:0 0 12px 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e2e2e2;opacity:0.5;word-break:break-all;"></p>
-              <p style="margin:0 0 4px 0;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7e9096;text-transform:uppercase;letter-spacing:0.08em;">Member Since</p>
-              <p id="dropSince" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#e2e2e2;"></p>
+            <div class="drop-divider dropdown-inner">
+              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p class="drop-label">Email</p>
+              <p id="dropEmail" class="drop-value"></p>
+              <p class="drop-label">Account ID</p>
+              <p id="dropId" class="drop-value-muted"></p>
+              <p class="drop-label">Member Since</p>
+              <p id="dropSince" class="drop-value-last"></p>
             </div>
-            <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;">
-              <a href="/account.html" class="drop-cta" style="display:block;text-align:center;background:#0e0e0e;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;padding:8px;text-transform:uppercase;letter-spacing:0.06em;">GO TO ACCOUNT →</a>
-              <button id="dropSignOut" class="drop-signout" style="display:block;width:100%;background:transparent;font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;">SIGN OUT</button>
+            <div class="dropdown-actions">
+              <a href="/account.html" class="drop-cta">GO TO ACCOUNT →</a>
+              <button id="dropSignOut" class="drop-signout">SIGN OUT</button>
             </div>
           </div>
         </div>
@@ -509,49 +68,12 @@
       <p class="font-headline-sm text-headline-sm text-on-surface-variant mb-lg max-w-2xl">
         One system, Endless creation.
       </p>
-      <div class="relative w-full aspect-video md:aspect-[21/9] border border-outline-variant bg-surface-container-lowest overflow-hidden mb-xl">
-        <svg class="absolute inset-0 w-full h-full pointer-events-none">
-          <line class="graph-line" x1="50%" x2="30%" y1="50%" y2="30%"></line>
-          <line class="graph-line" x1="50%" x2="70%" y1="50%" y2="30%"></line>
-          <line class="graph-line" x1="50%" x2="30%" y1="50%" y2="70%"></line>
-          <line class="graph-line" x1="50%" x2="70%" y1="50%" y2="70%"></line>
-        </svg>
-
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group">
-          <div class="w-12 h-12 border-2 border-primary-fixed-dim bg-background flex items-center justify-center rotate-45 transition-all group-hover:bg-primary-fixed-dim group-hover:text-background">
-            <span class="material-symbols-outlined -rotate-45" style="font-variation-settings: 'FILL' 1;">hub</span>
-          </div>
-          <span class="mt-base font-label-sm text-label-sm text-primary-fixed-dim uppercase">Core</span>
-        </div>
-
-        <a class="absolute top-[30%] left-[30%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" href="#projects">
-          <div class="w-10 h-10 border border-outline bg-background flex items-center justify-center transition-all group-hover:border-primary-fixed-dim">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary-fixed-dim">folder_open</span>
-          </div>
-          <span class="mt-base font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Projects</span>
-        </a>
-        <a class="absolute top-[30%] left-[70%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" href="#tools">
-          <div class="w-10 h-10 border border-outline bg-background flex items-center justify-center transition-all group-hover:border-primary-fixed-dim">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary-fixed-dim">construction</span>
-          </div>
-          <span class="mt-base font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Tools</span>
-        </a>
-        <a class="absolute top-[70%] left-[30%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" href="#vision">
-          <div class="w-10 h-10 border border-outline bg-background flex items-center justify-center transition-all group-hover:border-primary-fixed-dim">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary-fixed-dim">visibility</span>
-          </div>
-          <span class="mt-base font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Vision</span>
-        </a>
-        <a class="absolute top-[70%] left-[70%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" href="#community">
-          <div class="w-10 h-10 border border-outline bg-background flex items-center justify-center transition-all group-hover:border-primary-fixed-dim">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary-fixed-dim">groups</span>
-          </div>
-          <span class="mt-base font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Community</span>
-        </a>
+      <div id="graphContainer" class="relative w-full aspect-video md:aspect-[21/9] border border-outline-variant bg-surface-container-lowest overflow-hidden mb-xl">
+        <svg id="graphSvg" class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
     </section>
 
-    <section class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant">
+    <section id="vision" class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant">
       <div class="md:col-span-4 p-md border-r border-outline-variant bg-surface-container-low">
         <div class="flex items-center gap-xs mb-sm">
           <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
@@ -587,7 +109,7 @@
       </div>
     </section>
 
-    <section class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant mb-xl bg-surface-container-lowest overflow-hidden">
+    <section id="community" class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant mb-xl bg-surface-container-lowest overflow-hidden">
       <div class="md:col-span-5 p-md md:p-xl flex items-center justify-center relative min-h-[400px]">
         <div class="absolute inset-0 opacity-20 flex items-center justify-center">
           <div class="w-80 h-80 border border-primary-fixed-dim rounded-full animate-pulse"></div>
@@ -617,7 +139,7 @@
       </div>
     </section>
 
-    <section class="border-t border-outline-variant bg-background">
+    <section id="projects" class="border-t border-outline-variant bg-background">
       <div class="grid grid-cols-1 md:grid-cols-12">
         <div class="md:col-span-12 p-md md:p-xl">
           <div class="max-w-4xl">
@@ -706,106 +228,8 @@
       </div>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.105.4/dist/umd/supabase.min.js" integrity="sha384-4eCDoMN/7A46qQ5Tj0rZ/D2VEolFGNIINDTLAcWZcvhkRSsvTfqNfaBMlRRoGEZ5" crossorigin="anonymous"></script>
-  <script>
-    (() => {
-      const { createClient } = supabase;
-      const db = createClient(
-        'https://gohyhxqvcjdthxvpewrx.supabase.co',
-        'sb_publishable_rBSID_xnOICGEpVQWPW8KA_FYFSdoS1'
-      );
-
-      const profileWrapper    = document.getElementById('profileWrapper');
-      const profileBtn        = document.getElementById('profileBtn');
-      const profileDropdown   = document.getElementById('profileDropdown');
-      const navSignIn         = document.getElementById('navSignIn');
-      const navCreateAccount  = document.getElementById('navCreateAccount');
-      const dropEmail         = document.getElementById('dropEmail');
-      const dropId            = document.getElementById('dropId');
-      const dropSince         = document.getElementById('dropSince');
-      const dropSignOut       = document.getElementById('dropSignOut');
-
-      function showProfile(user) {
-        navSignIn.style.display        = 'none';
-        navCreateAccount.style.display = 'none';
-        profileWrapper.classList.add('visible');
-
-        dropEmail.textContent = user.email;
-        dropId.textContent    = user.id;
-        const d = new Date(user.created_at);
-        dropSince.textContent = d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-      }
-
-      // Check session on load — also hides profile if local session is revoked server-side
-      db.auth.getUser().then(({ data: { user } }) => {
-        if (user) {
-          showProfile(user);
-        } else {
-          profileWrapper.classList.remove('visible');
-          navSignIn.style.display        = '';
-          navCreateAccount.style.display = '';
-        }
-      }).catch(() => {});
-
-      // Toggle dropdown
-      profileBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        profileDropdown.classList.toggle('open');
-      });
-
-      // Close on outside click or Escape key
-      document.addEventListener('click', () => {
-        profileDropdown.classList.remove('open');
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') profileDropdown.classList.remove('open');
-      });
-      profileDropdown.addEventListener('click', (e) => e.stopPropagation());
-
-      // Sign out
-      dropSignOut.addEventListener('click', async () => {
-        try { await db.auth.signOut(); } catch(e) {}
-        window.location.reload();
-      });
-
-      // React to auth changes (login in another tab, etc.)
-      db.auth.onAuthStateChange((event, session) => {
-        if (session?.user) {
-          showProfile(session.user);
-        } else {
-          profileWrapper.classList.remove('visible');
-          profileDropdown.classList.remove('open');
-          navSignIn.style.display        = '';
-          navCreateAccount.style.display = '';
-        }
-      });
-    })();
-  </script>
-  <script>
-    (() => {
-      const button = document.getElementById("themeSwitch");
-      if (!button) return;
-
-      const themes = ["", "theme-red", "theme-green", "theme-purple"];
-      const nextLabels = ["Switch to red theme", "Switch to green theme", "Switch to purple theme", "Switch to blue theme"];
-      const saved = (function(){try{return localStorage.getItem('pc-theme')||'';}catch(e){return '';}}());
-      let idx = Math.max(0, themes.indexOf(saved));
-
-      // Sync aria state to restored theme (body class already applied by inline script)
-      if (idx !== 0) {
-        button.setAttribute("aria-label", nextLabels[idx]);
-        button.setAttribute("aria-pressed", "true");
-      }
-
-      button.addEventListener("click", () => {
-        if (themes[idx]) document.body.classList.remove(themes[idx]);
-        idx = (idx + 1) % themes.length;
-        if (themes[idx]) document.body.classList.add(themes[idx]);
-        try{localStorage.setItem('pc-theme',themes[idx]);}catch(e){}
-        button.setAttribute("aria-label", nextLabels[idx]);
-        button.setAttribute("aria-pressed", String(idx !== 0));
-      });
-    })();
-  </script>
+  <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/index.js"></script>
+  <script src="/assets/graph.js"></script>
 </body>
 </html>
