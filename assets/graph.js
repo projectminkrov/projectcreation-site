@@ -94,8 +94,8 @@
     // With K=0.02, DAMP=0.82 → ζ = 0.18/0.283 ≈ 0.636
     // Overshoot = exp(-π·ζ/√(1-ζ²)) ≈ 6% — one tiny bounce then clean settle.
     if (isReturning) {
-      const K    = 0.02;
-      const DAMP = 0.82;
+      const K    = 0.008; // weaker spring = slower return
+      const DAMP = 0.88;  // adjusted to keep ζ≈0.64 (same tiny bounce)
       let allDone = true;
 
       NODES.forEach(({ id }) => {
