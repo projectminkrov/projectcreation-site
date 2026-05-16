@@ -18,10 +18,8 @@
     ['core', 'community'],
   ];
 
-  let W = container.offsetWidth;
-  let H = container.offsetHeight;
-
-  const INIT = {
+  // Home layout (fractions of container W/H)
+  const HOME = {
     core:      [0.50, 0.50],
     projects:  [0.28, 0.30],
     tools:     [0.72, 0.30],
@@ -29,12 +27,19 @@
     community: [0.72, 0.70],
   };
 
+  let W = container.offsetWidth;
+  let H = container.offsetHeight;
+
   // Physics state
   const state = {};
   NODES.forEach(({ id }) => {
-    const [px, py] = INIT[id];
+    const [px, py] = HOME[id];
     state[id] = { x: px * W, y: py * H, vx: 0, vy: 0, pinned: false, ax: 0, ay: 0 };
   });
+
+  // Return-to-home state
+  let isReturning  = false;
+  let homeStrength = 0; // ramps 0 → 1 after drag release
 
   // Build DOM nodes
   const nodeEls = {};
@@ -102,6 +107,42 @@
       n.ay += (H * 0.5 - n.y) * CENTER_K;
     });
 
+    // Return-to-home spring — ramps up smoothly after drag release
+    const anyPinned = list.some(n => n.pinned);
+    if (isReturning && !anyPinned) {
+      homeStrength = Math.min(1, homeStrength + 0.018); // ~55 frames to full strength
+      const homeK = homeStrength * 0.12;
+
+      NODES.forEach(({ id }) => {
+        const n  = state[id];
+        const hx = HOME[id][0] * W;
+        const hy = HOME[id][1] * H;
+        n.ax += (hx - n.x) * homeK;
+        n.ay += (hy - n.y) * homeK;
+      });
+
+      // Once everything is close enough, snap and stop
+      const settled = NODES.every(({ id }) => {
+        const n  = state[id];
+        const hx = HOME[id][0] * W;
+        const hy = HOME[id][1] * H;
+        const dx = n.x - hx, dy = n.y - hy;
+        return Math.sqrt(dx * dx + dy * dy) < 1.5 &&
+               Math.abs(n.vx) < 0.3 && Math.abs(n.vy) < 0.3;
+      });
+
+      if (settled) {
+        isReturning  = false;
+        homeStrength = 0;
+        NODES.forEach(({ id }) => {
+          const n  = state[id];
+          n.x  = HOME[id][0] * W;
+          n.y  = HOME[id][1] * H;
+          n.vx = 0; n.vy = 0;
+        });
+      }
+    }
+
     // Euler integration
     list.forEach(n => {
       if (n.pinned) return;
@@ -135,6 +176,10 @@
 
   function ptStart(e, id) {
     e.preventDefault();
+    // Cancel any active return animation
+    isReturning  = false;
+    homeStrength = 0;
+
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
     const rect = container.getBoundingClientRect();
@@ -164,10 +209,12 @@
     nodeEls[dragId].style.cursor = 'grab';
     // Block accidental href navigation if user actually dragged
     if (moved) {
-      const el = nodeEls[dragId];
-      el.addEventListener('click', e => e.preventDefault(), { once: true });
+      nodeEls[dragId].addEventListener('click', e => e.preventDefault(), { once: true });
     }
     dragId = null;
+    // Trigger smooth return to home
+    isReturning  = true;
+    homeStrength = 0;
   }
 
   NODES.forEach(({ id }) => {
