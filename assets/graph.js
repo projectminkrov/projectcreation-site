@@ -112,8 +112,8 @@
     // Return-to-home spring — ramps up smoothly after drag release
     const anyPinned = list.some(n => n.pinned);
     if (isReturning && !anyPinned) {
-      homeStrength = Math.min(1, homeStrength + 0.018); // ~55 frames to full strength
-      const homeK = homeStrength * 0.12;
+      homeStrength = Math.min(1, homeStrength + 0.005); // ~200 frames ≈ 3s to full strength
+      const homeK = homeStrength * 0.018;              // very gentle pull
 
       NODES.forEach(({ id }) => {
         const n  = state[id];
@@ -129,8 +129,8 @@
         const hx = HOME[id][0] * W;
         const hy = HOME[id][1] * H;
         const dx = n.x - hx, dy = n.y - hy;
-        return Math.sqrt(dx * dx + dy * dy) < 1.5 &&
-               Math.abs(n.vx) < 0.3 && Math.abs(n.vy) < 0.3;
+        return Math.sqrt(dx * dx + dy * dy) < 2 &&
+               Math.abs(n.vx) < 0.4 && Math.abs(n.vy) < 0.4;
       });
 
       if (settled) {
@@ -146,11 +146,12 @@
       }
     }
 
-    // Euler integration
+    // Euler integration — higher damping during return gives slow, fluid drift
+    const damp = isReturning ? 0.96 : DAMPING;
     list.forEach(n => {
       if (n.pinned) return;
-      n.vx = (n.vx + n.ax) * DAMPING;
-      n.vy = (n.vy + n.ay) * DAMPING;
+      n.vx = (n.vx + n.ax) * damp;
+      n.vy = (n.vy + n.ay) * damp;
       n.x  = Math.max(PAD, Math.min(W - PAD, n.x + n.vx));
       n.y  = Math.max(PAD, Math.min(H - PAD, n.y + n.vy));
     });
