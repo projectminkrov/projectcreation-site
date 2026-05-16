@@ -70,7 +70,7 @@
   const SPRING_K = 0.018;  // soft connections, no stiff snapping
   const REPULSE  = 4500;   // gentle push-apart, not aggressive
   const CENTER_K = 0.001;  // very light center gravity
-  const DAMPING  = 0.93;   // high damping = smooth water-like motion, no bounce
+  const DAMPING  = 0.96;   // high damping = smooth water-like motion, no bounce
   const PAD      = 52;
 
   function restLen() { return Math.min(W, H) * 0.30; }
@@ -147,7 +147,7 @@
     }
 
     // Euler integration — higher damping during return gives slow, fluid drift
-    const damp = isReturning ? 0.96 : DAMPING;
+    const damp = isReturning ? 0.97 : DAMPING;
     list.forEach(n => {
       if (n.pinned) return;
       n.vx = (n.vx + n.ax) * damp;
