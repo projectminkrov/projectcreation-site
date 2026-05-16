@@ -18,7 +18,6 @@
     ['core', 'community'],
   ];
 
-  // Home layout (fractions of container W/H)
   const HOME = {
     core:      [0.50, 0.50],
     projects:  [0.28, 0.30],
@@ -30,19 +29,16 @@
   let W = container.offsetWidth;
   let H = container.offsetHeight;
 
-  // Physics state
   const state = {};
   NODES.forEach(({ id }) => {
     const [px, py] = HOME[id];
-    state[id] = { x: px * W, y: py * H, vx: 0, vy: 0, pinned: false, ax: 0, ay: 0 };
+    state[id] = { x: px * W, y: py * H, vx: 0, vy: 0, pinned: false };
   });
 
-  // Return-to-home state
-  let isReturning  = false;
-  let homeStrength = 0; // ramps 0 → 1 after drag release
-  let frozen       = true; // start frozen at home — physics only runs after first interaction
+  let frozen      = true;
+  let isReturning = false;
 
-  // Build DOM nodes
+  // ── DOM nodes ─────────────────────────────────────────
   const nodeEls = {};
   NODES.forEach(def => {
     const el = document.createElement(def.href ? 'a' : 'div');
@@ -57,7 +53,7 @@
     nodeEls[def.id] = el;
   });
 
-  // Build SVG lines
+  // ── SVG lines ─────────────────────────────────────────
   const lineEls = {};
   LINKS.forEach(([a, b]) => {
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -66,15 +62,7 @@
     lineEls[`${a}:${b}`] = line;
   });
 
-  // Physics constants
-  const SPRING_K = 0.005;  // very gentle spring
-  const REPULSE  = 350;    // very light repulsion — no rapid sliding away
-  const CENTER_K = 0.0004; // barely-there center gravity
-  const DAMPING  = 0.97;   // high damping kills velocity fast
-  const PAD      = 52;
-
-  // Compute rest length from actual home distances so springs are at
-  // equilibrium when nodes are at home — eliminates the core bounce source
+  // ── Rest length from actual home distances ─────────────
   let _restLen = 0;
   function calcRestLen() {
     let total = 0;
@@ -86,24 +74,73 @@
     _restLen = total / LINKS.length;
   }
   calcRestLen();
-  function restLen() { return _restLen; }
 
+  // ── Physics constants (drag phase only) ───────────────
+  // D3-inspired: higher velocity decay = less bounce during interaction
+  const SPRING_K  = 0.006;
+  const REPULSE   = 300;
+  const CENTER_K  = 0.0003;
+  const DAMPING   = 0.82;  // lose ~18% velocity per frame — D3 default loses 40%
+  const PAD       = 52;
+
+  // ── Tick ─────────────────────────────────────────────
   function tick() {
-    if (frozen) return; // no physics until user interacts
+    if (frozen) return;
+
     const list = NODES.map(d => state[d.id]);
+
+    // ── Return mode: exponential lerp (cannot bounce) ──
+    // Each frame, cover LERP_RATE of the remaining distance.
+    // This is a first-order system — mathematically cannot oscillate.
+    if (isReturning) {
+      const LERP_RATE = 0.055; // 5.5% of remaining distance per frame
+      let allDone = true;
+
+      NODES.forEach(({ id }) => {
+        const n  = state[id];
+        const hx = HOME[id][0] * W;
+        const hy = HOME[id][1] * H;
+        const dx = hx - n.x;
+        const dy = hy - n.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 0.8) {
+          n.x = hx; n.y = hy;
+        } else {
+          n.x += dx * LERP_RATE;
+          n.y += dy * LERP_RATE;
+          allDone = false;
+        }
+        n.vx = 0; n.vy = 0; // keep velocity zeroed — no physics fight
+      });
+
+      if (allDone) {
+        isReturning = false;
+        frozen = true;
+        NODES.forEach(({ id }) => {
+          state[id].x = HOME[id][0] * W;
+          state[id].y = HOME[id][1] * H;
+        });
+      }
+
+      render();
+      return; // skip regular physics while returning
+    }
+
+    // ── Regular drag physics ──────────────────────────
     list.forEach(n => { n.ax = 0; n.ay = 0; });
 
-    // Spring attraction along links
+    // Spring along links
     LINKS.forEach(([aid, bid]) => {
       const a = state[aid], b = state[bid];
       const dx = b.x - a.x, dy = b.y - a.y;
       const d  = Math.sqrt(dx * dx + dy * dy) || 1;
-      const f  = SPRING_K * (d - restLen());
+      const f  = SPRING_K * (d - _restLen);
       a.ax += dx / d * f;  a.ay += dy / d * f;
       b.ax -= dx / d * f;  b.ay -= dy / d * f;
     });
 
-    // Coulomb repulsion between every pair
+    // Repulsion
     for (let i = 0; i < list.length; i++) {
       for (let j = i + 1; j < list.length; j++) {
         const a = list[i], b = list[j];
@@ -116,55 +153,17 @@
       }
     }
 
-    // Weak center gravity so nodes don't drift off screen
+    // Center gravity
     list.forEach(n => {
       n.ax += (W * 0.5 - n.x) * CENTER_K;
       n.ay += (H * 0.5 - n.y) * CENTER_K;
     });
 
-    // Return-to-home spring — ramps up smoothly after drag release
-    const anyPinned = list.some(n => n.pinned);
-    if (isReturning && !anyPinned) {
-      homeStrength = Math.min(1, homeStrength + 0.004); // slow ramp
-      const homeK = homeStrength * 0.006;              // barely-there pull — prevents overshoot
-
-      NODES.forEach(({ id }) => {
-        const n  = state[id];
-        const hx = HOME[id][0] * W;
-        const hy = HOME[id][1] * H;
-        n.ax += (hx - n.x) * homeK;
-        n.ay += (hy - n.y) * homeK;
-      });
-
-      // Once everything is close enough, snap and stop
-      const settled = NODES.every(({ id }) => {
-        const n  = state[id];
-        const hx = HOME[id][0] * W;
-        const hy = HOME[id][1] * H;
-        const dx = n.x - hx, dy = n.y - hy;
-        return Math.sqrt(dx * dx + dy * dy) < 2 &&
-               Math.abs(n.vx) < 0.4 && Math.abs(n.vy) < 0.4;
-      });
-
-      if (settled) {
-        isReturning  = false;
-        homeStrength = 0;
-        NODES.forEach(({ id }) => {
-          const n  = state[id];
-          n.x  = HOME[id][0] * W;
-          n.y  = HOME[id][1] * H;
-          n.vx = 0; n.vy = 0;
-        });
-        frozen = true; // refreeze until next interaction
-      }
-    }
-
-    // Euler integration — higher damping during return gives slow, fluid drift
-    const damp = isReturning ? 0.985 : DAMPING;
+    // Integrate
     list.forEach(n => {
       if (n.pinned) return;
-      n.vx = (n.vx + n.ax) * damp;
-      n.vy = (n.vy + n.ay) * damp;
+      n.vx = (n.vx + n.ax) * DAMPING;
+      n.vy = (n.vy + n.ay) * DAMPING;
       n.x  = Math.max(PAD, Math.min(W - PAD, n.x + n.vx));
       n.y  = Math.max(PAD, Math.min(H - PAD, n.y + n.vy));
     });
@@ -178,25 +177,23 @@
       el.style.top  = n.y + 'px';
     });
     LINKS.forEach(([a, b]) => {
-      const na   = state[a], nb = state[b];
-      const line = lineEls[`${a}:${b}`];
-      line.setAttribute('x1', na.x); line.setAttribute('y1', na.y);
-      line.setAttribute('x2', nb.x); line.setAttribute('y2', nb.y);
+      const na = state[a], nb = state[b];
+      const ln = lineEls[`${a}:${b}`];
+      ln.setAttribute('x1', na.x); ln.setAttribute('y1', na.y);
+      ln.setAttribute('x2', nb.x); ln.setAttribute('y2', nb.y);
     });
   }
 
   function loop() { tick(); render(); requestAnimationFrame(loop); }
   loop();
 
-  // ── Drag / touch interaction ──────────────────────────
+  // ── Drag ─────────────────────────────────────────────
   let dragId = null, ox = 0, oy = 0, moved = false;
 
   function ptStart(e, id) {
     e.preventDefault();
-    // Wake physics and cancel any active return animation
-    frozen       = false;
-    isReturning  = false;
-    homeStrength = 0;
+    frozen      = false;
+    isReturning = false;
 
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
@@ -225,14 +222,11 @@
     if (!dragId) return;
     state[dragId].pinned = false;
     nodeEls[dragId].style.cursor = 'grab';
-    // Block accidental href navigation if user actually dragged
     if (moved) {
       nodeEls[dragId].addEventListener('click', e => e.preventDefault(), { once: true });
     }
-    dragId = null;
-    // Trigger smooth return to home
-    isReturning  = true;
-    homeStrength = 0;
+    dragId      = null;
+    isReturning = true; // triggers smooth lerp back to home
   }
 
   NODES.forEach(({ id }) => {
