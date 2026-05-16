@@ -66,11 +66,11 @@
     lineEls[`${a}:${b}`] = line;
   });
 
-  // Physics constants
-  const SPRING_K = 0.04;
-  const REPULSE  = 14000;
-  const CENTER_K = 0.002;
-  const DAMPING  = 0.87;
+  // Physics constants — tuned for calm, smooth, non-oscillating motion
+  const SPRING_K = 0.018;  // soft connections, no stiff snapping
+  const REPULSE  = 4500;   // gentle push-apart, not aggressive
+  const CENTER_K = 0.001;  // very light center gravity
+  const DAMPING  = 0.93;   // high damping = smooth water-like motion, no bounce
   const PAD      = 52;
 
   function restLen() { return Math.min(W, H) * 0.30; }
