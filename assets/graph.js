@@ -89,11 +89,13 @@
 
     const list = NODES.map(d => state[d.id]);
 
-    // ── Return mode: exponential lerp (cannot bounce) ──
-    // Each frame, cover LERP_RATE of the remaining distance.
-    // This is a first-order system — mathematically cannot oscillate.
+    // ── Return mode: tuned damped spring (ζ ≈ 0.65 → ~6% overshoot) ──
+    // Formula: ζ = (1 - DAMP) / (2 * sqrt(K))
+    // With K=0.02, DAMP=0.82 → ζ = 0.18/0.283 ≈ 0.636
+    // Overshoot = exp(-π·ζ/√(1-ζ²)) ≈ 6% — one tiny bounce then clean settle.
     if (isReturning) {
-      const LERP_RATE = 0.055; // 5.5% of remaining distance per frame
+      const K    = 0.02;
+      const DAMP = 0.82;
       let allDone = true;
 
       NODES.forEach(({ id }) => {
@@ -102,29 +104,30 @@
         const hy = HOME[id][1] * H;
         const dx = hx - n.x;
         const dy = hy - n.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 0.8) {
-          n.x = hx; n.y = hy;
-        } else {
-          n.x += dx * LERP_RATE;
-          n.y += dy * LERP_RATE;
-          allDone = false;
-        }
-        n.vx = 0; n.vy = 0; // keep velocity zeroed — no physics fight
+        n.vx = (n.vx + dx * K) * DAMP;
+        n.vy = (n.vy + dy * K) * DAMP;
+        n.x += n.vx;
+        n.y += n.vy;
+
+        const dist  = Math.sqrt(dx * dx + dy * dy);
+        const speed = Math.sqrt(n.vx * n.vx + n.vy * n.vy);
+        if (dist > 0.5 || speed > 0.1) allDone = false;
       });
 
       if (allDone) {
         isReturning = false;
         frozen = true;
         NODES.forEach(({ id }) => {
-          state[id].x = HOME[id][0] * W;
-          state[id].y = HOME[id][1] * H;
+          state[id].x  = HOME[id][0] * W;
+          state[id].y  = HOME[id][1] * H;
+          state[id].vx = 0;
+          state[id].vy = 0;
         });
       }
 
       render();
-      return; // skip regular physics while returning
+      return;
     }
 
     // ── Regular drag physics ──────────────────────────
