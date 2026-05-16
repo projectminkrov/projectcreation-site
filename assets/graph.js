@@ -40,6 +40,7 @@
   // Return-to-home state
   let isReturning  = false;
   let homeStrength = 0; // ramps 0 → 1 after drag release
+  let frozen       = true; // start frozen at home — physics only runs after first interaction
 
   // Build DOM nodes
   const nodeEls = {};
@@ -75,6 +76,7 @@
   function restLen() { return Math.min(W, H) * 0.30; }
 
   function tick() {
+    if (frozen) return; // no physics until user interacts
     const list = NODES.map(d => state[d.id]);
     list.forEach(n => { n.ax = 0; n.ay = 0; });
 
@@ -140,6 +142,7 @@
           n.y  = HOME[id][1] * H;
           n.vx = 0; n.vy = 0;
         });
+        frozen = true; // refreeze until next interaction
       }
     }
 
@@ -176,7 +179,8 @@
 
   function ptStart(e, id) {
     e.preventDefault();
-    // Cancel any active return animation
+    // Wake physics and cancel any active return animation
+    frozen       = false;
     isReturning  = false;
     homeStrength = 0;
 
