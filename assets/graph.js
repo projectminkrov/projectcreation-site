@@ -66,14 +66,27 @@
     lineEls[`${a}:${b}`] = line;
   });
 
-  // Physics constants — tuned for calm, smooth, non-oscillating motion
-  const SPRING_K = 0.018;  // soft connections, no stiff snapping
-  const REPULSE  = 4500;   // gentle push-apart, not aggressive
-  const CENTER_K = 0.001;  // very light center gravity
-  const DAMPING  = 0.96;   // high damping = smooth water-like motion, no bounce
+  // Physics constants
+  const SPRING_K = 0.005;  // very gentle spring
+  const REPULSE  = 1200;   // light repulsion
+  const CENTER_K = 0.0004; // barely-there center gravity
+  const DAMPING  = 0.97;   // high damping kills velocity fast
   const PAD      = 52;
 
-  function restLen() { return Math.min(W, H) * 0.30; }
+  // Compute rest length from actual home distances so springs are at
+  // equilibrium when nodes are at home — eliminates the core bounce source
+  let _restLen = 0;
+  function calcRestLen() {
+    let total = 0;
+    LINKS.forEach(([aid, bid]) => {
+      const dx = (HOME[bid][0] - HOME[aid][0]) * W;
+      const dy = (HOME[bid][1] - HOME[aid][1]) * H;
+      total += Math.sqrt(dx * dx + dy * dy);
+    });
+    _restLen = total / LINKS.length;
+  }
+  calcRestLen();
+  function restLen() { return _restLen; }
 
   function tick() {
     if (frozen) return; // no physics until user interacts
@@ -241,5 +254,6 @@
       n.x = (n.x / ow) * W;
       n.y = (n.y / oh) * H;
     });
+    calcRestLen();
   });
 })();
