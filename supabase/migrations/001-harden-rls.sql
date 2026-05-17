@@ -7,6 +7,10 @@
 -- any column including the email field
 DROP POLICY IF EXISTS "update_own_profile" ON public.profiles;
 
+-- Keep table privileges least-privilege before the hardened policy is added.
+REVOKE ALL ON public.profiles FROM anon;
+GRANT SELECT, UPDATE ON public.profiles TO authenticated;
+
 -- Recreate UPDATE policy with an email column lock.
 -- The WITH CHECK constraint ensures the email value in the profiles row
 -- can never be changed to anything other than the authenticated user's

@@ -1,4 +1,16 @@
+.git/
+.claude/
+.netlify/
+supabase/
+
 PROJECTCREATION_BUILDLOG.md
 package.json
-supabase/
+package-lock.json
 .gitignore
+.env
+.env.*
+.DS_Store
+
+*.md
+*.toml
+*.sql

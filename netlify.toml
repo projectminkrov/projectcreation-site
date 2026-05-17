@@ -20,10 +20,13 @@
     Permissions-Policy              = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
     # Isolate this browsing context — prevents Spectre-class leaks
     Cross-Origin-Opener-Policy      = "same-origin"
+    Origin-Agent-Cluster            = "?1"
+    X-DNS-Prefetch-Control          = "off"
     # Content Security Policy
     # default-src 'none' = deny everything not explicitly listed
-    # script-src: inline scripts (Tailwind config) + two CDN hosts only
-    # style-src: inline styles + Google Fonts CSS
+    # script-src: local scripts only
+    # script-src-attr 'none': blocks inline event-handler attributes
+    # style-src: local CSS + Google Fonts CSS
     # font-src: Google Fonts files only
     # img-src: local assets and data URIs only
     # connect-src: ONLY our specific Supabase project — no wildcards
@@ -32,7 +35,7 @@
     # form-action 'self': prevents forms from submitting to external sites
     # object-src 'none': blocks Flash, Java, and plugins entirely
     # worker-src 'none': blocks service worker registration
-    Content-Security-Policy = "default-src 'none'; script-src 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://gohyhxqvcjdthxvpewrx.supabase.co wss://gohyhxqvcjdthxvpewrx.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none';"
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://gohyhxqvcjdthxvpewrx.supabase.co wss://gohyhxqvcjdthxvpewrx.supabase.co; frame-src 'none'; child-src 'none'; media-src 'none'; manifest-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none'; upgrade-insecure-requests;"
 
 # --- HTML pages must never be cached by browsers or CDN ---
 # Prevents stale authenticated state being served from cache
@@ -77,6 +80,48 @@
 
 [[redirects]]
   from = "/.gitignore"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.claude/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/node_modules/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/*.md"
   to = "/"
   status = 404
   force = true

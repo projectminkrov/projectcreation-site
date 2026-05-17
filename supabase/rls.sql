@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 -- 3. Users can only read their own profile
+DROP POLICY IF EXISTS "select_own_profile" ON public.profiles;
 CREATE POLICY "select_own_profile"
   ON public.profiles
   FOR SELECT
@@ -24,6 +25,7 @@ CREATE POLICY "select_own_profile"
 --    The WITH CHECK also locks the email column — users cannot change
 --    their profile email to anyone else's address.
 --    Column-level REVOKE (see bottom of file) adds a second line of defence.
+DROP POLICY IF EXISTS "update_own_profile" ON public.profiles;
 CREATE POLICY "update_own_profile"
   ON public.profiles
   FOR UPDATE
@@ -34,12 +36,14 @@ CREATE POLICY "update_own_profile"
   );
 
 -- 5. No direct inserts from the client — profile is created via trigger only
+DROP POLICY IF EXISTS "no_direct_insert" ON public.profiles;
 CREATE POLICY "no_direct_insert"
   ON public.profiles
   FOR INSERT
   WITH CHECK (false);
 
 -- 6. No direct deletes from the client — handled via CASCADE from auth.users
+DROP POLICY IF EXISTS "no_direct_delete" ON public.profiles;
 CREATE POLICY "no_direct_delete"
   ON public.profiles
   FOR DELETE
@@ -61,6 +65,11 @@ $$;
 
 -- Revoke public execute to prevent direct calls
 REVOKE ALL ON FUNCTION public.handle_new_user() FROM PUBLIC;
+
+-- Least privilege: anonymous visitors should never receive table privileges.
+-- Authenticated users get only the operations protected above by RLS.
+REVOKE ALL ON public.profiles FROM anon;
+GRANT SELECT, UPDATE ON public.profiles TO authenticated;
 
 -- Column-level lock: prevent any role from updating the email field directly
 REVOKE UPDATE (email) ON public.profiles FROM authenticated;

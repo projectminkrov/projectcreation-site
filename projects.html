@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Projects | ProjectCreation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="/assets/site.css" rel="stylesheet"/>
+  <link href="/assets/graph.css" rel="stylesheet"/>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+  <script src="/assets/theme-restore.js"></script>
+  <div class="scan-line"></div>
+
+  <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
+    <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
+      <a id="navBrand" href="/" class="font-headline-sm text-headline-sm font-bold tracking-tighter no-underline transition-colors duration-200">
+        ProjectCreation
+      </a>
+      <div class="hidden md:flex items-center gap-lg">
+        <a id="navProjects"  class="font-label-md text-label-md text-primary-fixed-dim transition-colors duration-200" href="/projects.html">Projects</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#vision">Vision</a>
+        <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#community">Community</a>
+      </div>
+      <div class="flex items-center gap-sm">
+        <a id="navSignIn" href="/login.html" class="hidden md:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden md:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open terminal">
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+        <button class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open network status">
+          <span class="material-symbols-outlined">sensors</span>
+        </button>
+
+        <div id="profileWrapper">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+            <span class="material-symbols-outlined material-symbols-fill">account_circle</span>
+          </button>
+          <div id="profileDropdown">
+            <div class="drop-divider dropdown-inner">
+              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p class="drop-label">Email</p>
+              <p id="dropEmail" class="drop-value"></p>
+              <p class="drop-label">Account ID</p>
+              <p id="dropId" class="drop-value-muted"></p>
+              <p class="drop-label">Member Since</p>
+              <p id="dropSince" class="drop-value-last"></p>
+            </div>
+            <div class="dropdown-actions">
+              <a href="/account.html" class="drop-cta">GO TO ACCOUNT →</a>
+              <button id="dropSignOut" class="drop-signout">SIGN OUT</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="theme-switch p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80 flex items-center justify-center" type="button" aria-label="Switch to red theme" aria-pressed="false" id="themeSwitch">
+          <span class="theme-shape" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
+
+    <!-- Hero -->
+    <section class="flex flex-col items-start justify-center pt-xl pb-lg">
+      <div class="flex items-center gap-xs mb-md">
+        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+        <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Projects.exe</span>
+      </div>
+      <h1 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
+        The Workshop
+      </h1>
+      <p class="font-headline-sm text-headline-sm text-on-surface-variant max-w-2xl leading-snug">
+        Three tools. One ecosystem. Built to outlast the trend.
+      </p>
+    </section>
+
+    <!-- Philosophy: orbit -->
+    <section id="orbitSection" class="orbit-section border-t border-b border-outline-variant mb-xl">
+
+      <img id="orbitImg0" class="orbit-img" src="/assets/technical-workspace.png" alt="" aria-hidden="true">
+      <img id="orbitImg1" class="orbit-img" src="/assets/global-network.png" alt="" aria-hidden="true">
+      <img id="orbitImg2" class="orbit-img" src="/assets/technical-workspace.png" alt="" aria-hidden="true">
+
+      <!-- Radial vignette: pulls images into darkness at the center so text stays legible -->
+      <div class="orbit-vignette-radial" aria-hidden="true"></div>
+      <!-- Top/bottom edge fades: blends section into surrounding page sections -->
+      <div class="orbit-vignette-edges" aria-hidden="true"></div>
+
+      <!-- Centered text — in normal flow so it sizes the section -->
+      <div class="orbit-content relative z-10 flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-xl">
+
+        <div class="flex items-center gap-xs mb-md">
+          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Workshop.exe</span>
+        </div>
+
+        <h2 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-md leading-tight">
+          Not features.<br>Systems.
+        </h2>
+
+        <p class="font-body-lg text-body-lg text-on-surface-variant font-mono max-w-2xl leading-relaxed mb-xl">
+          Most tools are built around what's popular. These were built around one question: what does a builder actually need to close the distance between here and done? Three answers. One ecosystem.
+        </p>
+
+        <!-- Per-tool callouts -->
+        <div class="flex flex-col gap-md w-full max-w-2xl text-left mb-xl">
+
+          <div class="border-l-2 border-primary-fixed-dim pl-sm">
+            <p class="pixel-text font-headline-sm text-headline-sm text-primary-fixed-dim mb-xs">ProjectWord</p>
+            <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+              Speak. Your words land where your cursor is — in your editor, your notes, your browser. No typing. No interruption. Just thought at the speed of voice, with the accuracy to match.
+            </p>
+          </div>
+
+          <div class="border-l-2 border-primary-fixed-dim pl-sm">
+            <p class="pixel-text font-headline-sm text-headline-sm text-primary-fixed-dim mb-xs">ProjectCipher</p>
+            <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+              Twelve AI agents. One room. Zero context switches. The closest thing to a full development team that runs entirely on your Mac — assign tasks, run in parallel, ship faster than any single model can.
+            </p>
+          </div>
+
+          <div class="border-l-2 border-outline pl-sm">
+            <p class="pixel-text font-headline-sm text-headline-sm text-on-surface-variant mb-xs">ProjectBuilt <span class="font-label-sm text-label-sm text-outline font-mono normal-case tracking-normal">— coming</span></p>
+            <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+              Your idea, mapped to reality. Step by step, researched and simplified — a plan built around how ambitious you actually are, not how much courage you have on any given day.
+            </p>
+          </div>
+
+        </div>
+
+        <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">
+          Three systems. One direction. &darr;
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Products heading -->
+    <div class="mb-lg">
+      <h2 class="pixel-text font-headline-md text-headline-md text-primary-container">
+        Active Projects
+      </h2>
+      <p class="font-label-sm text-label-sm text-outline mt-xs font-mono">3 nodes registered · 2 online · 1 initializing</p>
+    </div>
+
+    <!-- Product: ProjectWord -->
+    <article class="border border-outline-variant mb-base group">
+      <div class="grid grid-cols-1 md:grid-cols-12">
+        <!-- Left metadata panel -->
+        <div class="md:col-span-4 p-md border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between min-h-[280px]">
+          <div>
+            <div class="flex items-center gap-xs mb-md">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">001 / 003</span>
+            </div>
+            <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectWord</h3>
+            <p class="font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">Native macOS dictation engine</p>
+            <div class="flex flex-wrap gap-xs">
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">macOS</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">Swift</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">Whisper AI</span>
+            </div>
+          </div>
+          <div class="mt-md flex flex-col gap-xs">
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono text-xs uppercase tracking-widest">Available</span>
+            </div>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-outline rounded-full"></div>
+              <span class="font-label-sm text-label-sm text-outline font-mono text-xs uppercase tracking-widest">Cloud · Soon</span>
+            </div>
+          </div>
+        </div>
+        <!-- Right content -->
+        <div class="md:col-span-8 p-md md:p-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-start gap-sm mb-md">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-4xl mt-0.5">record_voice_over</span>
+              <div>
+                <p class="font-headline-sm text-headline-sm text-on-background mb-xs">Speak. It writes.</p>
+                <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+                  The speed gap between thinking and typing disappears. ProjectWord is a native macOS dictation engine powered by Whisper — always listening, never in the way, ruthlessly accurate.
+                </p>
+              </div>
+            </div>
+            <div class="space-y-sm font-mono">
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> A floating pill lives above your work. Tap to record. Words appear where your cursor is — in your editor, your notes, your browser.
+              </p>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> Runs completely offline. Nothing leaves your machine. Cloud sync is on the horizon — powered by a much larger Whisper model, significantly more precise, and faster. Everything you build, everywhere you build it.
+              </p>
+            </div>
+          </div>
+          <div class="mt-lg flex items-center justify-between">
+            <span class="font-label-sm text-label-sm text-outline font-mono">macOS 13.3+</span>
+            <a href="#" class="px-sm py-xs border border-primary-fixed-dim text-primary-fixed-dim font-label-sm text-label-sm font-mono hover:bg-primary-fixed-dim hover:text-background transition-all">DOWNLOAD →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Product: ProjectCipher -->
+    <article class="border border-outline-variant mb-base group">
+      <div class="grid grid-cols-1 md:grid-cols-12">
+        <!-- Left metadata panel -->
+        <div class="md:col-span-4 p-md border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between min-h-[280px]">
+          <div>
+            <div class="flex items-center gap-xs mb-md">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">002 / 003</span>
+            </div>
+            <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectCipher</h3>
+            <p class="font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">AI terminal orchestration room</p>
+            <div class="flex flex-wrap gap-xs">
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">macOS</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">Electron</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">TypeScript</span>
+            </div>
+          </div>
+          <div class="mt-md flex flex-col gap-xs">
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono text-xs uppercase tracking-widest">Available · Local</span>
+            </div>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-outline rounded-full"></div>
+              <span class="font-label-sm text-label-sm text-outline font-mono text-xs uppercase tracking-widest">Cloud · Account · Soon</span>
+            </div>
+          </div>
+        </div>
+        <!-- Right content -->
+        <div class="md:col-span-8 p-md md:p-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-start gap-sm mb-md">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-4xl mt-0.5">view_comfy</span>
+              <div>
+                <p class="font-headline-sm text-headline-sm text-on-background mb-xs">One room. Twelve agents. Zero context switches.</p>
+                <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+                  ProjectCipher puts your entire AI coding workflow inside a single focused environment. Spawn Claude Code, Codex, or any custom CLI agent — and run them side by side without touching the window manager.
+                </p>
+              </div>
+            </div>
+            <div class="space-y-sm font-mono">
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> Up to twelve embedded terminals, each running an independent AI agent. Assign tasks. Let them work in parallel. Ship faster than any single model can.
+              </p>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> Cloud is coming. A ProjectCreation account will unlock cross-device sync, shared rooms, and deeper orchestration. Your credentials stay in the CLIs that already hold them — ProjectCipher just builds the room.
+              </p>
+            </div>
+          </div>
+          <div class="mt-lg flex items-center justify-between">
+            <span class="font-label-sm text-label-sm text-outline font-mono">macOS · 2–12 agents</span>
+            <a href="#" class="px-sm py-xs border border-primary-fixed-dim text-primary-fixed-dim font-label-sm text-label-sm font-mono hover:bg-primary-fixed-dim hover:text-background transition-all">DOWNLOAD →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Product: ProjectBuilt -->
+    <article class="border border-outline-variant mb-xl group">
+      <div class="grid grid-cols-1 md:grid-cols-12">
+        <!-- Left metadata panel -->
+        <div class="md:col-span-4 p-md border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between min-h-[280px]">
+          <div>
+            <div class="flex items-center gap-xs mb-md">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">003 / 003</span>
+            </div>
+            <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectBuilt</h3>
+            <p class="font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">Idea-to-plan partner</p>
+            <div class="flex flex-wrap gap-xs">
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">Agentic</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">AI</span>
+              <span class="px-xs py-1 border border-outline-variant font-label-sm text-label-sm text-outline font-mono text-xs">Mini · First</span>
+            </div>
+          </div>
+          <div class="mt-md flex flex-col gap-xs">
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-outline rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-outline font-mono text-xs uppercase tracking-widest">Mini · Coming Soon</span>
+            </div>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-outline rounded-full opacity-40"></div>
+              <span class="font-label-sm text-label-sm text-outline font-mono text-xs uppercase tracking-widest opacity-40">Full · Later</span>
+            </div>
+          </div>
+        </div>
+        <!-- Right content -->
+        <div class="md:col-span-8 p-md md:p-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-start gap-sm mb-md">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-4xl mt-0.5">route</span>
+              <div>
+                <p class="font-headline-sm text-headline-sm text-on-background mb-xs">You already know where you want to go.</p>
+                <p class="font-body-md text-body-md text-on-surface-variant font-mono leading-relaxed">
+                  ProjectBuilt is the partner that gets you there. Not a template generator. Not an AI that replaces your thinking. A system that turns the idea already in your head into a concrete, researched, step-by-step plan you can actually follow.
+                </p>
+              </div>
+            </div>
+            <div class="space-y-sm font-mono">
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> Most projects never start. Not because the idea is bad — because the path from here to there feels too big to see clearly. ProjectBuilt makes the path visible.
+              </p>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> Input your idea. It asks the right questions, researches what you need, and builds a simplified roadmap sized for a real human — ambitious but followable, detailed but not overwhelming.
+              </p>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                <span class="text-primary-fixed-dim">&gt;</span> <span class="text-on-surface">Mini ships first</span> — a focused first version that proves the core. The full release follows with deeper configuration and longer planning horizons.
+              </p>
+            </div>
+          </div>
+          <div class="mt-lg flex items-center justify-between">
+            <span class="font-label-sm text-label-sm text-outline font-mono">No idea too ambitious</span>
+            <span class="px-sm py-xs border border-outline text-outline font-label-sm text-label-sm font-mono opacity-50 cursor-not-allowed select-none">COMING SOON</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CTA -->
+    <section class="border-t border-outline-variant grid grid-cols-1 md:grid-cols-12 mb-xl">
+      <div class="md:col-span-8 p-md md:p-xl flex flex-col justify-center">
+        <div class="flex items-center gap-xs mb-sm">
+          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Join_The_Craft</span>
+        </div>
+        <h2 class="font-headline-md text-headline-md text-on-background mb-sm">Ready to build differently?</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant font-mono leading-relaxed max-w-xl">
+          A ProjectCreation account connects you to the full ecosystem as it grows — early access to new tools, the build feed, and a community of builders who take their craft seriously.
+        </p>
+        <div class="mt-lg flex gap-md flex-wrap">
+          <a href="/signup.html" class="px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+            CREATE ACCOUNT
+          </a>
+          <a href="/" class="px-md py-sm bg-transparent text-on-surface border border-on-surface font-label-md text-label-md hover:bg-on-surface hover:text-background transition-all">
+            BACK TO HOME
+          </a>
+        </div>
+      </div>
+      <div class="md:col-span-4 p-md border-l border-outline-variant bg-surface-container-lowest flex flex-col justify-center items-start gap-md">
+        <div class="flex flex-col gap-xs">
+          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Projects online</span>
+          <span class="pixel-text font-headline-md text-headline-md text-primary-fixed-dim">2 / 3</span>
+        </div>
+        <div class="w-full h-px bg-outline-variant"></div>
+        <div class="flex flex-col gap-xs">
+          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Next node</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">ProjectBuilt Mini — Coming Soon</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/projects.js"></script>
+</body>
+</html>
