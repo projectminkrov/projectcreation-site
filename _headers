@@ -1,0 +1,31 @@
+# ============================================================
+# ProjectCreation — Cloudflare Pages Security Headers
+# Equivalent to the former netlify.toml [[headers]] config.
+# ============================================================
+
+# ── Security headers on every response ───────────────────
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-Permitted-Cross-Domain-Policies: none
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Origin-Agent-Cluster: ?1
+  X-DNS-Prefetch-Control: off
+  Content-Security-Policy: default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://gohyhxqvcjdthxvpewrx.supabase.co wss://gohyhxqvcjdthxvpewrx.supabase.co; frame-src 'none'; child-src 'none'; media-src 'none'; manifest-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none'; upgrade-insecure-requests;
+
+# ── HTML pages: never cache (auth state must stay fresh) ─
+/*.html
+  Cache-Control: no-store, no-cache, must-revalidate
+  Cross-Origin-Resource-Policy: same-origin
+
+/
+  Cache-Control: no-store, no-cache, must-revalidate
+  Cross-Origin-Resource-Policy: same-origin
+
+# ── Static assets: aggressive cache (content-addressed) ──
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: same-site
