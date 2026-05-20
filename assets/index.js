@@ -100,11 +100,10 @@
 (() => {
   const navBrand     = document.getElementById('navBrand');
   const navMap = {
-    projects:  document.getElementById('navProjects'),
     vision:    document.getElementById('navVision'),
     community: document.getElementById('navCommunity'),
   };
-  const sectionIds = ['projects', 'vision', 'community'];
+  const sectionIds = ['vision', 'community'];
 
   function activateNav(id) {
     navBrand.classList.toggle('nav-brand-active', !id);

@@ -117,22 +117,36 @@
     );
   }
 
+  let rafId = null;
+  let paused = false;
+
   function tick(time) {
-    if (lastTime !== null) {
-      angle -= SPEED * (time - lastTime);
+    if (!paused) {
+      if (lastTime !== null) {
+        angle -= SPEED * (time - lastTime);
+      }
+      lastTime = time;
+
+      const radius = getRadius();
+      imgs.forEach((img, i) => {
+        const theta = angle + i * SPACING;
+        const x = Math.cos(theta) * radius;
+        const y = Math.sin(theta) * radius;
+        img.style.transform = `translate(calc(-50% + ${x.toFixed(2)}px), calc(-50% + ${y.toFixed(2)}px))`;
+      });
     }
-    lastTime = time;
 
-    const radius = getRadius();
-    imgs.forEach((img, i) => {
-      const theta = angle + i * SPACING;
-      const x = Math.cos(theta) * radius;
-      const y = Math.sin(theta) * radius;
-      img.style.transform = `translate(calc(-50% + ${x.toFixed(2)}px), calc(-50% + ${y.toFixed(2)}px))`;
-    });
-
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
   }
 
-  requestAnimationFrame(tick);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      paused = true;
+      lastTime = null;
+    } else {
+      paused = false;
+    }
+  });
+
+  rafId = requestAnimationFrame(tick);
 })();

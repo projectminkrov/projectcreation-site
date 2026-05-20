@@ -146,7 +146,6 @@
           });
         }
 
-        render();
         return;
       }
 
@@ -204,7 +203,8 @@
       });
     }
 
-    function loop() { tick(); render(); requestAnimationFrame(loop); }
+    render(); // position nodes at home before first frame
+    function loop() { tick(); if (!frozen) render(); requestAnimationFrame(loop); }
     loop();
 
     // ── Drag ─────────────────────────────────────────────────
@@ -264,12 +264,21 @@
       const ow = W, oh = H;
       W = container.offsetWidth;
       H = container.offsetHeight;
+      if (!ow || !oh) return;
       NODES.forEach(({ id }) => {
         const n = state[id];
         n.x = (n.x / ow) * W;
         n.y = (n.y / oh) * H;
       });
       calcRestLen();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        frozen = true;
+      } else {
+        render();
+      }
     });
 
   } // end setup()

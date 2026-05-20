@@ -4,6 +4,7 @@
 
 @layer base {
   body {
+    --color-discount: #4ade80;
     background-color: #131313;
     background-image:
       linear-gradient(rgba(42, 168, 255, 0.05) 1px, transparent 1px),
@@ -304,6 +305,9 @@ body.theme-green .group:hover .group-hover\:bg-primary-fixed-dim { background-co
 body.theme-green .theme-shape {
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   transform: translateY(-3px);
+}
+body.theme-green {
+  --color-discount: #2aa8ff;
 }
 
 body.theme-purple {

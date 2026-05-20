@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Pricing | ProjectCreation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="/assets/site.css" rel="stylesheet"/>
+  <link href="/assets/graph.css" rel="stylesheet"/>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+  <script src="/assets/theme-restore.js"></script>
+  <div class="scan-line"></div>
+
+  <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
+    <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
+      <a id="navBrand" href="/" class="font-headline-sm text-headline-sm font-bold tracking-tighter no-underline transition-colors duration-200">
+        ProjectCreation
+      </a>
+      <div class="hidden xl:flex items-center gap-lg">
+        <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/projects.html">Projects</a>
+        <a id="navPricing"   class="font-label-md text-label-md nav-link-active transition-colors duration-200" href="/pricing.html">Pricing</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#vision">Vision</a>
+        <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#community">Community</a>
+      </div>
+      <div class="flex items-center gap-sm">
+        <a id="navSignIn" href="/login.html" class="hidden xl:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open terminal">
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open network status">
+          <span class="material-symbols-outlined">sensors</span>
+        </button>
+
+        <div id="profileWrapper">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+            <span class="material-symbols-outlined material-symbols-fill">account_circle</span>
+          </button>
+          <div id="profileDropdown">
+            <div class="drop-divider dropdown-inner">
+              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p class="drop-label">Email</p>
+              <p id="dropEmail" class="drop-value"></p>
+              <p class="drop-label">Account ID</p>
+              <p id="dropId" class="drop-value-muted"></p>
+              <p class="drop-label">Member Since</p>
+              <p id="dropSince" class="drop-value-last"></p>
+            </div>
+            <div class="dropdown-actions">
+              <a href="/account.html" class="drop-cta">GO TO ACCOUNT -></a>
+              <button id="dropSignOut" class="drop-signout">SIGN OUT</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="theme-switch p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80 flex items-center justify-center" type="button" aria-label="Switch to red theme" aria-pressed="false" id="themeSwitch">
+          <span class="theme-shape" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
+    <section class="pt-lg pb-md border-b border-outline-variant">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end">
+        <div class="md:col-span-8 min-w-0">
+          <div class="flex items-center gap-xs mb-sm">
+            <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+            <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Pricing.cfg</span>
+          </div>
+          <h1 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
+            Pricing
+          </h1>
+          <p class="font-headline-sm text-headline-sm text-on-surface-variant max-w-3xl leading-snug break-words">
+            One account. Three tiers. Pick the amount of leverage your work actually needs.
+          </p>
+        </div>
+        <div class="md:col-span-4 border border-outline-variant bg-surface-container-lowest p-sm min-w-0">
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Trial Window</p>
+          <p class="font-headline-sm text-headline-sm text-on-background">3 day Pro trial</p>
+          <p class="font-label-sm text-label-sm text-outline mt-xs font-mono break-words">Full Pro-level access. No card required to start.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-lg border-b border-outline-variant">
+      <!-- Billing segmented control -->
+      <div class="flex flex-col items-center gap-sm pb-lg">
+        <div class="inline-flex border border-outline-variant">
+          <button id="billMonthly" type="button"
+            class="px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 bg-primary-container text-on-primary border-r border-outline-variant cursor-pointer">
+            Monthly
+          </button>
+          <button id="billYearly" type="button"
+            class="px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-surface-variant cursor-pointer flex items-center gap-xs">
+            Yearly&nbsp;<span style="color: var(--color-discount);">20% off</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+        <div class="flex flex-col gap-xs">
+          <p id="savingsCore" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span style="color: var(--color-discount);">€16</span> / year</p>
+          <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
+          <div class="flex items-start justify-between gap-sm mb-md">
+            <div>
+              <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">Start</p>
+              <h2 class="font-headline-md text-headline-md text-on-background">Core</h2>
+            </div>
+            <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono">001</span>
+          </div>
+          <div class="flex items-end gap-xs mb-xs">
+            <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
+            <span id="priceCore" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="8" data-yearly="80">8</span>
+            <span id="suffixCore" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+          </div>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€80 yearly · two months free<span id="discountCore">&nbsp;· <span style="color: var(--color-discount);">20% off</span></span></p>
+          <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
+            For builders who need a real starting point. The essentials, without the noise.
+          </p>
+          <a href="/signup.html" class="block text-center px-md py-sm bg-transparent text-primary-fixed-dim border border-primary-fixed-dim font-label-md text-label-md hover:bg-primary-fixed-dim hover:text-background transition-all mb-lg">START CORE</a>
+          <div class="h-px bg-outline-variant mb-md"></div>
+          <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-sm">Includes</p>
+          <ul class="grid gap-sm font-label-sm text-label-sm text-on-surface-variant font-mono break-words">
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectBuilt Mini full access</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectWord Balanced + Accurate</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>Gentle, Tidy, and Literal cleanup</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>100-entry dictation history</span></li>
+          </ul>
+        </article>
+        </div>
+
+        <div class="flex flex-col gap-xs">
+          <p id="savingsPro" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span style="color: var(--color-discount);">€50</span> / year</p>
+          <article class="border border-primary-fixed-dim bg-surface-container-low p-md md:p-lg pt-xl flex flex-col min-w-0 min-h-[520px] relative">
+          <div class="absolute top-0 right-0 bg-primary-container text-on-primary px-md py-sm flex items-center gap-xs">
+            <span class="font-label-md text-label-md font-mono uppercase tracking-widest">Most Popular</span>
+            <span class="font-label-md text-label-md font-mono opacity-50">· 002</span>
+          </div>
+          <div class="flex items-start gap-sm mb-md">
+            <div>
+              <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">Most useful</p>
+              <h2 class="font-headline-md text-headline-md text-on-background">Pro</h2>
+            </div>
+          </div>
+          <div class="flex items-end gap-xs mb-xs">
+            <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
+            <span id="pricePro" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="20" data-yearly="190">20</span>
+            <span id="suffixPro" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+          </div>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€190 yearly · two months free<span id="discountPro">&nbsp;· <span style="color: var(--color-discount);">20% off</span></span></p>
+          <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
+            Build with everything ProjectCreation has. For the people who are driven to create.
+          </p>
+          <a href="/signup.html" class="block text-center px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all mb-lg">START PRO</a>
+          <div class="h-px bg-outline-variant mb-md"></div>
+          <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-sm">Includes</p>
+          <ul class="grid gap-sm font-label-sm text-label-sm text-on-surface-variant font-mono break-words">
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectBuilt Mini + Full</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectWord Smart Cleanup</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectWord cloud sync when live</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectCipher up to 8 terminals</span></li>
+          </ul>
+        </article>
+        </div>
+
+        <div class="flex flex-col gap-xs">
+          <p id="savingsMax" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span style="color: var(--color-discount);">€100</span> / year</p>
+          <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
+          <div class="flex items-start justify-between gap-sm mb-md">
+            <div>
+              <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">No ceiling</p>
+              <h2 class="font-headline-md text-headline-md text-on-background">Max</h2>
+            </div>
+            <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono">003</span>
+          </div>
+          <div class="flex items-end gap-xs mb-xs">
+            <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
+            <span id="priceMax" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="40" data-yearly="380">40</span>
+            <span id="suffixMax" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+          </div>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€380 yearly · two months free<span id="discountMax">&nbsp;· <span style="color: var(--color-discount);">20% off</span></span></p>
+          <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
+            The greatest things get built at full capacity. No limits, no compromises.
+          </p>
+          <a href="/signup.html" class="block text-center px-md py-sm bg-transparent text-primary-fixed-dim border border-primary-fixed-dim font-label-md text-label-md hover:bg-primary-fixed-dim hover:text-background transition-all mb-lg">START MAX</a>
+          <div class="h-px bg-outline-variant mb-md"></div>
+          <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-sm">Includes</p>
+          <ul class="grid gap-sm font-label-sm text-label-sm text-on-surface-variant font-mono break-words">
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>Everything in Pro</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>Priority cloud transcription</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>ProjectCipher up to 12 terminals</span></li>
+            <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span>Future products at launch</span></li>
+          </ul>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-lg mb-xl">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end border-b border-outline-variant pb-md mb-md">
+        <div class="md:col-span-7">
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Feature Snapshot</p>
+          <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Compare the tiers without decoding the cards.</h2>
+        </div>
+        <p class="md:col-span-5 font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
+          Create an account for free. After the 3-day Pro trial, product access requires an active subscription.
+        </p>
+      </div>
+
+      <div class="border border-outline-variant bg-surface-container-lowest overflow-x-auto">
+        <div class="min-w-[820px] grid grid-cols-4">
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Area</div>
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Core</div>
+          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">Pro</div>
+          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Max</div>
+
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectBuilt</div>
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Mini</div>
+          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Mini + Full</div>
+          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">All releases</div>
+
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectWord</div>
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Balanced + Accurate</div>
+          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Smart Cleanup + sync</div>
+          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Priority cloud</div>
+
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectCipher</div>
+          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">Not included</div>
+          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">8 terminals</div>
+          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">12 terminals</div>
+
+          <div class="p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono">Best for</div>
+          <div class="p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Getting started without the noise</div>
+          <div class="p-sm border-r border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Builders driven to create</div>
+          <div class="p-sm font-label-sm text-label-sm text-on-surface-variant font-mono">No limits, no compromises</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 border-x border-b border-outline-variant bg-background">
+        <p class="md:col-span-8 p-sm font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
+          Start with the free account and trial. Upgrade only when the products become part of your actual workflow.
+        </p>
+        <div class="md:col-span-4 p-sm border-t md:border-t-0 md:border-l border-outline-variant flex md:justify-end">
+          <a href="/signup.html" class="block text-center px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest border-t border-outline-variant w-full">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-md w-full gap-md">
+      <div class="font-headline-sm text-headline-sm text-on-surface">ProjectCreation</div>
+      <div class="flex flex-wrap justify-center gap-md">
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/projects.html">Projects</a>
+        <a class="font-label-sm text-label-sm text-primary-fixed-dim underline transition-all" href="/pricing.html">Pricing</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/#vision">Vision</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/#community">Community</a>
+      </div>
+      <div class="font-label-sm text-label-sm text-outline">
+        &copy; 2026 ProjectCreation. Engineered for Digital Craft.
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/index.js"></script>
+  <script>
+    (function () {
+      var btnMonthly   = document.getElementById('billMonthly');
+      var btnYearly    = document.getElementById('billYearly');
+      var savingsEls   = ['savingsCore', 'savingsPro', 'savingsMax'].map(function (id) { return document.getElementById(id); });
+
+      var plans = [
+        { price: 'priceCore', suffix: 'suffixCore', monthly: '8',  yearly: '80'  },
+        { price: 'pricePro',  suffix: 'suffixPro',  monthly: '20', yearly: '190' },
+        { price: 'priceMax',  suffix: 'suffixMax',  monthly: '40', yearly: '380' },
+      ];
+
+      function activate(isYearly) {
+        if (isYearly) {
+          btnMonthly.classList.remove('bg-primary-container', 'text-on-primary');
+          btnMonthly.classList.add('text-on-surface-variant');
+          btnYearly.classList.remove('text-on-surface-variant');
+          btnYearly.classList.add('bg-primary-container', 'text-on-primary');
+          savingsEls.forEach(function (el) { el.classList.remove('hidden'); });
+        } else {
+          btnYearly.classList.remove('bg-primary-container', 'text-on-primary');
+          btnYearly.classList.add('text-on-surface-variant');
+          btnMonthly.classList.remove('text-on-surface-variant');
+          btnMonthly.classList.add('bg-primary-container', 'text-on-primary');
+          savingsEls.forEach(function (el) { el.classList.add('hidden'); });
+        }
+        plans.forEach(function (p) {
+          document.getElementById(p.price).textContent  = isYearly ? p.yearly : p.monthly;
+          document.getElementById(p.suffix).textContent = isYearly ? '/yr' : '/mo';
+        });
+      }
+
+      btnMonthly.addEventListener('click', function () { activate(false); });
+      btnYearly.addEventListener('click',  function () { activate(true);  });
+    }());
+  </script>
+</body>
+</html>

@@ -635,3 +635,745 @@ Tags:
 - security
 - graph
 - projects
+
+## 2026-05-17 17:03 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a ProjectWord subscriptions migration to the ProjectCreation backend source.
+- Kept the new subscription trigger separate from the existing profile trigger.
+- Added founder access setup in a rerunnable form for the shared account system.
+
+Why it matters:
+ProjectCreation can now host ProjectWord subscription and founder access checks without breaking the website profile flow.
+
+Next:
+- Run the migration in Supabase, then verify ProjectWord sign-in and founder access from the app.
+
+Tags:
+- backend
+- auth
+- supabase
+
+## 2026-05-17 21:32 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a dedicated pricing page for Core, Pro, and Max subscriptions.
+- Added a Pricing link to the main marketing navigation and footer.
+- Rebuilt the generated site stylesheet and checked desktop/mobile pricing renders.
+
+Why it matters:
+Visitors can now compare ProjectCreation tiers directly from the website navigation before creating an account.
+
+Next:
+- Connect pricing actions to the live checkout flow when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- navigation
+
+## 2026-05-17 21:49 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworked the pricing page into compact side-by-side tier cards.
+- Made monthly and yearly prices easier to scan at the top of each tier.
+- Added a concise comparison grid for the main Core, Pro, and Max differences.
+- Rebuilt the generated site stylesheet and checked desktop/mobile pricing renders.
+
+Why it matters:
+The pricing page now presents the key plan differences without making visitors scroll through oversized panels to understand the tiers.
+
+Next:
+- Connect pricing actions to the live checkout flow when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- ui
+
+## 2026-05-17 22:06 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Restored the pricing page to a utility-class layout after the custom pricing styles failed to apply reliably.
+- Kept the wider, more comfortable pricing cards and side-by-side desktop plan structure.
+- Added a stylesheet cache bust to force the browser to load the rebuilt visual styles.
+- Rechecked desktop and mobile pricing renders locally.
+
+Why it matters:
+The pricing page now renders as designed again instead of falling back to a plain text column.
+
+Next:
+- Continue polishing pricing copy and checkout wiring when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- bug-fix
+
+## 2026-05-17 22:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the pricing page fallback that caused the plan section to render like plain text.
+- Rebuilt the plan cards with existing site utility classes so borders, spacing, prices, CTAs, and lists render reliably.
+- Added a cache-busted stylesheet reference on the pricing page.
+- Rebuilt the generated site stylesheet and rechecked desktop/mobile renders.
+
+Why it matters:
+The pricing page is readable again and keeps the intended side-by-side plan structure without depending on fragile page-specific styling.
+
+Next:
+- Continue polishing pricing copy and checkout wiring when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- bug-fix
+
+## 2026-05-17 21:59 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Refined the pricing page cards with more vertical space, stronger price hierarchy, and clearer internal sections.
+- Added dedicated pricing layout styling so the cards and comparison grid render more consistently.
+- Cleaned up the comparison area so tier differences stay readable instead of collapsing into a confusing block.
+- Rebuilt the generated site stylesheet and checked the page across desktop, narrower desktop, and mobile renders.
+
+Why it matters:
+The pricing page now keeps the side-by-side plan structure while giving each tier enough room to feel polished and understandable.
+
+Next:
+- Connect pricing actions to the live checkout flow when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- ui
+
+## 2026-05-17 22:06 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Confirmed the pricing page fix with the utility-class card layout and rebuilt stylesheet.
+- Verified the page returns successfully and renders with visible cards on desktop and mobile screenshots.
+
+Why it matters:
+The latest pricing work now has a public-safe build-log entry at the end of the project log.
+
+Next:
+- Continue polishing pricing copy and checkout wiring when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- verification
+
+## 2026-05-17 22:09 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed unused custom pricing CSS from the source stylesheet after restoring the pricing page to utility classes.
+- Rebuilt the generated stylesheet and rechecked desktop/mobile pricing screenshots.
+
+Why it matters:
+The pricing page fix stays simpler and less fragile for future rebuilds.
+
+Next:
+- Continue polishing pricing copy and checkout wiring when subscriptions are ready.
+
+Tags:
+- website
+- pricing
+- cleanup
+
+## 2026-05-17 22:55 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Updated projects.html: ProjectBuilt orbit callout now styled as active (matches ProjectWord/ProjectCipher — full color, no "— coming" badge).
+- Updated projects.html: ProjectBuilt card status badge changed from "Mini · Coming Soon" (grey dot) to "Mini · Available" (active primary dot).
+- Updated projects.html: Body copy "Mini ships first" → "Mini is live".
+- Updated projects.html: Bottom CTA changed from disabled "COMING SOON" span to active "LAUNCH →" link.
+- Updated projects.html: Stats counter changed from "2 / 3" to "3 / 3", "2 online · 1 initializing" → "3 online", "Next node: ProjectBuilt Mini — Coming Soon" → "Ecosystem: All three tools live".
+- Updated pricing.html: Pro tier feature list and comparison table "Mini + Full later" → "Mini + Full".
+- Rebuilt site stylesheet.
+
+Why it matters:
+All products release together — the website now treats ProjectBuilt Mini as live across every page, matching the intended launch state instead of showing it as a future product.
+
+Next:
+- Wire ProjectBuilt Mini launch link when the app URL is ready.
+
+Tags:
+- website
+- projectbuilt
+- launch-prep
+
+## 2026-05-17 23:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added monthly/yearly billing toggle to the pricing page above the three plan cards.
+- Toggle defaults to Monthly; switching to Yearly updates the big price number and suffix on all three cards (€8→€77, €20→€192, €40→€384, /mo→/yr).
+- Yearly price boxes always visible; toggling to Yearly appends "· 20% off" in fixed green to each box.
+- "20% off" text uses an inline color (#4ade80) so it stays green regardless of the site's active theme.
+- Rebuilt stylesheet.
+
+Why it matters:
+Users can now compare monthly and yearly pricing at a glance and see the savings incentive clearly called out in green when they consider the annual plan.
+
+Next:
+- Wire toggle state to the signup flow so the chosen billing period carries through to checkout.
+
+Tags:
+- website
+- pricing
+- ui
+- toggle
+
+## 2026-05-17 23:18 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- "20% off" now always visible in the yearly info boxes regardless of the billing toggle state.
+
+Why it matters:
+The savings callout is a conversion nudge — showing it even on the monthly view encourages users to consider the yearly plan.
+
+Next:
+- Wire toggle state to signup checkout flow.
+
+Tags:
+- website
+- pricing
+- ui
+
+## 2026-05-17 23:28 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed toggle thumb vertical centering: replaced top-1 with inset-y-0 my-auto and added p-0 to the button to neutralize form-reset padding.
+- When yearly is active, the "Yearly 20% off" label now gets a filled blue box (bg-primary-container, border-primary-container) matching the Pro button treatment, with border-transparent as the off-state placeholder so layout never shifts.
+- 20% off text stays green (inline style) in both states.
+- Rebuilt stylesheet.
+
+Why it matters:
+The toggle is now visually polished — thumb is properly centered and the active yearly state is clearly communicated through the blue highlight.
+
+Next:
+- Wire toggle state to signup checkout flow.
+
+Tags:
+- website
+- pricing
+- ui
+- toggle
+
+## 2026-05-17 23:38 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added --color-discount CSS variable to body: green (#4ade80) by default, blue (#2aa8ff) when body.theme-green is active.
+- Replaced all four hardcoded color: #4ade80 inline styles on "20% off" spans with color: var(--color-discount).
+- Rebuilt stylesheet.
+
+Why it matters:
+The "20% off" callout is now always legible regardless of active theme — green on blue/red/purple themes, blue on the green theme where #4ade80 would disappear.
+
+Next:
+- Wire toggle state to signup checkout flow.
+
+Tags:
+- website
+- pricing
+- ui
+- theme
+
+## 2026-05-17 23:52 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced billing slider toggle with segmented control: two side-by-side buttons in one bordered container, active side fills bg-primary-container, inactive is muted. Monthly defaults active.
+- Added savings line below control that reveals "→ You save up to €96 / year" when yearly is selected.
+- Removed inline 002 badge from Pro card header flex row.
+- Added absolute top-right badge to Pro card reading "PEAK CRAFT · 002" — flush against the card corner, filled blue, larger than the old badge.
+- Rebuilt stylesheet.
+
+Why it matters:
+The segmented control makes the active billing choice immediately legible without interpreting a switch state. The Pro badge now commands more visual weight and signals the recommended tier with an intriguing brand-connected phrase.
+
+Next:
+- Wire billing period state to signup checkout flow.
+
+Tags:
+- website
+- pricing
+- ui
+- pro-card
+
+## 2026-05-18 00:02 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Pro card badge: renamed "PEAK CRAFT" to "MOST POPULAR" — universally understood social proof signal.
+- Pro card badge: increased size from label-sm/px-sm py-xs to label-md/px-md py-sm for more visual weight.
+- Rebuilt stylesheet.
+
+Tags:
+- website
+- pricing
+- pro-card
+
+## 2026-05-18 00:15 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed savings line from below the billing toggle.
+- Added per-plan savings labels above each pricing card: "You save up to €19 / year" (Core), "€48 / year" (Pro), "€96 / year" (Max).
+- Labels are hidden in monthly mode and revealed when yearly is selected; styled as muted monospace text with the euro amount in the discount accent color.
+- Rebuilt stylesheet.
+
+Why it matters:
+Each plan now surfaces its own concrete saving so the yearly value is visible exactly where the user is reading, not in a generic line above all three cards.
+
+Tags:
+- website
+- pricing
+- ui
+
+## 2026-05-18 14:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworded Max tier description: replaced "highest ProjectCipher capacity" with "highest building and creation capacity"
+
+Why it matters:
+Removes a product-specific internal tool reference from the public pricing page and replaces it with clearer, audience-facing language.
+
+Next:
+- Continue pricing page polish
+
+Tags:
+- website
+- pricing
+- copy
+
+## 2026-05-18 14:38 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Rewrote all three pricing tier descriptions for stronger, plainer copy
+- Core: "For builders who need a real starting point. The essentials, without the noise."
+- Pro: "Build with everything ProjectCreation has. For the people who can't stop creating."
+- Max: "The greatest things get built at full capacity. No limits, no compromises."
+
+Why it matters:
+Previous descriptions were feature-listy and passive. New copy is direct, punchy, and speaks to the builder identity.
+
+Next:
+- Review full pricing page layout and finalize
+
+Tags:
+- website
+- pricing
+- copy
+
+## 2026-05-18 14:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Pro tier description: "can't stop creating" → "driven to create"
+
+Why it matters:
+Shifts from a casual, passive framing to one that speaks to internal drive and intention.
+
+Next:
+- Finalize pricing page
+
+Tags:
+- website
+- pricing
+- copy
+
+## 2026-05-18 14:52 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed fixed min-height on description paragraphs in all three pricing cards
+- Reduced card min-height from 620px to 520px across all three tiers
+
+Why it matters:
+Shorter copy was leaving a large gap between the description and the CTA button. Cards now sit tighter and feel intentional.
+
+Next:
+- Finalize and review full pricing page
+
+Tags:
+- website
+- pricing
+- ui
+
+## 2026-05-18 15:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed wrong JS file on pricing page (projects.js → index.js) so auth nav works correctly
+- Fixed copyright year 2024 → 2026
+- Added top padding to Pro card so "Most Popular" badge no longer overlaps the tier header
+- Aligned "Best for" row in comparison table with the card copy tone
+
+Why it matters:
+Four housekeeping issues that would have caused visible bugs or inconsistencies on the live page.
+
+Next:
+- Full review pass before deploying
+
+Tags:
+- website
+- pricing
+- bug
+- ui
+
+## 2026-05-18 15:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Updated copyright year from 2024 to 2026 across all pages: login, signup, verify, forgot-password, reset-password, index
+- Fixed graph.js: removed double render call during node return animation (tick and loop were both calling render() on the same frame)
+- Fixed graph.js: added division-by-zero guard in the resize handler (ow/oh could be 0 if element has no dimensions at resize time)
+- Removed hard-coded CSS cache-buster query string from pricing.html (was pinned to a specific date, preventing future CSS updates from loading)
+
+Why it matters:
+The double render was writing to the DOM twice per animation frame during node return — wasteful and could cause visual inconsistency. The resize guard prevents potential Infinity coordinates. The CSS cache-buster would have silently blocked any future stylesheet changes from reaching users.
+
+Next:
+- Full pre-deploy review pass
+
+Tags:
+- bug
+- performance
+- website
+- graph
+
+## 2026-05-18 15:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added graph.css link to pricing.html (where the nav-link-active style lives)
+- Switched active nav item from hardcoded text-primary-fixed-dim to nav-link-active class on pricing.html and projects.html
+- Active nav items now show the same color + bottom border line as Vision/Community on the homepage
+
+Why it matters:
+The active state for page-level nav items was inconsistent — section links on the homepage got the full active treatment (color + underline) via nav-link-active, but separate-page links only got a color change. Now all active nav items look the same.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- nav
+- ui
+
+## 2026-05-18 15:50 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Updated yearly prices: €77 → €80, €192 → €190, €384 → €380
+- Updated savings labels: €19 → €16, €48 → €50, €96 → €100
+- Updated billing toggle JS to use new yearly values
+- Updated PROJECTCREATION.md pricing table and added reasoning note
+
+Why it matters:
+Rounder yearly prices feel intentional on a pricing page. The previous numbers were exact 10-month calculations which produced awkward figures. New numbers are cleaner while keeping the "2 months free" messaging honest.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- copy
+
+## 2026-05-18 15:58 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Swapped price display font from Space Mono (font-headline-lg) to JetBrains Mono (font-label-md) on all three pricing cards
+
+Why it matters:
+Space Mono at 72px looks blocky and awkward for numerical display. JetBrains Mono is the site's precision/code font — sharper, more refined at large sizes, and better aligned with the terminal aesthetic.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- ui
+- typography
+
+## 2026-05-18 16:02 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reverted price display font back to Space Mono (font-headline-lg) — JetBrains Mono's dotted zero was unwanted
+
+Why it matters:
+JetBrains Mono uses a dotted zero by default (a programming font convention to distinguish 0 from O) which looked out of place in the large price display. Space Mono uses a clean zero without the dot.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- typography
+
+## 2026-05-18 16:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Switched price display numbers from Space Mono to Geist (font-body-lg font-bold)
+- Rebuilt Tailwind CSS
+
+Why it matters:
+Space Mono's zero glyph is inherently dotted/slashed — it's the shape of the character, not an OpenType feature, so font-feature-settings couldn't fix it. Geist has a clean oval zero with no dot or slash. Already loaded on every page as the body font.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- typography
+
+## 2026-05-18 16:18 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Enlarged € symbol on all three pricing cards to match the 72px number size (font-body-lg font-bold text-[72px])
+
+Why it matters:
+The euro sign was 24px while the price numbers were 72px, making it look like a small superscript rather than part of the price display.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- ui
+- typography
+
+## 2026-05-18 16:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Core tier label: "Entry" → "Start"
+
+Why it matters:
+"Entry" is passive and descriptive. "Start" is a call to action that nudges users toward converting.
+
+Next:
+- Pre-deploy review
+
+Tags:
+- website
+- pricing
+- copy
+
+## 2026-05-18 16:40 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- graph.js: Added initial render() call before loop starts — fixes critical regression where all graph nodes were stuck at 0,0 on page load
+- graph.js: Added visibilitychange listener to freeze animation when tab is hidden
+- projects.js: Added visibilitychange listener to pause orbit animation when tab is hidden, reset lastTime on resume to prevent jump
+- index.js: Removed 'projects' from sectionIds and navMap — no #projects section exists on the homepage, it was a dead observer target
+
+Why it matters:
+The initial render bug meant the interactive graph on the homepage was invisible until a user dragged a node. The animation pausing prevents unnecessary CPU and battery drain on hidden tabs. The dead observer entry was a silent logic error.
+
+Security audit result: clean — textContent used everywhere (no XSS vectors), theme restore regex-guarded, account page uses server-side session validation, password reset anti-enumeration in place, OTP server-bound, CSP locked to specific Supabase URL, RLS enforces row-level isolation.
+
+Next:
+- Deploy when workflow is ready
+
+Tags:
+- bug
+- performance
+- security
+- graph
+- website
+
+## 2026-05-18 20:08 — ProjectWord
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- SupabaseAuthClient: switched subscriptions query from explicit column list to select=* so a missing is_founder column no longer causes a fatal 400 error on sign-in
+- AccountService: call clearSession() when status reload fails so tokens are not saved and the app does not start future sessions in a broken state
+- Identified that founder row is missing or is_founder column is absent in the live database — SQL provided to repair
+
+Why it matters:
+Founder sign-in was completely blocked. The macOS app authenticated successfully against ProjectCreation but then crashed the sign-in flow because the subscriptions query failed at the schema level. Code is now resilient to schema gaps; a one-time SQL run in the Supabase dashboard will restore full founder access.
+
+Next:
+- Run the ALTER TABLE / INSERT SQL in Supabase to add is_founder column and set founder row
+- Rebuild and test sign-in with founder account
+
+Tags:
+- projectword
+- auth
+- bug
+- supabase
+
+## 2026-05-18 20:21 — ProjectWord
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- SupabaseConfig: added founderEmail constant as single source of truth
+- AccountService.signIn: founder email gets max access + isFounder=true even when subscriptions table is missing from DB
+- AccountService.restoreSessionFromKeychain: same founder fallback on app restart so the paywall never shows for the owner account
+- Root cause confirmed: subscriptions table does not yet exist in the live Supabase project
+
+Why it matters:
+Founder sign-in was completely blocked by a missing DB table. Code now has a dual-layer access path: DB-driven when the table exists, email-based fallback when it doesn't. Either way the owner account reaches the app with full max access.
+
+Next:
+- Rebuild ProjectWord and test sign-in
+- Run 002-projectword-subscriptions.sql in Supabase to set up the table for real users
+
+Tags:
+- projectword
+- auth
+- bug
+- founder
+
+## 2026-05-18 23:41 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Free trial extended from 1 day to 3 days across the entire codebase
+- PROJECTCREATION.md: updated brand source of truth
+- pricing.html: "1 day Pro trial" and "1-day" copy updated to 3 days
+- ProjectWord PaywallView: "START FREE 1-DAY TRIAL" button updated
+- ProjectWord SubscriptionTier model: comment updated
+- All three SQL migration files updated (001, 002, 003)
+- Live DB: trigger function and existing trial rows updated via SQL
+
+Why it matters:
+Three days gives new users enough time to genuinely experience the product across multiple sessions before having to decide on a subscription. One day was too short for users who sign up in the evening or have a busy first day.
+
+Next:
+- Rebuild ProjectWord dist files to ship the updated paywall button
+- Add Privacy Policy and Terms of Service pages to the website
+
+Tags:
+- projectcreation
+- projectword
+- trial
+- product
+- milestone
