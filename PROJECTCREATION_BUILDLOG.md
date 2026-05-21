@@ -1611,6 +1611,30 @@ Tags:
 - cache
 - projects
 
+## 2026-05-21 22:55 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Widened the Projects page orbit spacing so the three visuals have more separation while rotating
+- Added radius logic that accounts for the rendered image size and section bounds
+- Versioned the Projects page script so the official site loads the updated orbit math
+- Bumped the stylesheet version so the live page also receives the adjusted image sizing
+- Rebuilt the deploy output with the adjusted orbit spacing
+
+Why it matters:
+The rotating project visuals should no longer stack on top of each other, keeping the workshop section cleaner and easier to read.
+
+Next:
+- Publish and verify the live Projects page is loading the updated orbit script and spacing
+
+Tags:
+- projects
+- orbit
+- visual-tuning
+
 ## 2026-05-21 22:36 — ProjectCreation
 
 Status: Done

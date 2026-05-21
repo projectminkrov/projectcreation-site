@@ -210,7 +210,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(220px, 32vw, 420px);
+  width: clamp(200px, 28vw, 360px);
   height: auto;
   opacity: 0.62;
   border: 1px solid rgba(55, 68, 75, 0.6);

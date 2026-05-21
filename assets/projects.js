@@ -110,10 +110,26 @@
   let lastTime = null;
 
   function getRadius() {
+    const maxImageWidth = Math.max(...imgs.map((img) => img.offsetWidth || 0));
+    const maxImageHeight = Math.max(...imgs.map((img) => img.offsetHeight || 0));
+    const imageDiagonal = Math.hypot(maxImageWidth, maxImageHeight);
+    const nonOverlapRadius = (imageDiagonal / Math.sqrt(3)) * 1.12;
+    const containedRadius = Math.max(
+      160,
+      Math.min(
+        (section.offsetWidth - maxImageWidth) * 0.46,
+        (section.offsetHeight - maxImageHeight) * 0.46
+      )
+    );
+
     return Math.min(
-      section.offsetWidth * 0.27,
-      section.offsetHeight * 0.40,
-      250
+      Math.max(
+        nonOverlapRadius,
+        section.offsetWidth * 0.32,
+        section.offsetHeight * 0.34
+      ),
+      containedRadius,
+      390
     );
   }
 
