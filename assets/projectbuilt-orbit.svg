@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">ProjectBuilt upcoming interface placeholder</title>
+  <desc id="desc">Dark technical ProjectCreation-style planning interface placeholder for the upcoming ProjectBuilt product.</desc>
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#123047" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#2aa8ff" stop-opacity=".22"/>
+      <stop offset=".52" stop-color="#102334" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#07090c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="760" fill="#0b0d10"/>
+  <rect width="1200" height="760" fill="url(#grid)" opacity=".62"/>
+  <rect width="1200" height="760" fill="url(#glow)"/>
+  <g fill="none" stroke="#2a5878" stroke-width="2">
+    <rect x="58" y="72" width="1084" height="616" rx="28"/>
+    <rect x="118" y="152" width="410" height="456" rx="22"/>
+    <rect x="588" y="152" width="494" height="456" rx="22"/>
+    <path d="M168 268h306M168 352h306M168 436h306"/>
+    <path d="M658 280h354M658 370h354M658 460h354"/>
+  </g>
+  <g font-family="JetBrains Mono, Space Mono, monospace" font-weight="700">
+    <text x="96" y="122" fill="#2aa8ff" font-size="24" letter-spacing="6">PROJECTBUILT</text>
+    <text x="96" y="658" fill="#7e9096" font-size="18" letter-spacing="3">STATUS: UPCOMING</text>
+    <text x="168" y="228" fill="#e2e2e2" font-size="42" letter-spacing="8">IDEA</text>
+    <text x="168" y="332" fill="#2aa8ff" font-size="42" letter-spacing="8">PLAN</text>
+    <text x="168" y="520" fill="#b2c7d6" font-size="24">research -> roadmap -> build path</text>
+    <text x="658" y="230" fill="#e2e2e2" font-size="34" letter-spacing="6">ROADMAP ENGINE</text>
+    <text x="658" y="334" fill="#b2c7d6" font-size="24">Questions locked</text>
+    <text x="658" y="424" fill="#b2c7d6" font-size="24">Scope forming</text>
+    <text x="658" y="514" fill="#b2c7d6" font-size="24">Launch sequence pending</text>
+  </g>
+  <g transform="translate(980 104)" fill="none" stroke="#2aa8ff" stroke-width="6">
+    <path d="M0 28h84M42-14v84"/>
+    <rect x="-18" y="-32" width="120" height="120" rx="14" opacity=".45"/>
+  </g>
+</svg>
