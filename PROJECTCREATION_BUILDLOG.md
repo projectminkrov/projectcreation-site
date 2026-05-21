@@ -1611,3 +1611,25 @@ Tags:
 - deploy
 - projects
 - cloudflare
+
+## 2026-05-21 22:39 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a cache-busting stylesheet reference across the public HTML pages
+- Rebuilt the deploy output so the official site requests the fresh orbit opacity styling
+- Kept the change focused on making the latest Projects page visuals visible through the live cache layer
+
+Why it matters:
+The official site can now pick up the updated Projects orbit styling immediately instead of waiting behind an older cached stylesheet.
+
+Next:
+- Confirm the live Projects page is loading the refreshed stylesheet and showing the stronger orbit visuals
+
+Tags:
+- deploy
+- cache
+- projects
