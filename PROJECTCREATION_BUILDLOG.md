@@ -1377,3 +1377,237 @@ Tags:
 - trial
 - product
 - milestone
+
+## 2026-05-21 15:37 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed orbit images position on projects page: changed `top: 50%` to `top: 30%` in `.orbit-img` CSS
+- Rebuilt site.css
+
+Why it matters:
+The orbit section is ~980px tall on desktop (content-driven height). The old `top: 50%` placed the orbit center at ~490px from the section top — well below the visible heading area. Users saw the heading but no images. Moving the center to `top: 30%` (~295px from section top) puts the orbit ring directly behind the "NOT FEATURES. SYSTEMS." heading where it belongs, visible on first scroll.
+
+Next:
+- Commit and redeploy once approved
+- Investigate whether section height should be capped long-term
+
+Tags:
+- orbit
+- css
+- layout
+- projects-page
+
+## 2026-05-21 17:04 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Hardened pricing toggle: added touch-action:manipulation, select-none, aria-pressed, hover state on inactive button, pointer-events:none on inner span, null-safe element checks, try/catch in activate()
+- Rebuilt site.css
+
+Why it matters:
+The yearly button's inactive state had no hover feedback and no touch-action attribute, making it look non-interactive especially on mobile. Users tapping the button might not see any visual confirmation, making it feel like the press did nothing. The defensive null checks and try/catch prevent silent failures if the DOM ever differs from expectations.
+
+Next:
+- Commit and deploy when approved
+
+Tags:
+- pricing
+- toggle
+- ux
+- accessibility
+- mobile
+
+## 2026-05-21 17:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Created assets/pricing.js — extracted inline pricing toggle script from pricing.html
+- pricing.html: replaced inline <script> block with <script src="/assets/pricing.js">
+
+Why it matters:
+Root cause of yearly button not working on live site: the live site serves a strict Content-Security-Policy with script-src 'self' and no 'unsafe-inline'. Inline <script> blocks are blocked by this policy. The local test server has no CSP headers, so inline scripts work there — explaining why the button worked locally but not on the official site. Moving the script to an external file at /assets/pricing.js makes it a same-origin resource allowed by the CSP.
+
+Next:
+- Commit and deploy all pending changes (orbit fix, pricing.js, pricing.html, site.css)
+
+Tags:
+- csp
+- security
+- pricing
+- bug-fix
+- inline-script
+
+## 2026-05-21 17:38 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Moved all theme override CSS (red/green/purple) from src/input.css to assets/graph.css
+- Rewrote multi-selector grouped hover rules as individual standalone declarations
+- Rebuilt site.css — now clean of theme rules except --color-discount variable
+
+Why it matters:
+Root cause of broken hover effects on the official site: Tailwind's CSS optimizer was stripping the body.theme-X parent scope from escaped-selector rules (hover\:text-primary, group-hover\:text-primary-fixed-dim etc.) when they appeared in grouped selector lists. This caused the base .group:hover .group-hover\:text-primary-fixed-dim selector to be emitted without any scope, getting overwritten to purple by the last theme rule — so all card hover colors were wrong in every theme. graph.css is never processed by Tailwind, so selector scopes are preserved exactly as written.
+
+Next:
+- Commit and deploy all pending fixes together
+
+Tags:
+- css
+- hover
+- theme
+- bug-fix
+- tailwind
+- csp
+
+## 2026-05-21 17:37 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Fixed the live pricing page monthly/yearly toggle by moving the billing logic to a fresh external script path
+- Removed CSP-blocked inline style attributes from the pricing controls and discount labels
+- Added build-time CSP checks so inline scripts, inline event handlers, and inline styles fail the deploy build
+- Shortened Cloudflare asset caching for future non-hashed asset updates
+- Built and deployed the corrected Cloudflare Pages output to the official site
+
+Why it matters:
+The pricing page now works under the same strict security policy used in production, and future pricing-script regressions should be caught before they reach the official website.
+
+Next:
+- Keep using new asset filenames or hashed filenames when changing already-deployed scripts
+
+Tags:
+- pricing
+- cloudflare
+- bug-fix
+- security
+
+## 2026-05-21 19:35 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a pricing-only discount stylesheet so all pricing savings and discount labels stay green across themes
+- Loaded the new stylesheet after the shared site and theme styles on the pricing page
+- Added a build check to make sure the pricing discount stylesheet is included in deployed output
+- Rebuilt and deployed the updated pricing page to the official site
+
+Why it matters:
+The official pricing page now matches the test server for the yearly discount accents, including the 20% off labels and yearly savings amounts, without changing the rest of the blue site theme.
+
+Next:
+- Move toward hashed asset filenames for all production CSS and JavaScript to make future cache behavior simpler
+
+Tags:
+- pricing
+- css
+- cloudflare
+- bug-fix
+
+## 2026-05-21 20:06 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the Projects page orbit placeholders with ProjectCipher, ProjectWord, and ProjectBuilt visuals
+- Updated the Projects page ordering so ProjectCipher is first, ProjectWord is second, and ProjectBuilt is marked as upcoming
+- Added a ProjectBuilt placeholder visual to preserve the three-node ecosystem feel
+- Rebuilt and deployed the updated Projects page to the official site
+
+Why it matters:
+The Projects section now reflects the real product lineup more accurately while keeping the rotating visual system and technical workshop atmosphere intact.
+
+Next:
+- Replace the ProjectBuilt placeholder once the product moves from upcoming into active development
+
+Tags:
+- projects
+- visual-update
+- orbit
+- cloudflare
+
+## 2026-05-21 22:06 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the ProjectCipher orbit image reference with a fresh terminal-room asset path
+- Converted the provided ProjectCipher desktop image into a production PNG asset
+- Rebuilt and redeployed the Projects page so the orbit now loads Cipher, Word, and Built visuals separately
+
+Why it matters:
+The Projects orbit no longer falls back into showing two ProjectWord visuals; ProjectCipher now has its own distinct terminal-room screenshot in the rotating section.
+
+Next:
+- Hard-refresh the Projects page if a browser still holds an older cached visual
+
+Tags:
+- projects
+- image-fix
+- cloudflare
+- cache
+
+## 2026-05-21 22:31 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Increased the Projects page orbit image opacity on desktop and mobile
+- Rebuilt the site stylesheet so the official Projects page uses the stronger visual treatment
+- Verified the local Projects page serves the updated orbit styling
+
+Why it matters:
+The rotating project visuals now read as intentional foreground atmosphere instead of fading too far into the background.
+
+Next:
+- Review the Projects orbit in-browser and tune the opacity again if it needs to be stronger or softer
+
+Tags:
+- projects
+- orbit
+- visual-tuning
+
+## 2026-05-21 22:36 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Prepared the current ProjectCreation website build for publishing through the connected repository flow
+- Included the stronger Projects orbit image opacity in the deploy-ready build
+- Kept the deploy entry public-safe while leaving private publishing details out
+
+Why it matters:
+The Projects page visual tuning is ready to reach the official site instead of only being visible in local preview.
+
+Next:
+- Verify the official Projects page after the hosting platform finishes publishing
+
+Tags:
+- deploy
+- projects
+- cloudflare

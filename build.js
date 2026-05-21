@@ -76,4 +76,39 @@ if (leaked) {
   process.exit(1);
 }
 
+// ── Verify CSP compatibility ─────────────────────────────
+// Production uses script-src/style-src without unsafe-inline. If an inline
+// script, event handler, or style attribute slips in, the page can look fine
+// locally but fail on Cloudflare.
+let cspBroken = false;
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(path.join('dist', file), 'utf8');
+  if (/<script(?![^>]*\bsrc=)[^>]*>/i.test(html)) {
+    console.error(`  ✗ CSP: inline <script> found in ${file}`);
+    cspBroken = true;
+  }
+  if (/\son[a-z]+\s*=/i.test(html)) {
+    console.error(`  ✗ CSP: inline event handler found in ${file}`);
+    cspBroken = true;
+  }
+  if (/\sstyle\s*=/i.test(html)) {
+    console.error(`  ✗ CSP: inline style attribute found in ${file}`);
+    cspBroken = true;
+  }
+}
+
+if (!fs.existsSync(path.join('dist', 'assets', 'pricing-toggle.js'))) {
+  console.error('  ✗ BUILD: dist/assets/pricing-toggle.js is missing');
+  cspBroken = true;
+}
+
+if (!fs.existsSync(path.join('dist', 'assets', 'pricing-discounts.css'))) {
+  console.error('  ✗ BUILD: dist/assets/pricing-discounts.css is missing');
+  cspBroken = true;
+}
+
+if (cspBroken) {
+  process.exit(1);
+}
+
 console.log('\n✓ Build complete → dist/');

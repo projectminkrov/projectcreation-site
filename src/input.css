@@ -58,6 +58,14 @@
     transition: clip-path 180ms ease, transform 180ms ease;
   }
 
+  .billing-toggle {
+    touch-action: manipulation;
+  }
+
+  .pricing-discount {
+    color: var(--color-discount);
+  }
+
   .material-symbols-fill {
     font-variation-settings: "FILL" 1;
   }
@@ -198,21 +206,25 @@
 }
 
 /* The three orbiting app screenshots */
+/* top: 30% keeps the orbit center in the upper third of the section,
+   aligning images with the visible heading area rather than the bottom
+   of the tall content block (section height ≈ 900–1300px on desktop). */
 .orbit-img {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
-  width: 320px;
+  width: clamp(220px, 32vw, 420px);
   height: auto;
-  opacity: 0.25;
+  opacity: 0.44;
   border: 1px solid rgba(55, 68, 75, 0.6);
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.55);
   pointer-events: none;
   will-change: transform;
   transform: translate(-50%, -50%);
 }
 
 @media (max-width: 640px) {
-  .orbit-img { width: 200px; opacity: 0.18; }
+  .orbit-img { width: 200px; opacity: 0.32; }
 }
 
 /* Radial vignette: deep darkness at center keeps text legible over orbiting images */
@@ -243,104 +255,9 @@
   z-index: 1;
 }
 
-body.theme-red {
-  background-image:
-    linear-gradient(rgba(255, 42, 42, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 42, 42, 0.05) 1px, transparent 1px);
-}
-
-body.theme-red .scan-line { background: rgba(255, 42, 42, 0.05); }
-body.theme-red .graph-line { stroke: #4b3737; }
-body.theme-red .text-primary-fixed-dim,
-body.theme-red .text-primary-container { color: #ff2a2a !important; }
-body.theme-red .text-on-surface-variant { color: #ccb2b2 !important; }
-body.theme-red .text-outline { color: #967e7e !important; }
-body.theme-red .text-on-primary { color: #260000 !important; }
-body.theme-red .bg-primary-fixed-dim { background-color: #ff2a2a !important; }
-body.theme-red .bg-primary-container { background-color: #ff2438 !important; }
-body.theme-red .hover\:bg-transparent:hover { background-color: transparent !important; }
-body.theme-red .border-outline-variant { border-color: #4b3737 !important; }
-body.theme-red .border-outline { border-color: #967e7e !important; }
-body.theme-red .border-primary-fixed-dim,
-body.theme-red .border-primary-container { border-color: #ff2a2a !important; }
-body.theme-red .focus\:border-primary-fixed-dim:focus { border-color: #ff2a2a !important; }
-body.theme-red .hover\:text-primary:hover,
-body.theme-red .hover\:text-primary-container:hover,
-body.theme-red .hover\:text-primary-fixed-dim:hover,
-body.theme-red .group:hover .group-hover\:text-primary-fixed-dim { color: #ff2a2a !important; }
-body.theme-red .group:hover .group-hover\:border-primary-fixed-dim { border-color: #ff2a2a !important; }
-body.theme-red .group:hover .group-hover\:bg-primary-fixed-dim { background-color: #ff2a2a !important; }
-body.theme-red .theme-shape {
-  clip-path: polygon(50% 4%, 96% 94%, 4% 94%);
-  transform: translateY(-3px);
-}
-
-body.theme-green {
-  background-image:
-    linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
-}
-
-body.theme-green .scan-line { background: rgba(57, 255, 20, 0.05); }
-body.theme-green .graph-line { stroke: #374b37; }
-body.theme-green .text-primary-fixed-dim,
-body.theme-green .text-primary-container { color: #39ff14 !important; }
-body.theme-green .text-on-surface-variant { color: #b2d6b2 !important; }
-body.theme-green .text-outline { color: #7e9680 !important; }
-body.theme-green .text-on-primary { color: #002600 !important; }
-body.theme-green .bg-primary-fixed-dim { background-color: #39ff14 !important; }
-body.theme-green .bg-primary-container { background-color: #2ce610 !important; }
-body.theme-green .hover\:bg-transparent:hover { background-color: transparent !important; }
-body.theme-green .border-outline-variant { border-color: #374b37 !important; }
-body.theme-green .border-outline { border-color: #7e9680 !important; }
-body.theme-green .border-primary-fixed-dim,
-body.theme-green .border-primary-container { border-color: #39ff14 !important; }
-body.theme-green .focus\:border-primary-fixed-dim:focus { border-color: #39ff14 !important; }
-body.theme-green .hover\:text-primary:hover,
-body.theme-green .hover\:text-primary-container:hover,
-body.theme-green .hover\:text-primary-fixed-dim:hover,
-body.theme-green .group:hover .group-hover\:text-primary-fixed-dim { color: #39ff14 !important; }
-body.theme-green .group:hover .group-hover\:border-primary-fixed-dim { border-color: #39ff14 !important; }
-body.theme-green .group:hover .group-hover\:bg-primary-fixed-dim { background-color: #39ff14 !important; }
-body.theme-green .theme-shape {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  transform: translateY(-3px);
-}
-body.theme-green {
-  --color-discount: #2aa8ff;
-}
-
-body.theme-purple {
-  background-image:
-    linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
-}
-
-body.theme-purple .scan-line { background: rgba(168, 85, 247, 0.05); }
-body.theme-purple .graph-line { stroke: #3d374b; }
-body.theme-purple .text-primary-fixed-dim,
-body.theme-purple .text-primary-container { color: #a855f7 !important; }
-body.theme-purple .text-on-surface-variant { color: #c4b2d6 !important; }
-body.theme-purple .text-outline { color: #8e7e96 !important; }
-body.theme-purple .text-on-primary { color: #1a0026 !important; }
-body.theme-purple .bg-primary-fixed-dim { background-color: #a855f7 !important; }
-body.theme-purple .bg-primary-container { background-color: #9333ea !important; }
-body.theme-purple .hover\:bg-transparent:hover { background-color: transparent !important; }
-body.theme-purple .border-outline-variant { border-color: #3d374b !important; }
-body.theme-purple .border-outline { border-color: #8e7e96 !important; }
-body.theme-purple .border-primary-fixed-dim,
-body.theme-purple .border-primary-container { border-color: #a855f7 !important; }
-body.theme-purple .focus\:border-primary-fixed-dim:focus { border-color: #a855f7 !important; }
-body.theme-purple .hover\:text-primary:hover,
-body.theme-purple .hover\:text-primary-container:hover,
-body.theme-purple .hover\:text-primary-fixed-dim:hover,
-body.theme-purple .group:hover .group-hover\:text-primary-fixed-dim { color: #a855f7 !important; }
-body.theme-purple .group:hover .group-hover\:border-primary-fixed-dim { border-color: #a855f7 !important; }
-body.theme-purple .group:hover .group-hover\:bg-primary-fixed-dim { background-color: #a855f7 !important; }
-body.theme-purple .theme-shape {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  transform: translateY(-3px);
-}
+/* Theme overrides (red / green / purple) have been moved to assets/graph.css
+   so Tailwind's optimizer cannot incorrectly strip parent body.theme-X scopes
+   from escaped-selector rules like hover\:text-primary:hover. */
 
 @media (max-width: 640px) {
   header nav,

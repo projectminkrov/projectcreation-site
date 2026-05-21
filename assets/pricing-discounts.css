@@ -1,0 +1,4 @@
+/* Pricing-only accents that must stay stable across the site theme switcher. */
+.pricing-discount {
+  color: #4ade80 !important;
+}
