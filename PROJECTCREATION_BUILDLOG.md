@@ -1590,6 +1590,27 @@ Tags:
 - orbit
 - visual-tuning
 
+## 2026-05-21 22:48 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Bumped the public stylesheet version after the orbit centering and opacity update
+- Prepared the HTML pages to request the newest Projects orbit styling instead of a cached stylesheet
+
+Why it matters:
+The live Projects page needs a fresh stylesheet URL so the centered, more visible orbit appears immediately on the official site.
+
+Next:
+- Publish and verify the official Projects page loads the new stylesheet version
+
+Tags:
+- deploy
+- cache
+- projects
+
 ## 2026-05-21 22:36 — ProjectCreation
 
 Status: Done
