@@ -1633,3 +1633,25 @@ Tags:
 - deploy
 - cache
 - projects
+
+## 2026-05-21 22:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Re-centered the Projects page orbit images within their section
+- Increased the orbit image opacity again for a stronger visibility experiment
+- Rebuilt the deploy output with the updated orbit placement and styling
+
+Why it matters:
+The rotating project visuals should stay inside the workshop section while becoming easier to read during the orbit.
+
+Next:
+- Review the live Projects page and tune the opacity down or up based on how the stronger version feels
+
+Tags:
+- projects
+- orbit
+- visual-tuning
