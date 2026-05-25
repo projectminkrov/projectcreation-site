@@ -411,8 +411,8 @@
   function getProgress() {
     const rect = toolsEl.getBoundingClientRect();
     const vh   = window.innerHeight;
-    // Progress starts as soon as the section top enters the viewport from below
-    return Math.max(0, Math.min(1, (vh - rect.top) / SCROLL_ZONE));
+    // Start when section top is ~50% down the viewport, finish 300px of scroll later
+    return Math.max(0, Math.min(1, (vh * 0.5 - rect.top) / SCROLL_ZONE));
   }
 
   function render() {
