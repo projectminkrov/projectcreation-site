@@ -384,16 +384,22 @@
 
   let booted = false;
 
-  function runBoot() {
-    LINES.forEach(({ text, cls }, i) => {
-      setTimeout(() => {
-        const el = document.createElement('div');
-        el.className = 'boot-line' + (cls ? ' ' + cls : '');
-        el.textContent = text;
-        bootEl.appendChild(el);
-        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('shown')));
+  // Pre-insert all lines at once so the DOM height is stable before
+  // any animation plays — prevents layout reflow / scroll-anchor jitter.
+  const lineEls = LINES.map(({ text, cls }) => {
+    const el = document.createElement('div');
+    el.className = 'boot-line' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    bootEl.appendChild(el);
+    return el;
+  });
 
-        if (i === LINES.length - 1) {
+  function runBoot() {
+    lineEls.forEach((el, i) => {
+      setTimeout(() => {
+        el.classList.add('shown');
+
+        if (i === lineEls.length - 1) {
           setTimeout(() => {
             cardsEl.classList.add('revealed');
             if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
