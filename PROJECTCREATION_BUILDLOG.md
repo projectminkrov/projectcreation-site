@@ -1700,3 +1700,540 @@ Tags:
 - projects
 - orbit
 - visual-tuning
+
+## 2026-05-22 20:48 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the stacked "Project Nodes" table-style articles with three dedicated full-width showcase sections on projects.html
+- ProjectCipher: text left, actual terminal room screenshot right (alternating layout)
+- ProjectWord: screenshot left, text right (alternating)
+- ProjectBuilt: text left, SVG placeholder right (muted/upcoming treatment)
+- Added `.project-screenshot` CSS class (border + drop shadow, no inline styles) to src/input.css
+- CSS version cache key bumped on projects.html; full build passes all CSP and security checks
+
+Why it matters:
+Each project now has its own dedicated visual identity on the page — title, description bullets, tech tags, CTA, and the correlated screenshot from the orbit section placed alongside it. Scrolling through the page now feels like browsing individual product entries rather than scanning a data table.
+
+Next:
+- Deploy via Cloudflare Pages once user runs wrangler deploy
+- Potentially add anchor nav links or smooth scroll from orbit callouts to project sections
+
+Tags:
+- projects-page
+- ui
+- layout
+- showcase-sections
+
+## 2026-05-22 21:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed border-t divider lines between project sections
+- Added generous vertical padding to each section for breathing room
+- Inserted two hype text dividers between projects with vertical connector lines
+- Cipher→Word: "The room handles the code. Your voice handles the rest."
+- Word→Built: "You have the room. You have the voice. Now get the plan."
+- Deployed to Cloudflare Pages
+
+Why it matters:
+Page now reads as a journey rather than a list — each project has space to breathe and the transitions between them add energy and momentum toward the upcoming ProjectBuilt.
+
+Next:
+- Polish individual project CTAs or add anchor links from nav
+
+Tags:
+- projects-page
+- ui
+- spacing
+- hype-text
+
+## 2026-05-22 21:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added intro hype block above ProjectCipher: "The workshop starts here. Build faster than you thought possible. Start with the room."
+- Increased all three divider blocks from py-xl (64px) to py-[96px] for more breathing room
+- Bug scan: no CSP violations, no inline styles/handlers, all scripts external
+- Deployed to Cloudflare Pages
+
+Why it matters:
+All three projects now have a consistent hype intro above them, and the increased spacing makes the scroll feel less packed.
+
+Next:
+- Wire real download links when ProjectCipher and ProjectWord releases are ready
+
+Tags:
+- projects-page
+- ui
+- spacing
+- hype-text
+
+## 2026-05-23 09:15 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Added profiles table + avatars storage bucket (SQL migration in supabase/profiles.sql — run in Supabase dashboard)
+- Account page: profile editor with avatar upload and @handle input
+- Nav dropdown: shows avatar photo and @handle when set, falls back to icon and Session_Active when not
+- CSP updated to allow Supabase storage image URLs
+- account.js fully rewritten; index.js and projects.js updated to load profile extras after auth
+- Deployed to Cloudflare Pages
+
+Why it matters:
+Users can now personalize their ProjectCreation account with a profile photo and display name. The identity follows them across the site — the nav button becomes their face instead of a generic icon, and the dropdown greets them by their handle.
+
+Next:
+- User runs supabase/profiles.sql to activate the feature
+- Could extend to pricing page nav once a pricing.js auth file exists
+
+Tags:
+- profile
+- avatar
+- handle
+- account
+- supabase-storage
+- personalization
+
+## 2026-05-24 12:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced custom SVG person silhouette with the filled account_circle Material Symbols icon as the default avatar fallback on the account page
+- Added `.avatar-fallback-icon` CSS class (88px, primary blue at 45% opacity) so the icon fills the 80px circle container edge-to-edge with no white gaps
+- Deployed to production
+
+Why it matters:
+The account page avatar fallback now uses the same icon as the nav profile button, keeping the UI consistent with the rest of the site's theme.
+
+Next:
+- Verify avatar upload and fallback icon render correctly in browser
+
+Tags:
+- avatar
+- account
+- ui
+- consistency
+
+## 2026-05-24 12:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced Material Symbols font icon fallback with an inline SVG using the exact account_circle filled path
+- Adjusted SVG viewBox from "0 0 24 24" to "2 2 20 20" to remove the icon's built-in 1-unit internal padding, making the outer circle align exactly with the container boundary
+- SVG positioned absolute with inset 0 / 100% width+height so the circular clip from the parent overflow:hidden lands precisely at the icon's outer edge — no more dark ring at the edges
+
+Why it matters:
+The font-based approach had unavoidable internal padding per the Material Symbols glyph spec; switching to a direct inline SVG path with a corrected viewBox eliminates all edge gaps and renders identically to the nav account_circle icon.
+
+Next:
+- Verify avatar fallback looks clean in browser
+
+Tags:
+- avatar
+- account
+- ui
+- bugfix
+
+## 2026-05-24 13:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Tightened SVG viewBox from "2 2 20 20" to "3.5 3.5 17 17" so the icon circle overflows the SVG boundary by ~1.5 units on each side — overflow:hidden clips inside the opaque part of the circle, eliminating the anti-alias gap ring
+- Removed the 1px border from .profile-avatar-wrap that was eating into the clip area
+
+Why it matters:
+When an SVG circle's edge lands exactly at the clip boundary, semi-transparent anti-alias pixels get cut away leaving a visible ring. Letting the circle bleed past the clip fixes this permanently.
+
+Next:
+- Confirm avatar looks clean with no ring visible
+
+Tags:
+- avatar
+- account
+- ui
+- bugfix
+
+## 2026-05-24 13:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed avatar upload "profile update failed" error in account.js
+- Added explicit `{ onConflict: 'id' }` to both profile upserts (avatar and handle) — without this, PostgREST can't determine which unique constraint to use when the table has both a primary key and a unique handle column
+- Added PGRST116 handling in loadProfile: if no profile row exists (user predates the auto-create trigger), a row is inserted before proceeding
+- Deployed to production
+
+Why it matters:
+Photos were being saved to storage but the profiles table update was failing silently, leaving the avatar URL un-persisted. Both root causes (ambiguous conflict target + missing row for pre-trigger accounts) are now handled.
+
+Next:
+- User tests photo upload; if successful, revisit the avatar icon sizing issue
+
+Tags:
+- avatar
+- account
+- supabase
+- bugfix
+
+## 2026-05-24 14:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced profiles upsert in avatar upload with explicit UPDATE → INSERT fallback to eliminate all ON CONFLICT ambiguity
+- Error message now shows the actual Supabase error text to help diagnose if it still fails
+- Expanded file input from jpeg/png/webp only to image/* (all image formats)
+- Created supabase/patch_avatar_bucket.sql — run this in Supabase SQL Editor to expand bucket allowed types to all common image formats and raise the limit to 5 MB
+- Deployed to production
+
+Why it matters:
+The upsert was failing silently; the new code shows the real error and uses a two-step update/insert that avoids multi-constraint ambiguity entirely.
+
+Next:
+- User re-tests upload; error message now shows exact failure reason if still broken
+
+Tags:
+- avatar
+- account
+- supabase
+- bugfix
+
+## 2026-05-24 15:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Added canvas-based avatar crop editor modal on the account page
+- Clicking an uploaded profile photo opens the crop editor; selecting a new file also routes through the editor before uploading
+- Crop editor features: pan by drag (mouse + touch), zoom slider (1x–4x), circular crop preview with dimmed outer area and blue border
+- On Save: renders the cropped circle to an offscreen canvas, exports as PNG blob, uploads to Supabase Storage, updates profile
+- Edit hint overlay (pencil icon) appears on hover over an uploaded photo
+- Clicking outside the modal or pressing Escape closes it
+- Centralised saveProfileField() helper used by both avatar and future profile fields
+- Deployed to production
+
+Why it matters:
+Users can now precisely position and zoom their photo into the circular avatar frame before saving, instead of getting whatever the raw upload looked like.
+
+Next:
+- User tests crop flow end to end
+
+Tags:
+- avatar
+- account
+- crop
+- canvas
+- ux
+
+## 2026-05-24 15:15 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed alt text from avatar img element (was alt="Profile photo") — empty alt="" prevents the browser from rendering fallback text inside the circular container when the image hasn't loaded yet
+
+Tags:
+- avatar
+- account
+- bugfix
+
+## 2026-05-24 15:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed "Could not load image" error when selecting a local file for avatar crop
+- Root cause: img.crossOrigin = 'anonymous' was set unconditionally; blob: URLs have no HTTP server to return CORS headers so the browser fires onerror immediately
+- Fix: only set crossOrigin for remote (Supabase) URLs, not blob: URLs
+
+Tags:
+- avatar
+- crop
+- bugfix
+
+## 2026-05-24 15:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Switched file loading from URL.createObjectURL (blob URL) to FileReader.readAsDataURL (data URL)
+- Root cause: iCloud Drive files that aren't fully downloaded locally produce a valid-looking blob URL but have no bytes behind it, so Image.onerror fires silently
+- FileReader forces the OS to read the bytes immediately and surfaces a clear error if the file isn't available
+- Tightened crossOrigin guard to only apply to http/https URLs (blob: and data: are same-origin)
+- Added cache-bust to account.js script tag to prevent browsers serving stale code
+- Removed now-unused cropObjUrl / URL.revokeObjectURL cleanup
+
+Tags:
+- avatar
+- crop
+- bugfix
+- icloud
+
+## 2026-05-24 16:00 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Shipped full avatar profile picture system: upload, circular crop editor (pan + zoom), save to Supabase Storage, reflected in nav dropdown
+- Fixed all upload bugs: permission denied (missing GRANT), ambiguous upsert conflict target, iCloud file loading, CORS crossOrigin misuse, alt text bleed-through
+- Display name (@handle) editor with uniqueness validation
+- Both profile fields update the nav dropdown in real time
+
+Why it matters:
+Users can now fully personalise their ProjectCreation account with a profile photo and display name. The crop editor gives control over exactly what's shown in the circular avatar frame across the site.
+
+Next:
+- Continue building out the account and projects sections
+
+Tags:
+- avatar
+- handle
+- account
+- profile
+- shipped
+
+## 2026-05-24 16:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed handle save using saveProfileField (UPDATE + INSERT fallback) instead of upsert
+- upsert checks both INSERT and UPDATE RLS policies simultaneously which can fail; explicit UPDATE then INSERT avoids this
+- Error message now shows actual Supabase error text to help diagnose if still broken
+- Bumped account.js cache-bust version
+
+Tags:
+- handle
+- account
+- bugfix
+
+## 2026-05-24 16:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Enforced case-insensitive handle uniqueness at DB level via lower(handle) unique index (applied via Supabase MCP)
+- Added pre-save availability check in account.js using ilike query — users see "That handle is already taken." immediately before any DB write attempt
+- Shows "Checking availability…" then "Saving…" for clear UX feedback
+
+Why it matters:
+Handles are now guaranteed unique regardless of capitalisation both at the database index level and with a fast client-side pre-check that gives instant feedback.
+
+Tags:
+- handle
+- account
+- uniqueness
+- shipped
+
+## 2026-05-24 18:51 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Full security and functionality audit across all JS files (account, index, projects, login, signup, verify, forgot-password, reset-password)
+- Crop modal error messages now render in red (used shared setStatus helper) instead of indistinguishable muted gray
+- Cleared color classes on crop modal status element when modal opens so previous state doesn't bleed through
+- Added URL safety validation (must start with https://) before assigning avatar URL to nav image element on homepage and projects page
+- Bumped account.js cache-bust version string
+
+Why it matters:
+The entire auth + account system is now audited and patched. Upload errors inside the crop modal are now visually distinct from informational messages, removing a UX blind spot. URL validation on the nav avatar hardens against unexpected DB values. All auth flows (login, signup, OTP verify, forgot-password, reset-password) confirmed clean — generic error messages, no enumeration, double-submit prevention, session guards all in place.
+
+Next:
+- Projects section on account page (currently placeholder)
+
+Tags:
+- security
+- audit
+- account
+- avatar
+- shipped
+
+## 2026-05-24 19:15 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed nav avatar not displaying on homepage and projects page
+- Pre-load avatar image via off-screen Image() object before swapping UI — ensures the photo only replaces the icon after the load succeeds
+- Icon stays as fallback if image fails to load (no broken empty-circle state)
+- Removed blank src="" attribute from nav avatar img elements to prevent empty-src browser quirks
+- Cache-bust timestamp on nav avatar URL so latest upload is always fetched
+
+Why it matters:
+The profile photo was appearing as an empty circle alongside the icon instead of replacing it, visible to all users including on friends' devices. Pre-loading before swapping makes the transition atomic and error-safe.
+
+Next:
+- Confirm avatar photo shows correctly in nav after deploy
+
+Tags:
+- nav
+- avatar
+- bug-fix
+
+## 2026-05-25 10:21 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added localStorage cache (`pc-avatar`) for the nav avatar URL in index.js and projects.js
+- Cache is read synchronously on page load — avatar img is applied before any async auth calls resolve
+- After loadProfileExtras() confirms the URL, cache is updated; if no avatar, cache is cleared
+- On sign out, cache is cleared in both pages
+- account.js now writes the new URL to the cache immediately after a successful avatar upload
+
+Why it matters:
+Eliminated the flash where the generic account icon appeared briefly before the profile picture loaded on every page reload. The avatar is now shown instantly from cache without a visible delay.
+
+Next:
+- Deploy updated assets
+
+Tags:
+- avatar
+- nav
+- localStorage
+- performance
+- glitch-fix
+
+## 2026-05-25 10:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Changed Material Symbols font from display=swap to display=block across all 7 HTML pages
+- Icon text is now invisible while the font loads instead of flashing as raw "account_circle" text
+- Set navAvatarImg.src to the clean base URL (without cache-bust timestamp) so the browser can cache the avatar image and serve it instantly on subsequent loads
+
+Why it matters:
+Eliminated both visible phases of the nav avatar glitch: the "account_circle" text flash caused by font-display:swap, and the unnecessary image re-fetch caused by a cache-busting timestamp on the displayed img src. Combined with the localStorage cache from the previous fix, the profile picture now loads without any visible transition on reload.
+
+Next:
+- Deploy updated HTML and JS assets
+
+Tags:
+- avatar
+- nav
+- font-display
+- glitch-fix
+- Material Symbols
+
+## 2026-05-25 10:52 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added auth-nav-hidden class to navSignIn and navCreateAccount in index.html and projects.html — both now start hidden and are only revealed if auth confirms no session
+- Added hidden class to navAvatarIcon in both HTML files — icon now starts hidden and is only revealed as a fallback when no avatar is available (or avatar fails to load)
+- Cache code now uses img.onload to reveal the avatar img, preventing the brief dark-circle artifact from an img element with a border-radius that is visible before its image data has finished loading
+- Added probe.onerror handler to fall back to showing the icon if the avatar URL is unreachable
+
+Why it matters:
+Eliminated the flash of Sign in / Create Account buttons for logged-in users (they were visible by default and only hidden after the async auth check completed). Also eliminated the black circle flash caused by the account_circle icon being visible by default and by showing the img element before its image data was ready.
+
+Next:
+- Deploy
+
+Tags:
+- avatar
+- nav
+- auth-flash
+- glitch-fix
+
+## 2026-05-25 11:08 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Created assets/font-guard.js: runs synchronously in the head, adds icons-loading class to html element before any body content paints, removes it once document.fonts.ready resolves (3s hard fallback)
+- Added CSS rule in input.css: .icons-loading .material-symbols-outlined and .material-symbols-fill get visibility:hidden — completely suppresses raw icon text while the Material Symbols font file is downloading
+- Rebuilt assets/site.css with new rule compiled in
+- Added script tag for font-guard.js to all 9 HTML pages (alongside theme-restore.js in the head)
+
+Why it matters:
+All Material Symbols icon spans (terminal, sensors, account_circle, and any others) are now invisible during font load instead of flashing as raw text. On warm browser cache the font loads in under 5ms so icons appear instantly. On first visit the icons are simply invisible for the brief load window, which is far better than showing raw text. The fix applies site-wide to every page.
+
+Next:
+- Deploy
+
+Tags:
+- icons
+- Material Symbols
+- font-display
+- font-guard
+- glitch-fix
+
+## 2026-05-25 11:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Deleted the Global Reach / #community section (globe image, 140+ Countries, 50K+ Active Nodes)
+- Removed Community nav link and its IntersectionObserver entry from index.js
+- Redesigned #vision section from a two-column split grid to a full-width centered layout matching the spacious style of the projects page
+- Title now uses pixel-text and headline-lg sizing, metadata condensed to a single line, text body and buttons are centered with generous padding
+
+Why it matters:
+The manifesto section now reads clearly and feels intentional rather than cramped. Removing the community section eliminates placeholder data that didn't reflect real metrics.
+
+Next:
+- Deploy
+
+Tags:
+- homepage
+- vision
+- layout
+- community-removed

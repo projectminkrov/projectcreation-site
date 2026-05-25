@@ -5,12 +5,13 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>ProjectCreation | Digital Craft Blue</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-  <link href="/assets/site.css?v=202605212255" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+  <link href="/assets/site.css?v=202605251430" rel="stylesheet"/>
   <link href="/assets/graph.css" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
   <script src="/assets/theme-restore.js"></script>
+  <script src="/assets/font-guard.js"></script>
   <div class="scan-line"></div>
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
@@ -21,11 +22,10 @@
         <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/projects.html">Projects</a>
         <a id="navPricing"   class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/pricing.html">Pricing</a>
         <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#vision">Vision</a>
-        <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#community">Community</a>
       </div>
       <div class="flex items-center gap-sm">
-        <a id="navSignIn" href="/login.html" class="hidden md:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
-        <a id="navCreateAccount" href="/signup.html" class="hidden md:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <a id="navSignIn" href="/login.html" class="hidden md:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden md:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
         <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open terminal">
           <span class="material-symbols-outlined">terminal</span>
         </button>
@@ -36,11 +36,12 @@
         <!-- Profile icon (shown when logged in) -->
         <div id="profileWrapper">
           <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
-            <span class="material-symbols-outlined material-symbols-fill">account_circle</span>
+            <img id="navAvatarImg" alt="" class="nav-avatar hidden">
+            <span id="navAvatarIcon" class="material-symbols-outlined material-symbols-fill hidden">account_circle</span>
           </button>
           <div id="profileDropdown">
             <div class="drop-divider dropdown-inner">
-              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p id="dropHandle" class="drop-accent drop-status">&#9646; Session_Active</p>
               <p class="drop-label">Email</p>
               <p id="dropEmail" class="drop-value"></p>
               <p class="drop-label">Account ID</p>
@@ -75,68 +76,40 @@
       </div>
     </section>
 
-    <section id="vision" class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant">
-      <div class="md:col-span-4 p-md border-r border-outline-variant bg-surface-container-low">
-        <div class="flex items-center gap-xs mb-sm">
+    <section id="vision" class="border-t border-b border-outline-variant mb-xl relative">
+      <div aria-hidden="true" class="vision-bracket tl"></div>
+      <div aria-hidden="true" class="vision-bracket tr"></div>
+      <div aria-hidden="true" class="vision-bracket bl"></div>
+      <div aria-hidden="true" class="vision-bracket br"></div>
+      <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-xl">
+        <div class="flex items-center gap-xs mb-md">
           <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
           <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Manifesto.txt</span>
         </div>
-        <h2 class="font-headline-sm text-headline-sm text-on-background mb-sm">Digital Craftsmanship in the Age of Speed</h2>
-        <div class="flex flex-col gap-base text-outline font-label-sm text-label-sm">
-          <p>[VER] 2.0.24</p>
-          <p>[ST] STABLE</p>
-          <p>[OWN] PROJECT_CREATION_INIT</p>
-        </div>
-      </div>
-      <div class="md:col-span-8 p-md md:p-xl flex flex-col justify-center">
-        <div class="font-body-lg text-body-lg text-on-surface-variant space-y-md max-w-3xl font-mono">
+        <h2 id="vision-headline" class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm leading-tight max-w-3xl">
+          Digital Craftsmanship in the Age of Speed
+        </h2>
+        <p class="font-label-sm text-label-sm text-outline font-mono mb-xl">
+          [VER] 2.0.24 &nbsp;·&nbsp; [ST] STABLE &nbsp;·&nbsp; [OWN] PROJECT_CREATION_INIT
+        </p>
+        <div class="font-body-lg text-body-lg text-on-surface-variant space-y-md max-w-3xl font-mono text-left mb-xl w-full">
           <p class="leading-relaxed">
-            <span class="text-primary-fixed-dim">&gt;</span> We believe building software shouldn't feel like assembly-line labor. It should feel like <span class="text-on-surface font-bold">crafting</span>.
+            <span class="text-primary-fixed-dim">&gt;</span><span class="vision-text"> We believe building software shouldn't feel like assembly-line labor. It should feel like crafting.</span>
           </p>
           <p class="leading-relaxed">
-            <span class="text-primary-fixed-dim">&gt;</span> Our framework is designed for builders who want to move <span class="text-on-surface italic">much much faster</span> without sacrificing the high-fidelity soul of their work.
+            <span class="text-primary-fixed-dim">&gt;</span><span class="vision-text"> Our framework is designed for builders who want to move much much faster without sacrificing the high-fidelity soul of their work.</span>
           </p>
           <p class="leading-relaxed">
-            <span class="text-primary-fixed-dim">&gt;</span> By integrating AI as an extension of your own logic, rather than a replacement, ProjectCreation enables a flow state that hasn't been felt since the early web.
+            <span class="text-primary-fixed-dim">&gt;</span><span class="vision-text"> By integrating AI as an extension of your own logic, rather than a replacement, ProjectCreation enables a flow state that hasn't been felt since the early web.</span>
           </p>
         </div>
-        <div class="mt-lg flex gap-md">
+        <div class="flex gap-md justify-center">
           <button class="px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all" type="button">
             INITIALIZE FLOW
           </button>
           <button class="px-md py-sm bg-transparent text-on-surface border border-on-surface font-label-md text-label-md hover:bg-on-surface hover:text-background transition-all" type="button">
             READ DOCS
           </button>
-        </div>
-      </div>
-    </section>
-
-    <section id="community" class="grid grid-cols-1 md:grid-cols-12 border-t border-outline-variant mb-xl bg-surface-container-lowest overflow-hidden">
-      <div class="md:col-span-5 p-md md:p-xl flex items-center justify-center relative min-h-[400px]">
-        <div class="absolute inset-0 opacity-20 flex items-center justify-center">
-          <div class="w-80 h-80 border border-primary-fixed-dim rounded-full animate-pulse"></div>
-        </div>
-        <div class="relative w-full h-full flex items-center justify-center">
-          <img alt="Global Network Matrix" class="w-72 h-72 object-contain mix-blend-screen grayscale hue-rotate-[100deg] brightness-125 opacity-90 animate-rotate" src="assets/global-network.png"/>
-        </div>
-      </div>
-      <div class="md:col-span-7 p-md md:p-xl border-l border-outline-variant flex flex-col justify-center">
-        <div class="flex items-center gap-xs mb-sm">
-          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Global_Status</span>
-        </div>
-        <h2 class="font-headline-md text-headline-md text-on-background mb-md">Global Reach</h2>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl font-mono leading-relaxed">
-          ProjectCreation is a borderless framework. We have <span class="text-on-surface font-bold">customers and users all over the world</span> who build, deploy, and scale with our systems. From independent developers to global enterprises, the craft remains universal.
-        </p>
-        <div class="mt-md flex gap-lg">
-          <div class="flex flex-col">
-            <span class="text-primary-fixed-dim font-headline-sm">140+</span>
-            <span class="text-outline font-label-sm">Countries</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-primary-fixed-dim font-headline-sm">50K+</span>
-            <span class="text-outline font-label-sm">Active Nodes</span>
-          </div>
         </div>
       </div>
     </section>
