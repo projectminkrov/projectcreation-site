@@ -364,74 +364,105 @@
   observer.observe(section);
 })();
 
-// ── Tools section: cinematic auto-scroll with user takeover ──────────
+// ── Tools section: two-phase cinematic auto-scroll ───────────────────
 (() => {
-  const toolsEl = document.getElementById('tools');
-  if (!toolsEl) return;
+  const toolsEl  = document.getElementById('tools');
+  const bootEl   = document.getElementById('tools-boot');
+  const cardsEl  = document.getElementById('tools-cards');
+  if (!toolsEl || !bootEl || !cardsEl) return;
 
-  let raf       = null;
-  let scrolling = false;
+  let raf     = null;
+  let running = false;
+  let fired   = false;
 
   function easeInOut(t) {
-    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-  }
-
-  function cancel() {
-    if (!scrolling) return;
-    scrolling = false;
-    if (raf) cancelAnimationFrame(raf);
-    window.removeEventListener('wheel',      cancel);
-    window.removeEventListener('touchstart', cancel);
-    window.removeEventListener('pointerdown', cancel);
-    window.removeEventListener('keydown',    onKey);
+    return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
   }
 
   function onKey(e) {
-    if (['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End'].includes(e.key))
-      cancel();
+    if (['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End'].includes(e.key)) cancel();
   }
 
-  function run(targetY, duration) {
+  function cancel() {
+    if (!running) return;
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    window.removeEventListener('wheel',       cancel);
+    window.removeEventListener('touchstart',  cancel);
+    window.removeEventListener('pointerdown', cancel);
+    window.removeEventListener('keydown',     onKey);
+  }
+
+  // Animate to a target Y, call onDone when complete (or if already there).
+  function animateTo(targetY, duration, onDone) {
     const startY = window.scrollY;
     const dist   = targetY - startY;
-    if (dist < 20) return;
-
-    scrolling   = true;
-    let t0      = null;
-
+    if (Math.abs(dist) < 4) { if (onDone) onDone(); return; }
+    let t0 = null;
     function step(ts) {
-      if (!scrolling) return;
+      if (!running) return;
       if (!t0) t0 = ts;
       const p = Math.min((ts - t0) / duration, 1);
       window.scrollTo(0, startY + dist * easeInOut(p));
       if (p < 1) raf = requestAnimationFrame(step);
-      else cancel();
+      else if (onDone) onDone();
     }
-
     raf = requestAnimationFrame(step);
+  }
 
-    // Wait 220ms before adding cancel listeners so the scroll that
-    // triggered the intersection observer doesn't immediately abort.
+  function start() {
+    running = true;
+
+    // Snapshot positions now (layout is stable when trigger fires).
+    const bootTop  = bootEl.getBoundingClientRect().top  + window.scrollY;
+    const cardsTop = cardsEl.getBoundingClientRect().top + window.scrollY;
+
+    // Phase 1 target: boot sequence ~60px below viewport top — slow,
+    // synced with the 2560ms boot animation (boot ends at ~2560ms, cards
+    // reveal transition takes another 750ms → Phase 1 lasts 2700ms).
+    const phase1Y = bootTop - 60;
+
+    // Phase 2 target: cards 180px below viewport top, matching the target
+    // screenshot where the boot log is partially visible at the top and
+    // all three cards are fully visible below it.
+    const phase2Y = cardsTop - 180;
+
+    // Attach user-takeover listeners after 250ms so the scroll impulse
+    // that brought us to the trigger position doesn't self-cancel.
     setTimeout(() => {
-      if (!scrolling) return;
+      if (!running) return;
       window.addEventListener('wheel',       cancel, { passive: true });
       window.addEventListener('touchstart',  cancel, { passive: true });
       window.addEventListener('pointerdown', cancel);
       window.addEventListener('keydown',     onKey);
-    }, 220);
+    }, 250);
+
+    // Phase 1 — gentle drift while boot plays (2700ms).
+    animateTo(phase1Y, 2700, () => {
+      if (!running) return;
+      // Short pause: let "SYSTEM READY" and card reveal finish.
+      setTimeout(() => {
+        if (!running) return;
+        // Phase 2 — smooth drop to cards (1300ms).
+        animateTo(phase2Y, 1300, cancel);
+      }, 640);
+    });
   }
 
-  let fired = false;
-  new IntersectionObserver(entries => {
-    if (fired || !entries[0].isIntersecting) return;
+  // Trigger via scroll listener — fires only when the section top
+  // reaches within ±70px of the viewport top (user has scrolled the
+  // section right to the top of the screen, not merely close to it).
+  function onScroll() {
+    if (fired) return;
     const rect = toolsEl.getBoundingClientRect();
-    // Only trigger when scrolling down INTO the section (section top still below fold center)
-    if (rect.top < window.innerHeight * 0.4) return;
-    fired = true;
+    if (rect.top <= 70 && rect.top >= -70) {
+      fired = true;
+      window.removeEventListener('scroll', onScroll);
+      start();
+    }
+  }
 
-    const targetY = window.scrollY + rect.bottom - window.innerHeight;
-    setTimeout(() => run(targetY, 4000), 80);
-  }, { threshold: 0.08 }).observe(toolsEl);
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
 // ── Tools section: boot sequence + hover scramble + canvas animations ──

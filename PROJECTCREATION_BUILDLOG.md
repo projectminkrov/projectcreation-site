@@ -2628,3 +2628,44 @@ Tags:
 - tools-section
 - spacing
 - typography
+
+## 2026-05-26 00:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Tools section top padding increased from 52px to 80px for breathing room from the border
+- Cinematic auto-scroll: when the tools section enters the viewport, the page smoothly scrolls to the section's bottom over 4 seconds (ease-in-out), revealing the boot sequence and card animations without user effort
+- User takeover: wheel, touch, pointer, or keyboard events cancel the auto-scroll instantly and restore manual control
+- 220ms settling window prevents the triggering scroll from self-cancelling the effect
+
+Why it matters:
+The section now feels intentionally spacious. The auto-scroll acts as a guided cinematic reveal — users see the boot sequence animate and the cards fade in as the page drifts down, creating a sense of depth and production quality without requiring any interaction.
+
+Next:
+- Gather feedback on auto-scroll feel and duration
+
+Tags:
+- homepage
+- tools-section
+- auto-scroll
+- animation
+- ux
+
+## 2026-05-25 21:42 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added Community link to homepage navbar (links to #community anchor, ready for when the section is built)
+- Deployed to projectcreation.net
+
+Tags:
+- nav
+- community
+- homepage
+- deploy
