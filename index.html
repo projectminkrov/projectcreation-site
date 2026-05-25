@@ -116,108 +116,174 @@
       </div>
     </section>
 
-    <section id="tools" class="border-t border-outline-variant bg-background">
-      <div class="grid grid-cols-1 md:grid-cols-12">
-        <div class="md:col-span-12 p-md md:p-xl">
-          <div class="max-w-4xl">
-            <h2 class="pixel-text font-headline-md text-headline-md text-primary-container mb-sm">
-              Tools for the Next Epoch
-            </h2>
-            <p class="font-headline-sm text-headline-sm text-on-surface mb-md">
-              Our projects aren't just utilities; they are workflow catalysts designed to compress time and expand potential.
-            </p>
-            <p class="font-body-lg text-body-lg text-on-surface-variant font-mono leading-relaxed">
-              Three tools. One ecosystem. Each one removes a different bottleneck from your creative workflow — so you can stay in flow from idea to shipped product.
-            </p>
+    <section id="tools" class="border-t border-outline-variant mb-xl">
+
+      <!-- Centered header -->
+      <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-[96px]">
+        <div class="flex items-center justify-center gap-xs mb-md">
+          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">System_Projects.init</span>
+        </div>
+        <h2 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-container mb-sm leading-tight">
+          Tools for the Next Epoch
+        </h2>
+        <p class="font-headline-sm text-headline-sm text-on-surface max-w-2xl mb-md">
+          Our projects aren't just utilities — they are workflow catalysts designed to compress time and expand potential.
+        </p>
+        <p class="font-body-lg text-body-lg text-on-surface-variant font-mono leading-relaxed max-w-2xl">
+          Three tools. One ecosystem. Each one removes a different bottleneck from your creative workflow — so you can stay in flow from idea to shipped product.
+        </p>
+      </div>
+
+      <!-- Boot sequence terminal (filled by JS on scroll-in) -->
+      <div id="tools-boot" aria-hidden="true" class="flex flex-col items-center pb-xl px-margin-mobile md:px-margin-desktop"></div>
+
+      <!-- Cards grid -->
+      <div id="tools-cards" class="grid grid-cols-1 md:grid-cols-3 border-t border-outline-variant">
+
+        <!-- ProjectCipher -->
+        <a href="/projects.html#projectcipher" class="tools-card border-r border-outline-variant group no-underline" data-project="cipher">
+          <div class="tools-bracket tl" aria-hidden="true"></div>
+          <div class="tools-bracket tr" aria-hidden="true"></div>
+          <div class="tools-bracket bl" aria-hidden="true"></div>
+          <div class="tools-bracket br" aria-hidden="true"></div>
+          <canvas class="tools-card-canvas" aria-hidden="true"></canvas>
+          <div class="relative z-10 flex flex-col flex-1">
+            <div class="flex items-center justify-between mb-lg">
+              <span class="material-symbols-outlined text-primary-fixed-dim">terminal</span>
+              <div class="flex items-center gap-xs">
+                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+                <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
+              </div>
+            </div>
+            <h3 class="tools-card-title pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectCipher</h3>
+            <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-md">AI terminal orchestration room</p>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Twelve AI agents. One room. Zero context switches — the closest thing to a full development team that runs on your Mac.</p>
+            <div class="flex flex-wrap gap-xs mt-md">
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Electron</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">TypeScript</span>
+            </div>
+            <div class="flex justify-between items-end mt-auto pt-xl">
+              <span class="font-label-sm text-label-sm text-outline font-mono">001/003</span>
+              <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ProjectWord -->
+        <a href="/projects.html#projectword" class="tools-card border-r border-outline-variant group no-underline" data-project="word">
+          <div class="tools-bracket tl" aria-hidden="true"></div>
+          <div class="tools-bracket tr" aria-hidden="true"></div>
+          <div class="tools-bracket bl" aria-hidden="true"></div>
+          <div class="tools-bracket br" aria-hidden="true"></div>
+          <canvas class="tools-card-canvas" aria-hidden="true"></canvas>
+          <div class="relative z-10 flex flex-col flex-1">
+            <div class="flex items-center justify-between mb-lg">
+              <span class="material-symbols-outlined text-primary-fixed-dim">mic</span>
+              <div class="flex items-center gap-xs">
+                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+                <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
+              </div>
+            </div>
+            <h3 class="tools-card-title pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectWord</h3>
+            <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-md">Native macOS dictation engine</p>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">The speed gap between thinking and typing disappears. Tap to record — words appear where your cursor is. Runs completely offline.</p>
+            <div class="flex flex-wrap gap-xs mt-md">
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Swift</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Whisper AI</span>
+            </div>
+            <div class="flex justify-between items-end mt-auto pt-xl">
+              <span class="font-label-sm text-label-sm text-outline font-mono">002/003</span>
+              <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ProjectBuilt -->
+        <div class="tools-card tools-card--upcoming group" data-project="built">
+          <div class="tools-bracket tl" aria-hidden="true"></div>
+          <div class="tools-bracket tr" aria-hidden="true"></div>
+          <div class="tools-bracket bl" aria-hidden="true"></div>
+          <div class="tools-bracket br" aria-hidden="true"></div>
+          <canvas class="tools-card-canvas" aria-hidden="true"></canvas>
+          <div class="relative z-10 flex flex-col flex-1">
+            <div class="flex items-center justify-between mb-lg">
+              <span class="material-symbols-outlined text-outline">architecture</span>
+              <div class="flex items-center gap-xs">
+                <div class="w-1.5 h-1.5 bg-outline rounded-full"></div>
+                <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest font-mono text-xs">Upcoming</span>
+              </div>
+            </div>
+            <h3 class="tools-card-title pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectBuilt</h3>
+            <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-md">Idea-to-plan partner</p>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Your idea, mapped to reality. A system that turns the idea in your head into a concrete, researched, step-by-step plan.</p>
+            <div class="flex flex-wrap gap-xs mt-md">
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Agentic</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">AI</span>
+              <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Upcoming</span>
+            </div>
+            <div class="flex justify-between items-end mt-auto pt-xl">
+              <span class="font-label-sm text-label-sm text-outline font-mono">003/003</span>
+              <span class="material-symbols-outlined text-outline">arrow_forward</span>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <section class="grid grid-cols-1 md:grid-cols-3 border-y border-outline-variant mb-xl">
-      <!-- ProjectCipher -->
-      <a href="/projects.html#projectcipher" class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px] no-underline">
-        <div>
-          <div class="flex items-center justify-between mb-sm">
-            <span class="material-symbols-outlined text-primary-fixed-dim">terminal</span>
-            <div class="flex items-center gap-xs">
-              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
-              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
-            </div>
-          </div>
-          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectCipher</h3>
-          <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-sm">AI terminal orchestration room</p>
-          <p class="font-body-md text-body-md text-on-surface-variant">Twelve AI agents. One room. Zero context switches — the closest thing to a full development team that runs on your Mac.</p>
-          <div class="flex flex-wrap gap-xs mt-sm">
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Electron</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">TypeScript</span>
-          </div>
-        </div>
-        <div class="flex justify-between items-end mt-md">
-          <span class="font-label-sm text-label-sm text-outline font-mono">001/003</span>
-          <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </div>
-      </a>
+    <!-- Newsletter -->
+    <section id="newsletter" class="border-t border-outline-variant mb-xl py-xl px-md md:px-xl flex flex-col items-center text-center">
 
-      <!-- ProjectWord -->
-      <a href="/projects.html#projectword" class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px] no-underline">
-        <div>
-          <div class="flex items-center justify-between mb-sm">
-            <span class="material-symbols-outlined text-primary-fixed-dim">mic</span>
-            <div class="flex items-center gap-xs">
-              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
-              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
-            </div>
-          </div>
-          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectWord</h3>
-          <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-sm">Native macOS dictation engine</p>
-          <p class="font-body-md text-body-md text-on-surface-variant">The speed gap between thinking and typing disappears. Tap to record — words appear where your cursor is. Runs completely offline.</p>
-          <div class="flex flex-wrap gap-xs mt-sm">
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Swift</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Whisper AI</span>
-          </div>
-        </div>
-        <div class="flex justify-between items-end mt-md">
-          <span class="font-label-sm text-label-sm text-outline font-mono">002/003</span>
-          <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </div>
-      </a>
-
-      <!-- ProjectBuilt -->
-      <div class="p-md flex flex-col justify-between min-h-[320px] opacity-50">
-        <div>
-          <div class="flex items-center justify-between mb-sm">
-            <span class="material-symbols-outlined text-outline">architecture</span>
-            <div class="flex items-center gap-xs">
-              <div class="w-1.5 h-1.5 bg-outline rounded-full"></div>
-              <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest font-mono text-xs">Upcoming</span>
-            </div>
-          </div>
-          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectBuilt</h3>
-          <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-sm">Idea-to-plan partner</p>
-          <p class="font-body-md text-body-md text-on-surface-variant">Your idea, mapped to reality. A system that turns the idea in your head into a concrete, researched, step-by-step plan.</p>
-          <div class="flex flex-wrap gap-xs mt-sm">
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Agentic</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">AI</span>
-            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Upcoming</span>
-          </div>
-        </div>
-        <div class="flex justify-between items-end mt-md">
-          <span class="font-label-sm text-label-sm text-outline font-mono">003/003</span>
-          <span class="material-symbols-outlined text-outline">arrow_forward</span>
-        </div>
+      <!-- Copy -->
+      <div class="flex items-center justify-center gap-xs mb-md">
+        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+        <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Signal_Open // Newsletter</span>
       </div>
-    </section>
+      <h2 class="pixel-text font-headline-md text-headline-md text-primary-fixed-dim mb-sm">
+        Stay in the feed.
+      </h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant font-mono leading-relaxed max-w-xl mb-xl">
+        Build updates, early access, and behind-the-scenes dispatches from the ProjectCreation system. Free. No noise.
+      </p>
 
-    <section class="w-full mb-xl">
-      <div class="relative border border-outline-variant p-base overflow-hidden">
-        <img alt="Technical Workspace" class="w-full h-[500px] object-cover grayscale brightness-75 contrast-125 opacity-80" src="assets/technical-workspace.png"/>
-        <div class="absolute top-md left-md bg-background/80 backdrop-blur-sm border border-primary-fixed-dim px-sm py-xs font-label-sm text-label-sm text-primary-fixed-dim uppercase">
-          System_Capture // Ref_049
-        </div>
+      <!-- Default state -->
+      <div id="newsletterForm" class="newsletter-form-wrap">
+        <form id="newsletterSignupForm" novalidate>
+          <div class="flex flex-col gap-sm">
+            <input
+              id="newsletterEmail"
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              autocomplete="email"
+              required
+              class="w-full bg-background border border-outline-variant text-on-background font-mono font-label-md text-label-md px-sm py-sm placeholder:text-outline focus:outline-none focus:border-primary-fixed-dim transition-colors text-center"
+            />
+            <p id="newsletterError" class="font-label-sm text-label-sm text-error font-mono hidden">Please enter a valid email address.</p>
+            <button
+              type="submit"
+              class="w-full px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all uppercase tracking-widest"
+            >
+              Join the feed →
+            </button>
+          </div>
+        </form>
+        <p class="font-label-sm text-label-sm text-outline font-mono mt-sm">No spam. Unsubscribe anytime.</p>
       </div>
+
+      <!-- Success state (hidden until submit) -->
+      <div id="newsletterSuccess" class="hidden flex-col items-center gap-sm">
+        <div class="flex items-center justify-center gap-xs">
+          <div class="w-2 h-2 bg-primary-fixed-dim"></div>
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Transmission received</span>
+        </div>
+        <p class="font-headline-sm text-headline-sm text-on-background font-mono">You're on the list.</p>
+        <p class="font-body-md text-body-md text-on-surface-variant font-mono">We'll be in touch when there's something worth sending.</p>
+      </div>
+
     </section>
   </main>
 

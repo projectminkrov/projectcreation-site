@@ -364,6 +364,221 @@
   observer.observe(section);
 })();
 
+// ── Tools section: boot sequence + hover scramble + canvas animations ──
+(() => {
+  const toolsSection = document.getElementById('tools');
+  const bootEl       = document.getElementById('tools-boot');
+  const cardsEl      = document.getElementById('tools-cards');
+  if (!toolsSection || !bootEl || !cardsEl) return;
+
+  const SCRAMBLE_CHARS = '!<>-_/[]{}=+*?#@$%ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  // ── Scramble utility ─────────────────────────────────
+  function scramble(el, duration) {
+    const final = el.dataset.final || el.textContent.trim();
+    el.dataset.final = final;
+    const len = final.length;
+    let frame = 0;
+    const totalFrames = Math.ceil(duration / 40);
+    const id = setInterval(() => {
+      const resolved = Math.floor(len * Math.min((frame / totalFrames) * 1.6, 1));
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        if (final[i] === ' ') { out += ' '; continue; }
+        out += i < resolved
+          ? final[i]
+          : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }
+      el.textContent = out;
+      if (++frame > totalFrames) {
+        el.textContent = final;
+        clearInterval(id);
+      }
+    }, 40);
+    return id;
+  }
+
+  // ── Attach scramble + brackets on hover ──────────────
+  cardsEl.querySelectorAll('.tools-card').forEach(card => {
+    const title = card.querySelector('.tools-card-title');
+    if (!title) return;
+    let sid = null;
+    card.addEventListener('mouseenter', () => {
+      if (sid) clearInterval(sid);
+      sid = scramble(title, 380);
+    });
+    card.addEventListener('mouseleave', () => {
+      if (sid) { clearInterval(sid); sid = null; }
+      title.textContent = title.dataset.final || title.textContent;
+    });
+  });
+
+  // ── Canvas animations ────────────────────────────────
+  function initCanvases() {
+    cardsEl.querySelectorAll('.tools-card').forEach(card => {
+      const canvas  = card.querySelector('.tools-card-canvas');
+      const project = card.dataset.project;
+      if (!canvas || !project) return;
+      const ctx = canvas.getContext('2d');
+
+      let rainCols = [];
+      let wavePhase = 0;
+      let dotPulse  = 0;
+      let dots      = [];
+
+      function resize() {
+        canvas.width  = card.offsetWidth;
+        canvas.height = card.offsetHeight;
+        if (project === 'cipher') buildRain();
+        if (project === 'built')  buildDots();
+      }
+
+      // ProjectCipher — falling character rain
+      function buildRain() {
+        const CW = 13, CH = 16;
+        const rows = Math.ceil(canvas.height / CH) + 20;
+        rainCols = Array.from({ length: Math.floor(canvas.width / CW) }, () => ({
+          chars: Array.from({ length: rows }, () =>
+            SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]),
+          head:  -Math.floor(Math.random() * Math.ceil(canvas.height / CH)),
+          trail: Math.floor(6 + Math.random() * 10),
+          speed: 0.055 + Math.random() * 0.065,
+        }));
+      }
+
+      function drawRain() {
+        const w = canvas.width, h = canvas.height;
+        const CW = 13, CH = 16, FS = 11;
+        const numRows = Math.ceil(h / CH) + 2;
+        ctx.clearRect(0, 0, w, h);
+        ctx.font = `${FS}px "JetBrains Mono",monospace`;
+        rainCols.forEach((c, ci) => {
+          c.head += c.speed;
+          if (c.head - c.trail > numRows) c.head = -Math.floor(Math.random() * 8);
+          if (Math.random() < 0.018)
+            c.chars[Math.floor(Math.random() * c.chars.length)] =
+              SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          const headRow = Math.floor(c.head);
+          for (let row = Math.max(0, headRow - c.trail); row <= headRow; row++) {
+            const y = row * CH;
+            if (y > h) break;
+            const dist = headRow - row;
+            ctx.globalAlpha = dist === 0 ? 0.55 : (1 - dist / c.trail) * 0.14;
+            ctx.fillStyle   = dist === 0 ? '#b2c7d6' : '#2aa8ff';
+            ctx.fillText(c.chars[row % c.chars.length], ci * CW, y + FS);
+          }
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      // ProjectWord — audio waveform
+      function drawWave() {
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = '#2aa8ff';
+        const cy = h / 2;
+        const amp = h * 0.13;
+        [{ a: 0.38, lw: 1.5, ph: 0 }, { a: 0.18, lw: 1, ph: 0.9 }, { a: 0.08, lw: 0.7, ph: 1.8 }]
+          .forEach(({ a, lw, ph }) => {
+            ctx.globalAlpha = a;
+            ctx.lineWidth   = lw;
+            ctx.beginPath();
+            for (let x = 0; x <= w; x += 2) {
+              const y = cy
+                + amp * Math.sin(x * 0.022 + wavePhase + ph)
+                * Math.sin(wavePhase * 0.28 + ph * 0.5);
+              x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          });
+        ctx.globalAlpha = 1;
+        wavePhase += 0.022;
+      }
+
+      // ProjectBuilt — blueprint dot grid
+      function buildDots() {
+        const spacing = 30;
+        dots = [];
+        for (let x = spacing; x < canvas.width; x += spacing)
+          for (let y = spacing; y < canvas.height; y += spacing)
+            dots.push({ x, y, phase: Math.random() * Math.PI * 2 });
+      }
+
+      function drawDots() {
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        dotPulse += 0.013;
+
+        // faint grid lines
+        ctx.strokeStyle = '#2aa8ff';
+        ctx.lineWidth = 0.5;
+        ctx.globalAlpha = 0.035;
+        const gs = 60;
+        for (let x = gs; x < w; x += gs) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = gs; y < h; y += gs) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+        // pulsing dots
+        ctx.fillStyle = '#2aa8ff';
+        dots.forEach(d => {
+          ctx.globalAlpha = Math.max(0, 0.07 + 0.12 * Math.sin(dotPulse + d.phase));
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      function draw() {
+        if (project === 'cipher') drawRain();
+        else if (project === 'word')  drawWave();
+        else if (project === 'built') drawDots();
+      }
+
+      resize();
+      if (typeof ResizeObserver !== 'undefined')
+        new ResizeObserver(resize).observe(card);
+
+      (function loop() { draw(); requestAnimationFrame(loop); })();
+    });
+  }
+
+  // ── Boot sequence ─────────────────────────────────────
+  const BOOT_LINES = [
+    { text: '> INITIALIZING MODULE_REGISTRY...', cls: '' },
+    { text: '> [001] ProjectCipher ─────── LOADING', cls: '' },
+    { text: '> [001] ProjectCipher ─────── ████████████ OK', cls: 'ok' },
+    { text: '> [002] ProjectWord ───────── LOADING', cls: '' },
+    { text: '> [002] ProjectWord ───────── ████████████ OK', cls: 'ok' },
+    { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
+    { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
+  ];
+  const BOOT_DELAYS = [0, 200, 620, 940, 1360, 1660, 2080];
+
+  let booted = false;
+  new IntersectionObserver(entries => {
+    if (booted || !entries[0].isIntersecting) return;
+    booted = true;
+
+    BOOT_LINES.forEach(({ text, cls }, i) => {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.className = 'boot-line' + (cls ? ' ' + cls : '');
+        line.textContent = text;
+        bootEl.appendChild(line);
+        // Double rAF ensures transition fires after element is in DOM
+        requestAnimationFrame(() => requestAnimationFrame(() => line.classList.add('shown')));
+
+        if (i === BOOT_LINES.length - 1) {
+          setTimeout(() => {
+            cardsEl.classList.add('revealed');
+            initCanvases();
+          }, 480);
+        }
+      }, BOOT_DELAYS[i]);
+    });
+  }, { threshold: 0.15 }).observe(toolsSection);
+})();
+
 // ── Nav active state ──────────────────────────────────
 (() => {
   const navBrand     = document.getElementById('navBrand');
@@ -399,4 +614,33 @@
     const el = document.getElementById(id);
     if (el) observer.observe(el);
   });
+
+  // ── Newsletter form ──────────────────────────────────────
+  const newsletterForm    = document.getElementById('newsletterSignupForm');
+  const newsletterEmail   = document.getElementById('newsletterEmail');
+  const newsletterError   = document.getElementById('newsletterError');
+  const newsletterDefault = document.getElementById('newsletterForm');
+  const newsletterSuccess = document.getElementById('newsletterSuccess');
+
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const val = (newsletterEmail.value || '').trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if (!valid) {
+        newsletterError.classList.remove('hidden');
+        newsletterEmail.focus();
+        return;
+      }
+      newsletterError.classList.add('hidden');
+      // TODO: wire to backend when newsletter service is configured
+      newsletterDefault.classList.add('hidden');
+      newsletterSuccess.classList.remove('hidden');
+      newsletterSuccess.classList.add('flex');
+    });
+
+    newsletterEmail.addEventListener('input', () => {
+      newsletterError.classList.add('hidden');
+    });
+  }
 })();

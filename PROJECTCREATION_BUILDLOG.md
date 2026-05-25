@@ -2459,3 +2459,101 @@ Tags:
 - cleanup
 - layout
 - deploy
+
+## 2026-05-25 20:55 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed technical workspace image (SYSTEM_CAPTURE section) from homepage bottom
+- Added newsletter signup section: two-column layout with copy on left, email form on right
+- Form shows inline validation and a success/confirmation state on submit
+- Form submission is UI-only for now — backend will be wired when newsletter service is configured
+- Deployed to projectcreation.net
+
+Why it matters:
+The homepage now has a real call-to-action for the newsletter instead of a placeholder image. The section matches the site design system and is ready to connect to a backend.
+
+Next:
+- Set up newsletter backend and wire form submission
+
+Tags:
+- newsletter
+- homepage
+- UI
+- deploy
+
+## 2026-05-25 21:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Refactored newsletter section to centered single-column layout
+- Label, headline, and description all centered above the form
+- Email input and submit button constrained to max-w-lg and centered
+- Removed two-column grid split; section is now spacious and clean
+- Deployed to projectcreation.net
+
+Why it matters:
+The newsletter section now reads as a focused, breathable call-to-action rather than a split panel.
+
+Next:
+- Wire newsletter backend when service is ready
+
+Tags:
+- newsletter
+- layout
+- homepage
+- deploy
+
+## 2026-05-25 21:12 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Narrowed newsletter form from max-w-lg to max-w-sm so the input and button no longer span the full width
+- Deployed to projectcreation.net
+
+Why it matters:
+The form now sits as a compact, focused element centred in the section rather than stretching edge to edge.
+
+Next:
+- Wire newsletter backend when service is ready
+
+Tags:
+- newsletter
+- layout
+- homepage
+- deploy
+
+## 2026-05-25 21:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed bug: max-w-xs and max-w-sm were not being emitted by Tailwind (classes never used before, purged out)
+- Added .newsletter-form-wrap { width: 100%; max-width: 360px } to src/input.css so it is always compiled
+- Replaced broken Tailwind class on newsletter form div with .newsletter-form-wrap
+- Confirmed class appears in compiled site.css before deploying
+- Deployed to projectcreation.net
+
+Why it matters:
+Tailwind only outputs classes it finds during its content scan at build time. Adding a utility class that was never previously used has no effect until the CSS is rebuilt — and even then, if the class was silently missing, the visual change never lands. Moving it to input.css guarantees it is always compiled regardless of scan state.
+
+Next:
+- Wire newsletter backend when service is ready
+
+Tags:
+- bug-fix
+- newsletter
+- tailwind
+- CSS
+- deploy
