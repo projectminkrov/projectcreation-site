@@ -2557,3 +2557,74 @@ Tags:
 - tailwind
 - CSS
 - deploy
+
+## 2026-05-25 23:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Merged two separate tools sections into one unified #tools section
+- Section header centered with 96px vertical padding, matching the vision section
+- Boot sequence: a terminal loading log animates on scroll-in before cards reveal
+- Scramble on hover: card titles use the same scramble effect as the vision headline
+- Corner brackets animate in on card hover, matching the vision section aesthetic
+- Canvas per card: matrix character rain (ProjectCipher), sine waveform (ProjectWord), blueprint dot grid (ProjectBuilt)
+- Cards enlarged from 320px to 480px min-height with more generous padding
+- All animations pause-on-leave and canvas opacity is controlled by CSS hover state
+
+Why it matters:
+The Tools for the Next Epoch section now matches the visual energy of the vision section. The boot sequence frames the three projects as real system modules, the scramble hover makes the section interactive, and each card communicates its product identity through a unique live animation. The section feels like part of a coherent, animated product site rather than a static card grid.
+
+Next:
+- Gather feedback on animation feel and timing
+- Consider adding the cursor-following glow if the section needs more ambient life
+
+Tags:
+- homepage
+- tools-section
+- boot-sequence
+- scramble
+- canvas-animation
+- interactive
+
+## 2026-05-25 21:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Widened newsletter form from 360px to 576px to align with the text paragraph width above it
+- Deployed to projectcreation.net
+
+Tags:
+- newsletter
+- layout
+- homepage
+- deploy
+
+## 2026-05-25 23:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reduced tools section header padding from 96px to 52px top/bottom
+- Subtitle (white text) dropped from headline-sm (24px bold) to body-lg (18px)
+- Body line (gray text) dropped from body-lg (18px) to body-md (16px)
+- Margins between header elements tightened (mb-md → mb-sm)
+
+Why it matters:
+The section now fits within a single viewport without scrolling, making the boot sequence and card grid visible together as intended.
+
+Next:
+- Monitor for feedback on spacing feel
+
+Tags:
+- homepage
+- tools-section
+- spacing
+- typography

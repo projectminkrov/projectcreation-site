@@ -364,6 +364,76 @@
   observer.observe(section);
 })();
 
+// ── Tools section: cinematic auto-scroll with user takeover ──────────
+(() => {
+  const toolsEl = document.getElementById('tools');
+  if (!toolsEl) return;
+
+  let raf       = null;
+  let scrolling = false;
+
+  function easeInOut(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+
+  function cancel() {
+    if (!scrolling) return;
+    scrolling = false;
+    if (raf) cancelAnimationFrame(raf);
+    window.removeEventListener('wheel',      cancel);
+    window.removeEventListener('touchstart', cancel);
+    window.removeEventListener('pointerdown', cancel);
+    window.removeEventListener('keydown',    onKey);
+  }
+
+  function onKey(e) {
+    if (['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End'].includes(e.key))
+      cancel();
+  }
+
+  function run(targetY, duration) {
+    const startY = window.scrollY;
+    const dist   = targetY - startY;
+    if (dist < 20) return;
+
+    scrolling   = true;
+    let t0      = null;
+
+    function step(ts) {
+      if (!scrolling) return;
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / duration, 1);
+      window.scrollTo(0, startY + dist * easeInOut(p));
+      if (p < 1) raf = requestAnimationFrame(step);
+      else cancel();
+    }
+
+    raf = requestAnimationFrame(step);
+
+    // Wait 220ms before adding cancel listeners so the scroll that
+    // triggered the intersection observer doesn't immediately abort.
+    setTimeout(() => {
+      if (!scrolling) return;
+      window.addEventListener('wheel',       cancel, { passive: true });
+      window.addEventListener('touchstart',  cancel, { passive: true });
+      window.addEventListener('pointerdown', cancel);
+      window.addEventListener('keydown',     onKey);
+    }, 220);
+  }
+
+  let fired = false;
+  new IntersectionObserver(entries => {
+    if (fired || !entries[0].isIntersecting) return;
+    const rect = toolsEl.getBoundingClientRect();
+    // Only trigger when scrolling down INTO the section (section top still below fold center)
+    if (rect.top < window.innerHeight * 0.4) return;
+    fired = true;
+
+    const targetY = window.scrollY + rect.bottom - window.innerHeight;
+    setTimeout(() => run(targetY, 4000), 80);
+  }, { threshold: 0.08 }).observe(toolsEl);
+})();
+
 // ── Tools section: boot sequence + hover scramble + canvas animations ──
 (() => {
   const toolsSection = document.getElementById('tools');
