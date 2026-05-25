@@ -77,11 +77,13 @@
     </section>
 
     <section id="vision" class="border-t border-b border-outline-variant mb-xl relative">
+      <canvas id="vision-bg" aria-hidden="true"></canvas>
       <div aria-hidden="true" class="vision-bracket tl"></div>
       <div aria-hidden="true" class="vision-bracket tr"></div>
       <div aria-hidden="true" class="vision-bracket bl"></div>
       <div aria-hidden="true" class="vision-bracket br"></div>
-      <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-xl">
+      <button id="vision-bg-toggle">BG: LOGS</button>
+      <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-[96px] md:py-[160px] relative z-[1]">
         <div class="flex items-center gap-xs mb-md">
           <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
           <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Manifesto.txt</span>
@@ -92,7 +94,7 @@
         <p class="font-label-sm text-label-sm text-outline font-mono mb-xl">
           [VER] 2.0.24 &nbsp;·&nbsp; [ST] STABLE &nbsp;·&nbsp; [OWN] PROJECT_CREATION_INIT
         </p>
-        <div class="font-body-lg text-body-lg text-on-surface-variant space-y-md max-w-3xl font-mono text-left mb-xl w-full">
+        <div class="font-body-lg text-body-lg text-on-surface-variant space-y-lg max-w-3xl font-mono text-left mb-[64px] w-full">
           <p class="leading-relaxed">
             <span class="text-primary-fixed-dim">&gt;</span><span class="vision-text"> We believe building software shouldn't feel like assembly-line labor. It should feel like crafting.</span>
           </p>
@@ -125,56 +127,86 @@
               Our projects aren't just utilities; they are workflow catalysts designed to compress time and expand potential.
             </p>
             <p class="font-body-lg text-body-lg text-on-surface-variant font-mono leading-relaxed">
-              Whether you're a solo builder or scaling an enterprise, these tools are engineered to meet you where you are. By automating the mundane and augmenting the complex, we enable a state of flow that transforms how you create, iterate, and ship.
+              Three tools. One ecosystem. Each one removes a different bottleneck from your creative workflow — so you can stay in flow from idea to shipped product.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="grid grid-cols-1 md:grid-cols-4 border-y border-outline-variant mb-xl">
-      <div class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px]">
+    <section class="grid grid-cols-1 md:grid-cols-3 border-y border-outline-variant mb-xl">
+      <!-- ProjectCipher -->
+      <a href="/projects.html#projectcipher" class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px] no-underline">
         <div>
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm">code_blocks</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Modular Logic</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant">Snap-together components that maintain structural integrity across any scale.</p>
+          <div class="flex items-center justify-between mb-sm">
+            <span class="material-symbols-outlined text-primary-fixed-dim">terminal</span>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
+            </div>
+          </div>
+          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectCipher</h3>
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-sm">AI terminal orchestration room</p>
+          <p class="font-body-md text-body-md text-on-surface-variant">Twelve AI agents. One room. Zero context switches — the closest thing to a full development team that runs on your Mac.</p>
+          <div class="flex flex-wrap gap-xs mt-sm">
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Electron</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">TypeScript</span>
+          </div>
         </div>
-        <div class="flex justify-between items-end">
-          <span class="font-label-sm text-label-sm text-outline">001/004</span>
-          <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        <div class="flex justify-between items-end mt-md">
+          <span class="font-label-sm text-label-sm text-outline font-mono">001/003</span>
+          <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </div>
-      </div>
-      <div class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px]">
+      </a>
+
+      <!-- ProjectWord -->
+      <a href="/projects.html#projectword" class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px] no-underline">
         <div>
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm">memory</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Neural Sync</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant">AI that learns your design language and anticipates your next implementation step.</p>
+          <div class="flex items-center justify-between mb-sm">
+            <span class="material-symbols-outlined text-primary-fixed-dim">mic</span>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
+            </div>
+          </div>
+          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectWord</h3>
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-sm">Native macOS dictation engine</p>
+          <p class="font-body-md text-body-md text-on-surface-variant">The speed gap between thinking and typing disappears. Tap to record — words appear where your cursor is. Runs completely offline.</p>
+          <div class="flex flex-wrap gap-xs mt-sm">
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">macOS</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Swift</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Whisper AI</span>
+          </div>
         </div>
-        <div class="flex justify-between items-end">
-          <span class="font-label-sm text-label-sm text-outline">002/004</span>
-          <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        <div class="flex justify-between items-end mt-md">
+          <span class="font-label-sm text-label-sm text-outline font-mono">002/003</span>
+          <span class="material-symbols-outlined text-primary-fixed-dim group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </div>
-      </div>
-      <div class="p-md border-r border-outline-variant flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px]">
+      </a>
+
+      <!-- ProjectBuilt -->
+      <div class="p-md flex flex-col justify-between min-h-[320px] opacity-50">
         <div>
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm">grid_view</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Grid Engine</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant">Mathematical precision in every layout. Responsive by default, pixel-perfect by choice.</p>
+          <div class="flex items-center justify-between mb-sm">
+            <span class="material-symbols-outlined text-outline">architecture</span>
+            <div class="flex items-center gap-xs">
+              <div class="w-1.5 h-1.5 bg-outline rounded-full"></div>
+              <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest font-mono text-xs">Upcoming</span>
+            </div>
+          </div>
+          <h3 class="pixel-text font-headline-sm text-headline-sm text-on-background mb-xs">ProjectBuilt</h3>
+          <p class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest mb-sm">Idea-to-plan partner</p>
+          <p class="font-body-md text-body-md text-on-surface-variant">Your idea, mapped to reality. A system that turns the idea in your head into a concrete, researched, step-by-step plan.</p>
+          <div class="flex flex-wrap gap-xs mt-sm">
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Agentic</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">AI</span>
+            <span class="px-xs py-0.5 border border-outline-variant font-mono text-xs text-outline">Upcoming</span>
+          </div>
         </div>
-        <div class="flex justify-between items-end">
-          <span class="font-label-sm text-label-sm text-outline">003/004</span>
-          <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </div>
-      </div>
-      <div class="p-md flex flex-col justify-between group hover:bg-surface-container transition-colors min-h-[320px]">
-        <div>
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm">data_exploration</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Real-time Telemetry</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant">Detailed insights into your system's performance and user interaction patterns.</p>
-        </div>
-        <div class="flex justify-between items-end">
-          <span class="font-label-sm text-label-sm text-outline">004/004</span>
-          <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        <div class="flex justify-between items-end mt-md">
+          <span class="font-label-sm text-label-sm text-outline font-mono">003/003</span>
+          <span class="material-symbols-outlined text-outline">arrow_forward</span>
         </div>
       </div>
     </section>

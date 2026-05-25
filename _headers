@@ -14,7 +14,7 @@
   Cross-Origin-Opener-Policy: same-origin
   Origin-Agent-Cluster: ?1
   X-DNS-Prefetch-Control: off
-  Content-Security-Policy: default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://gohyhxqvcjdthxvpewrx.supabase.co wss://gohyhxqvcjdthxvpewrx.supabase.co; frame-src 'none'; child-src 'none'; media-src 'none'; manifest-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://gohyhxqvcjdthxvpewrx.supabase.co; connect-src https://gohyhxqvcjdthxvpewrx.supabase.co wss://gohyhxqvcjdthxvpewrx.supabase.co; frame-src 'none'; child-src 'none'; media-src 'none'; manifest-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none'; upgrade-insecure-requests;
 
 # ── HTML pages: never cache (auth state must stay fresh) ─
 /*.html

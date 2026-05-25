@@ -149,6 +149,151 @@
       });
     })();
 
+// ── Vision background: log stream + code rain ─────────
+(() => {
+  const canvas  = document.getElementById('vision-bg');
+  const toggle  = document.getElementById('vision-bg-toggle');
+  const section = document.getElementById('vision');
+  if (!canvas || !section) return;
+  const ctx = canvas.getContext('2d');
+
+  const CHARS = '!<>-_/[]{}=+*?#@$%ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const rc    = () => CHARS[Math.floor(Math.random() * CHARS.length)];
+
+  // ── Log stream helpers ──────────────────────────────
+  function p2(n) { return String(Math.floor(Math.random() * n)).padStart(2, '0'); }
+  function ts()  { return `${p2(24)}:${p2(60)}:${p2(60)}.${String(Math.floor(Math.random()*999)).padStart(3,'0')}`; }
+  function hx()  { return '0x' + Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase().padStart(4, '0'); }
+  function ms()  { return (Math.floor(Math.random() * 49) + 1) + 'ms'; }
+  function pid() { return String(Math.floor(Math.random() * 9999) + 1000); }
+  const T = [
+    () => `${ts()} › compile index.js ok`,
+    () => `${ts()} [INFO] pid:${pid()} ready`,
+    () => `${ts()} GET /api/init 200 ${ms()}`,
+    () => `${ts()} [SYS] dispatch → ${hx()}`,
+    () => `${ts()} cache hit ${hx()}`,
+    () => `${ts()} [AUTH] token.verify pass`,
+    () => `${ts()} POST /api/events 201 ${ms()}`,
+    () => `${ts()} worker ready pid:${pid()}`,
+    () => `${ts()} [DB] query 3ms rows:${Math.floor(Math.random()*200)+1}`,
+    () => `${ts()} › lint 0 errors 0 warnings`,
+    () => `${ts()} [FLOW] state → active`,
+    () => `${ts()} snapshot ${hx()} written`,
+    () => `${ts()} deploy → edge:${Math.floor(Math.random()*32)+1}`,
+    () => `${ts()} [BUILD] hash:${hx()} cached`,
+    () => `${ts()} mem:${Math.floor(Math.random()*900)+100}mb cpu:${Math.floor(Math.random()*20)+1}%`,
+    () => `${ts()} GET /api/session 200 ${ms()}`,
+    () => `${ts()} [NET] conn ${hx()} ok`,
+    () => `${ts()} › typecheck pass`,
+    () => `${ts()} bundle dist/ ${Math.floor(Math.random()*200)+40}kb`,
+    () => `${ts()} [PROC] task:done exit:0`,
+  ];
+  const rl = () => T[Math.floor(Math.random() * T.length)]();
+
+  // ── State ───────────────────────────────────────────
+  const MODES = ['logs', 'rain'];
+  let modeIdx  = 0;
+  let logCols  = [];
+  let rainCols = [];
+
+  function initLogs(w, h) {
+    const n  = Math.max(2, Math.floor(w / 240));
+    const gw = w / n;
+    logCols = Array.from({ length: n }, (_, i) => ({
+      x:     i * gw + 8,
+      clipW: gw - 4,
+      lines: Array.from({ length: Math.ceil(h / 13) + 4 }, rl),
+      off:   Math.random() * h,
+      speed: 0.28 + Math.random() * 0.22,
+    }));
+  }
+
+  function initRain(w, h) {
+    const CW = 10, CH = 14;
+    const rows = Math.ceil(h / CH) + 20;
+    rainCols = Array.from({ length: Math.floor(w / CW) }, () => ({
+      chars: Array.from({ length: rows }, rc),
+      head:  -Math.floor(Math.random() * Math.ceil(h / CH)),
+      trail: Math.floor(8 + Math.random() * 16),
+      speed: 0.07 + Math.random() * 0.08,
+    }));
+  }
+
+  function resize() {
+    canvas.width  = section.offsetWidth;
+    canvas.height = section.offsetHeight;
+    initLogs(canvas.width, canvas.height);
+    initRain(canvas.width, canvas.height);
+  }
+
+  // ── Draw: log stream ────────────────────────────────
+  function drawLogs() {
+    const h = canvas.height;
+    ctx.clearRect(0, 0, canvas.width, h);
+    ctx.font = '9px "JetBrains Mono",monospace';
+    ctx.fillStyle   = '#2aa8ff';
+    ctx.globalAlpha = 0.038;
+    for (const c of logCols) {
+      c.off += c.speed;
+      if (c.off >= 13) { c.off -= 13; c.lines.push(rl()); c.lines.shift(); }
+      ctx.save();
+      ctx.beginPath(); ctx.rect(c.x - 4, 0, c.clipW, h); ctx.clip();
+      const y0 = -c.off;
+      for (let i = 0; i < c.lines.length; i++) {
+        const y = y0 + i * 13;
+        if (y > h) break;
+        ctx.fillText(c.lines[i], c.x, y + 9);
+      }
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ── Draw: code rain ─────────────────────────────────
+  function drawRain() {
+    const w = canvas.width, h = canvas.height;
+    const CW = 10, CH = 14, FS = 10;
+    const numRows = Math.ceil(h / CH) + 2;
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = `${FS}px "JetBrains Mono",monospace`;
+    for (let ci = 0; ci < rainCols.length; ci++) {
+      const c = rainCols[ci];
+      c.head += c.speed;
+      if (c.head - c.trail > numRows) c.head = -Math.floor(Math.random() * 8);
+      if (Math.random() < 0.03) c.chars[Math.floor(Math.random() * c.chars.length)] = rc();
+      const headRow = Math.floor(c.head);
+      for (let row = Math.max(0, headRow - c.trail); row <= headRow; row++) {
+        const y = row * CH;
+        if (y > h) break;
+        const dist = headRow - row;
+        ctx.globalAlpha = dist === 0 ? 0.18 : (1 - dist / c.trail) * 0.055;
+        ctx.fillStyle   = dist === 0 ? '#b2c7d6' : '#2aa8ff';
+        ctx.fillText(c.chars[row % c.chars.length], ci * CW, y + FS);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ── Toggle ───────────────────────────────────────────
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      modeIdx = (modeIdx + 1) % MODES.length;
+      toggle.textContent = `BG: ${MODES[modeIdx].toUpperCase()}`;
+    });
+  }
+
+  // ── Loop ─────────────────────────────────────────────
+  let active = false;
+  new IntersectionObserver(e => { active = e[0].isIntersecting; }, { threshold: 0 }).observe(section);
+  function tick() {
+    if (active) { if (modeIdx === 0) drawLogs(); else drawRain(); }
+    requestAnimationFrame(tick);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  tick();
+})();
+
 // ── Vision section animations ─────────────────────────
 (() => {
   const headline    = document.getElementById('vision-headline');

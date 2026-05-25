@@ -476,6 +476,34 @@
   font-weight: 400;
 }
 
+/* ── Vision background canvas ───────────────────────── */
+#vision-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#vision-bg-toggle {
+  position: absolute;
+  top: 24px;
+  right: 68px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #37444b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  transition: color 150ms ease;
+}
+#vision-bg-toggle:hover { color: #7e9096; }
+
 /* ── Vision section animations ──────────────────────── */
 .vision-bracket {
   position: absolute;

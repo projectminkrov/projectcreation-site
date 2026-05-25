@@ -2237,3 +2237,225 @@ Tags:
 - vision
 - layout
 - community-removed
+
+## 2026-05-25 14:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added text scramble animation to the vision headline (triggers on scroll into view, resolves left-to-right over 800ms using glitch characters)
+- Added animated corner brackets to the vision section (CSS width/height transition, draw in on scroll trigger, theme-aware for red/green/purple variants)
+- Added sequential typewriter reveal on all three > paragraphs (10ms/char, each starts after the previous finishes, blinking cursor while typing)
+- Added vision-bracket and vision-cursor CSS classes with blink keyframe to input.css, rebuilt site.css
+- Pushed to main — Cloudflare Pages auto-deploy triggered
+
+Why it matters:
+The vision/manifesto section was static text. Now it reads like a terminal decoding itself — the headline scrambles into place, corner brackets frame the section, and the three principle lines type in one after another. All three effects are scroll-triggered so they fire when the user actually reaches the section, not on page load.
+
+Next:
+- Monitor live on projectcreation.net
+- Potentially extend typewriter speed or tweak scramble duration based on feel
+
+Tags:
+- vision
+- animation
+- scramble
+- typewriter
+- corner-brackets
+- homepage
+
+## 2026-05-25 14:50 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Increased vision section vertical padding from py-xl (64px) to 96px mobile / 160px desktop
+- Increased paragraph spacing from space-y-md (24px) to space-y-lg (40px)
+- Increased paragraph block bottom margin to 64px before the action buttons
+- Deployed via wrangler
+
+Why it matters:
+The manifesto section now has much more room to breathe, giving the content more presence and leaving space for future background or interactive elements.
+
+Next:
+- Explore background or interactive elements for the vision section
+
+Tags:
+- vision
+- spacing
+- layout
+- homepage
+
+## 2026-05-25 15:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added canvas-based terminal log stream background to the vision section
+- 20 columns of scrolling fake log lines (timestamps, HTTP requests, build output, sys events) in blue at 3.8% opacity
+- Each column scrolls at a slightly different speed for an organic feel
+- Canvas clips per-column to prevent text bleed, pauses via IntersectionObserver when section is off-screen
+- Content div lifted to z-index 1 to remain above the canvas
+
+Why it matters:
+The vision section now has a living background that reinforces the "system running" aesthetic without competing with the foreground content.
+
+Next:
+- User review — may swap for code rain or adjust opacity
+
+Tags:
+- vision
+- background
+- canvas
+- terminal
+- homepage
+
+## 2026-05-25 15:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added code rain as second background mode for the vision section
+- Small BG: LOGS / BG: RAIN toggle button for live comparison (top-right of section)
+- Code rain: glitch character columns with bright leading edge and fading trail, staggered speeds
+- Both modes share the same canvas and IntersectionObserver
+
+Next:
+- User picks preferred background; remove toggle and lock in chosen mode
+
+Tags:
+- vision
+- background
+- canvas
+- code-rain
+- homepage
+
+## 2026-05-25 20:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Deleted netlify.toml (Netlify deploy config, now retired)
+- Deleted .netlifyignore (Netlify publish filter, now retired)
+
+Why it matters:
+Project is fully on Cloudflare Pages. Removing dead Netlify config eliminates the risk of accidentally deploying to Netlify with a stale CSP (the two configs had diverged). _headers is the only active security config now.
+
+Next:
+- Commit and deploy
+
+Tags:
+- cleanup
+- cloudflare
+- config
+
+## 2026-05-25 20:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced Tools node in homepage graph with Pricing node (icon: payments, links to /pricing.html)
+- Updated NODES, LINKS, and HOME position map in graph.js — all three kept consistent
+- Tools for the Next Epoch section in index.html preserved as-is
+- Full bug scan: build passes clean, all script/CSS references valid, no CSP violations, no orphaned anchor links, all JS syntax clean
+
+Why it matters:
+The graph now reflects the actual site navigation. Clicking Pricing in the graph takes users directly to the pricing page instead of a dead anchor.
+
+Next:
+- Deploy
+
+Tags:
+- graph
+- navigation
+- pricing
+- bug-scan
+- homepage
+
+## 2026-05-25 20:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Replaced Tools graph node with Pricing on homepage — links to /pricing.html
+- Removed netlify.toml and .netlifyignore (retired Netlify deployment)
+- Full site deployed to projectcreation.net via Cloudflare Pages
+
+Why it matters:
+The graph now accurately reflects the site structure. Pricing is a real destination users can navigate to directly from the homepage visual. Dead Netlify config is gone so the deployment setup is clean and unambiguous.
+
+Next:
+- Gather feedback on the Pricing node placement and icon
+
+Tags:
+- graph
+- navigation
+- pricing
+- cloudflare
+- deploy
+- cleanup
+
+## 2026-05-25 22:49 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced four placeholder tool cards (Modular Logic, Neural Sync, Grid Engine, Real-time Telemetry) with the three real projects: ProjectCipher, ProjectWord, ProjectBuilt
+- Cards now use actual project names, taglines, one-line descriptions, tech stack tags, and status indicators (Available / Upcoming)
+- ProjectCipher and ProjectWord cards link directly to their anchors on the projects page
+- ProjectBuilt card is visually dimmed to communicate its upcoming status
+- Grid changed from 4-column to 3-column to match the actual ecosystem size
+- Section body copy updated to reflect the real three-tool ecosystem
+
+Why it matters:
+The homepage "Tools for the Next Epoch" section now shows what actually exists instead of invented placeholders. Visitors can immediately see the real ecosystem, understand each tool's purpose, and navigate straight to the projects page from the card arrows.
+
+Next:
+- Explore interactive card redesign (active expansion, scramble-on-hover, scanline effects)
+
+Tags:
+- homepage
+- tools-section
+- content-sync
+- projectcipher
+- projectword
+- projectbuilt
+
+## 2026-05-25 20:40 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed hero section from projects.html: deleted "SYSTEM_PROJECTS.EXE" label, "The Workshop" h1, and subtitle paragraph
+- Orbit section now leads the page directly
+- Build clean, deployed to projectcreation.net
+
+Why it matters:
+The projects page no longer has a redundant header above the orbit visual — the visual itself carries the content weight.
+
+Next:
+- Review projects page layout without the hero
+
+Tags:
+- projects
+- cleanup
+- layout
+- deploy

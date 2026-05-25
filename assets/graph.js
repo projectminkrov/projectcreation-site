@@ -6,14 +6,14 @@
   const NODES = [
     { id: 'core',      label: 'Core',      icon: 'hub',          fill: true,  isCore: true,  href: null },
     { id: 'projects',  label: 'Projects',  icon: 'folder_open',  fill: false, isCore: false, href: '/projects.html' },
-    { id: 'tools',     label: 'Tools',     icon: 'construction', fill: false, isCore: false, href: '#tools' },
+    { id: 'pricing',   label: 'Pricing',   icon: 'payments',     fill: false, isCore: false, href: '/pricing.html' },
     { id: 'vision',    label: 'Vision',    icon: 'visibility',   fill: false, isCore: false, href: '#vision' },
     { id: 'community', label: 'Community', icon: 'groups',       fill: false, isCore: false, href: '#community' },
   ];
 
   const LINKS = [
     ['core', 'projects'],
-    ['core', 'tools'],
+    ['core', 'pricing'],
     ['core', 'vision'],
     ['core', 'community'],
   ];
@@ -21,7 +21,7 @@
   const HOME = {
     core:      [0.50, 0.50],
     projects:  [0.28, 0.30],
-    tools:     [0.72, 0.30],
+    pricing:   [0.72, 0.30],
     vision:    [0.28, 0.70],
     community: [0.72, 0.70],
   };

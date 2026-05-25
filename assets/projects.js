@@ -14,6 +14,21 @@
   const dropId           = document.getElementById('dropId');
   const dropSince        = document.getElementById('dropSince');
   const dropSignOut      = document.getElementById('dropSignOut');
+  const dropHandle       = document.getElementById('dropHandle');
+  const navAvatarImg     = document.getElementById('navAvatarImg');
+  const navAvatarIcon    = document.getElementById('navAvatarIcon');
+
+  const AVATAR_KEY = 'pc-avatar';
+  try {
+    const cached = localStorage.getItem(AVATAR_KEY);
+    if (cached) {
+      navAvatarImg.onload = () => {
+        navAvatarImg.onload = null;
+        navAvatarImg.classList.remove('hidden');
+      };
+      navAvatarImg.src = cached;
+    }
+  } catch(e) {}
 
   function showProfile(user) {
     navSignIn.classList.add('auth-nav-hidden');
@@ -23,6 +38,43 @@
     dropId.textContent    = user.id;
     const d = new Date(user.created_at);
     dropSince.textContent = d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    loadProfileExtras(user.id);
+  }
+
+  async function loadProfileExtras(userId) {
+    try {
+      const { data } = await db
+        .from('profiles')
+        .select('handle, avatar_url')
+        .eq('id', userId)
+        .single();
+
+      if (!data) return;
+
+      if (data.handle) {
+        dropHandle.textContent = '▎ @' + data.handle;
+      }
+
+      if (data.avatar_url && data.avatar_url.startsWith('https://')) {
+        const probe = new Image();
+        probe.onload = () => {
+          navAvatarImg.src = data.avatar_url;
+          navAvatarImg.classList.remove('hidden');
+          navAvatarIcon.classList.add('hidden');
+          try { localStorage.setItem(AVATAR_KEY, data.avatar_url); } catch(e) {}
+        };
+        probe.onerror = () => {
+          navAvatarImg.classList.add('hidden');
+          navAvatarIcon.classList.remove('hidden');
+          try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
+        };
+        probe.src = data.avatar_url + '?t=' + Date.now();
+      } else {
+        navAvatarIcon.classList.remove('hidden');
+        try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
+      }
+    } catch {}
   }
 
   db.auth.getUser().then(({ data: { user } }) => {
@@ -48,6 +100,7 @@
 
   dropSignOut.addEventListener('click', async () => {
     try { await db.auth.signOut(); } catch(e) {}
+    try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
     window.location.reload();
   });
 
