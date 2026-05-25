@@ -380,9 +380,8 @@
     { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
     { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
   ];
-  const THRESHOLDS  = [0.04, 0.15, 0.28, 0.41, 0.54, 0.65, 0.75];
-  const CARDS_START = 0.78;
-  const SCROLL_ZONE = 640;
+  const THRESHOLDS = [0.04, 0.18, 0.32, 0.46, 0.60, 0.74, 0.88];
+  const SCROLL_ZONE = 300;
 
   const lineEls = LINES.map(({ text, cls }) => {
     const el = document.createElement('div');
@@ -392,18 +391,21 @@
     return el;
   });
 
-  // Disable CSS transition so scroll position drives opacity directly
-  cardsEl.style.transition = 'none';
-  cardsEl.style.opacity    = '0';
-  cardsEl.style.transform  = 'translateY(14px)';
-
   let locked        = false;
+  let cardsRevealed = false;
   let canvasesReady = false;
 
   function tryInitCanvases() {
     if (canvasesReady) return;
     canvasesReady = true;
     if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
+  }
+
+  function revealCards() {
+    if (cardsRevealed) return;
+    cardsRevealed = true;
+    cardsEl.classList.add('revealed');
+    tryInitCanvases();
   }
 
   function getProgress() {
@@ -416,18 +418,13 @@
 
     lineEls.forEach((el, i) => el.classList.toggle('shown', p >= THRESHOLDS[i]));
 
-    const cp = Math.max(0, (p - CARDS_START) / (1 - CARDS_START));
-    cardsEl.style.opacity   = String(cp);
-    cardsEl.style.transform = `translateY(${(1 - cp) * 14}px)`;
-
-    if (cp > 0.05) tryInitCanvases();
+    // Cards reveal automatically once the last boot line appears
+    if (p >= THRESHOLDS[THRESHOLDS.length - 1]) revealCards();
 
     if (p >= 1) {
       locked = true;
-      cardsEl.style.opacity   = '1';
-      cardsEl.style.transform = 'translateY(0)';
       lineEls.forEach(el => el.classList.add('shown'));
-      tryInitCanvases();
+      revealCards();
       window.removeEventListener('scroll', render);
     }
   }
