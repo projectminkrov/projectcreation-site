@@ -409,7 +409,10 @@
   }
 
   function getProgress() {
-    return Math.max(0, Math.min(1, -toolsEl.getBoundingClientRect().top / SCROLL_ZONE));
+    const rect = toolsEl.getBoundingClientRect();
+    const vh   = window.innerHeight;
+    // Progress starts as soon as the section top enters the viewport from below
+    return Math.max(0, Math.min(1, (vh - rect.top) / SCROLL_ZONE));
   }
 
   function render() {
