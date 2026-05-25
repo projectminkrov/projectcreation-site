@@ -364,7 +364,7 @@
   observer.observe(section);
 })();
 
-// ── Tools section: scroll-driven boot animation ───────────────────────
+// ── Tools section: boot sequence on scroll-into-view ─────────────────
 (() => {
   const toolsEl = document.getElementById('tools');
   const bootEl  = document.getElementById('tools-boot');
@@ -380,60 +380,31 @@
     { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
     { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
   ];
-  const THRESHOLDS = [0.04, 0.18, 0.32, 0.46, 0.60, 0.74, 0.88];
-  const SCROLL_ZONE = 300;
+  const DELAYS = [0, 200, 620, 940, 1360, 1660, 2080];
 
-  const lineEls = LINES.map(({ text, cls }) => {
-    const el = document.createElement('div');
-    el.className = 'boot-line' + (cls ? ' ' + cls : '');
-    el.textContent = text;
-    bootEl.appendChild(el);
-    return el;
-  });
+  let booted = false;
 
-  let locked        = false;
-  let cardsRevealed = false;
-  let canvasesReady = false;
+  new IntersectionObserver(entries => {
+    if (booted || !entries[0].isIntersecting) return;
+    booted = true;
 
-  function tryInitCanvases() {
-    if (canvasesReady) return;
-    canvasesReady = true;
-    if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
-  }
+    LINES.forEach(({ text, cls }, i) => {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'boot-line' + (cls ? ' ' + cls : '');
+        el.textContent = text;
+        bootEl.appendChild(el);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('shown')));
 
-  function revealCards() {
-    if (cardsRevealed) return;
-    cardsRevealed = true;
-    cardsEl.classList.add('revealed');
-    tryInitCanvases();
-  }
-
-  function getProgress() {
-    const rect = toolsEl.getBoundingClientRect();
-    const vh   = window.innerHeight;
-    // Start when section top is ~50% down the viewport, finish 300px of scroll later
-    return Math.max(0, Math.min(1, (vh * 0.5 - rect.top) / SCROLL_ZONE));
-  }
-
-  function render() {
-    if (locked) return;
-    const p = getProgress();
-
-    lineEls.forEach((el, i) => el.classList.toggle('shown', p >= THRESHOLDS[i]));
-
-    // Cards reveal automatically once the last boot line appears
-    if (p >= THRESHOLDS[THRESHOLDS.length - 1]) revealCards();
-
-    if (p >= 1) {
-      locked = true;
-      lineEls.forEach(el => el.classList.add('shown'));
-      revealCards();
-      window.removeEventListener('scroll', render);
-    }
-  }
-
-  window.addEventListener('scroll', render, { passive: true });
-  render();
+        if (i === LINES.length - 1) {
+          setTimeout(() => {
+            cardsEl.classList.add('revealed');
+            if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
+          }, 480);
+        }
+      }, DELAYS[i]);
+    });
+  }, { threshold: 0.15 }).observe(toolsEl);
 })();
 
 // ── Tools section: boot sequence + hover scramble + canvas animations ──
