@@ -364,105 +364,76 @@
   observer.observe(section);
 })();
 
-// ── Tools section: two-phase cinematic auto-scroll ───────────────────
+// ── Tools section: scroll-driven boot animation ───────────────────────
 (() => {
-  const toolsEl  = document.getElementById('tools');
-  const bootEl   = document.getElementById('tools-boot');
-  const cardsEl  = document.getElementById('tools-cards');
+  const toolsEl = document.getElementById('tools');
+  const bootEl  = document.getElementById('tools-boot');
+  const cardsEl = document.getElementById('tools-cards');
   if (!toolsEl || !bootEl || !cardsEl) return;
 
-  let raf     = null;
-  let running = false;
-  let fired   = false;
+  const LINES = [
+    { text: '> INITIALIZING MODULE_REGISTRY...', cls: '' },
+    { text: '> [001] ProjectCipher ─────── LOADING', cls: '' },
+    { text: '> [001] ProjectCipher ─────── ████████████ OK', cls: 'ok' },
+    { text: '> [002] ProjectWord ───────── LOADING', cls: '' },
+    { text: '> [002] ProjectWord ───────── ████████████ OK', cls: 'ok' },
+    { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
+    { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
+  ];
+  const THRESHOLDS  = [0.04, 0.15, 0.28, 0.41, 0.54, 0.65, 0.75];
+  const CARDS_START = 0.78;
+  const SCROLL_ZONE = 640;
 
-  function easeInOut(t) {
-    return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+  const lineEls = LINES.map(({ text, cls }) => {
+    const el = document.createElement('div');
+    el.className = 'boot-line' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    bootEl.appendChild(el);
+    return el;
+  });
+
+  // Disable CSS transition so scroll position drives opacity directly
+  cardsEl.style.transition = 'none';
+  cardsEl.style.opacity    = '0';
+  cardsEl.style.transform  = 'translateY(14px)';
+
+  let locked        = false;
+  let canvasesReady = false;
+
+  function tryInitCanvases() {
+    if (canvasesReady) return;
+    canvasesReady = true;
+    if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
   }
 
-  function onKey(e) {
-    if (['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End'].includes(e.key)) cancel();
+  function getProgress() {
+    return Math.max(0, Math.min(1, -toolsEl.getBoundingClientRect().top / SCROLL_ZONE));
   }
 
-  function cancel() {
-    if (!running) return;
-    running = false;
-    if (raf) cancelAnimationFrame(raf);
-    window.removeEventListener('wheel',       cancel);
-    window.removeEventListener('touchstart',  cancel);
-    window.removeEventListener('pointerdown', cancel);
-    window.removeEventListener('keydown',     onKey);
-  }
+  function render() {
+    if (locked) return;
+    const p = getProgress();
 
-  // Animate to a target Y, call onDone when complete (or if already there).
-  function animateTo(targetY, duration, onDone) {
-    const startY = window.scrollY;
-    const dist   = targetY - startY;
-    if (Math.abs(dist) < 4) { if (onDone) onDone(); return; }
-    let t0 = null;
-    function step(ts) {
-      if (!running) return;
-      if (!t0) t0 = ts;
-      const p = Math.min((ts - t0) / duration, 1);
-      window.scrollTo(0, startY + dist * easeInOut(p));
-      if (p < 1) raf = requestAnimationFrame(step);
-      else if (onDone) onDone();
-    }
-    raf = requestAnimationFrame(step);
-  }
+    lineEls.forEach((el, i) => el.classList.toggle('shown', p >= THRESHOLDS[i]));
 
-  function start() {
-    running = true;
+    const cp = Math.max(0, (p - CARDS_START) / (1 - CARDS_START));
+    cardsEl.style.opacity   = String(cp);
+    cardsEl.style.transform = `translateY(${(1 - cp) * 14}px)`;
 
-    // Snapshot positions now (layout is stable when trigger fires).
-    const bootTop  = bootEl.getBoundingClientRect().top  + window.scrollY;
-    const cardsTop = cardsEl.getBoundingClientRect().top + window.scrollY;
+    if (cp > 0.05) tryInitCanvases();
 
-    // Phase 1 target: boot sequence ~60px below viewport top — slow,
-    // synced with the 2560ms boot animation (boot ends at ~2560ms, cards
-    // reveal transition takes another 750ms → Phase 1 lasts 2700ms).
-    const phase1Y = bootTop - 60;
-
-    // Phase 2 target: cards 180px below viewport top, matching the target
-    // screenshot where the boot log is partially visible at the top and
-    // all three cards are fully visible below it.
-    const phase2Y = cardsTop - 180;
-
-    // Attach user-takeover listeners after 250ms so the scroll impulse
-    // that brought us to the trigger position doesn't self-cancel.
-    setTimeout(() => {
-      if (!running) return;
-      window.addEventListener('wheel',       cancel, { passive: true });
-      window.addEventListener('touchstart',  cancel, { passive: true });
-      window.addEventListener('pointerdown', cancel);
-      window.addEventListener('keydown',     onKey);
-    }, 250);
-
-    // Phase 1 — gentle drift while boot plays (2700ms).
-    animateTo(phase1Y, 2700, () => {
-      if (!running) return;
-      // Short pause: let "SYSTEM READY" and card reveal finish.
-      setTimeout(() => {
-        if (!running) return;
-        // Phase 2 — smooth drop to cards (1300ms).
-        animateTo(phase2Y, 1300, cancel);
-      }, 640);
-    });
-  }
-
-  // Trigger via scroll listener — fires only when the section top
-  // reaches within ±70px of the viewport top (user has scrolled the
-  // section right to the top of the screen, not merely close to it).
-  function onScroll() {
-    if (fired) return;
-    const rect = toolsEl.getBoundingClientRect();
-    if (rect.top <= 70 && rect.top >= -70) {
-      fired = true;
-      window.removeEventListener('scroll', onScroll);
-      start();
+    if (p >= 1) {
+      locked = true;
+      cardsEl.style.opacity   = '1';
+      cardsEl.style.transform = 'translateY(0)';
+      lineEls.forEach(el => el.classList.add('shown'));
+      tryInitCanvases();
+      window.removeEventListener('scroll', render);
     }
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', render, { passive: true });
+  render();
 })();
 
 // ── Tools section: boot sequence + hover scramble + canvas animations ──
@@ -643,41 +614,8 @@
     });
   }
 
-  // ── Boot sequence ─────────────────────────────────────
-  const BOOT_LINES = [
-    { text: '> INITIALIZING MODULE_REGISTRY...', cls: '' },
-    { text: '> [001] ProjectCipher ─────── LOADING', cls: '' },
-    { text: '> [001] ProjectCipher ─────── ████████████ OK', cls: 'ok' },
-    { text: '> [002] ProjectWord ───────── LOADING', cls: '' },
-    { text: '> [002] ProjectWord ───────── ████████████ OK', cls: 'ok' },
-    { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
-    { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
-  ];
-  const BOOT_DELAYS = [0, 200, 620, 940, 1360, 1660, 2080];
-
-  let booted = false;
-  new IntersectionObserver(entries => {
-    if (booted || !entries[0].isIntersecting) return;
-    booted = true;
-
-    BOOT_LINES.forEach(({ text, cls }, i) => {
-      setTimeout(() => {
-        const line = document.createElement('div');
-        line.className = 'boot-line' + (cls ? ' ' + cls : '');
-        line.textContent = text;
-        bootEl.appendChild(line);
-        // Double rAF ensures transition fires after element is in DOM
-        requestAnimationFrame(() => requestAnimationFrame(() => line.classList.add('shown')));
-
-        if (i === BOOT_LINES.length - 1) {
-          setTimeout(() => {
-            cardsEl.classList.add('revealed');
-            initCanvases();
-          }, 480);
-        }
-      }, BOOT_DELAYS[i]);
-    });
-  }, { threshold: 0.15 }).observe(toolsSection);
+  // Expose canvas init for the scroll-driven animation
+  window._pcInitCanvases = initCanvases;
 })();
 
 // ── Nav active state ──────────────────────────────────
