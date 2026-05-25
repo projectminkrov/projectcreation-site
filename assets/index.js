@@ -384,10 +384,7 @@
 
   let booted = false;
 
-  new IntersectionObserver(entries => {
-    if (booted || !entries[0].isIntersecting) return;
-    booted = true;
-
+  function runBoot() {
     LINES.forEach(({ text, cls }, i) => {
       setTimeout(() => {
         const el = document.createElement('div');
@@ -404,7 +401,22 @@
         }
       }, DELAYS[i]);
     });
-  }, { threshold: 0.15 }).observe(toolsEl);
+  }
+
+  // Fire when the section top scrolls into the top 55% of the viewport —
+  // section title is clearly visible and the user is actively on this section.
+  function checkBoot() {
+    if (booted) return;
+    const top = toolsEl.getBoundingClientRect().top;
+    if (top <= window.innerHeight * 0.55 && top > -100) {
+      booted = true;
+      window.removeEventListener('scroll', checkBoot);
+      runBoot();
+    }
+  }
+
+  window.addEventListener('scroll', checkBoot, { passive: true });
+  checkBoot();
 })();
 
 // ── Tools section: boot sequence + hover scramble + canvas animations ──
