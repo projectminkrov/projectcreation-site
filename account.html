@@ -6,26 +6,62 @@
   <title>Account | ProjectCreation</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@400;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
-  <link href="/assets/site.css?v=202605230900" rel="stylesheet"/>
+  <link href="/assets/site.css" rel="stylesheet"/>
+  <link href="/assets/graph.css" rel="stylesheet"/>
 </head>
-<body class="bg-background text-on-background min-h-screen overflow-x-hidden">
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
   <script src="/assets/theme-restore.js"></script>
   <script src="/assets/font-guard.js"></script>
+  <div class="scan-line"></div>
 
-  <header class="bg-background border-b border-outline-variant sticky top-0 z-50">
-    <nav class="flex justify-between items-center w-full px-margin-desktop py-base">
-      <a href="/" class="font-headline-sm text-headline-sm font-bold text-on-background tracking-tighter no-underline hover:text-primary-fixed-dim transition-colors">
+  <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
+    <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
+      <a id="navBrand" href="/" class="font-headline-sm text-headline-sm font-bold tracking-tighter no-underline transition-colors duration-200">
         ProjectCreation
       </a>
-      <a href="/#community" class="hidden md:block font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200">Community</a>
-      <button
-        id="signOutBtn"
-        class="font-label-md text-label-md text-on-surface-variant hover:text-error transition-colors is-invisible"
-      >
-        Sign out
-      </button>
+      <div class="hidden xl:flex items-center gap-lg">
+        <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/projects.html">Projects</a>
+        <a id="navPricing"   class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/pricing.html">Pricing</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#vision">Vision</a>
+        <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#community">Community</a>
+      </div>
+      <div class="flex items-center gap-sm">
+        <a id="navSignIn" href="/login.html" class="hidden xl:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open terminal">
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open network status">
+          <span class="material-symbols-outlined">sensors</span>
+        </button>
+        <div id="profileWrapper">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+            <span class="material-symbols-outlined material-symbols-fill">account_circle</span>
+          </button>
+          <div id="profileDropdown">
+            <div class="drop-divider dropdown-inner">
+              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p class="drop-label">Email</p>
+              <p id="dropEmail" class="drop-value"></p>
+              <p class="drop-label">Account ID</p>
+              <p id="dropId" class="drop-value-muted"></p>
+              <p class="drop-label">Member Since</p>
+              <p id="dropSince" class="drop-value-last"></p>
+            </div>
+            <div class="dropdown-actions">
+              <a href="/account.html" class="drop-cta">GO TO ACCOUNT -></a>
+              <button id="dropSignOut" class="drop-signout">SIGN OUT</button>
+            </div>
+          </div>
+        </div>
+        <button class="theme-switch p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80 flex items-center justify-center" type="button" aria-label="Switch to red theme" aria-pressed="false" id="themeSwitch">
+          <span class="theme-shape" aria-hidden="true"></span>
+        </button>
+      </div>
     </nav>
   </header>
+  <!-- Hidden sign-out button kept for account.js compatibility -->
+  <button id="signOutBtn" style="display:none" aria-hidden="true"></button>
 
   <main id="mainContent" class="px-margin-mobile md:px-margin-desktop py-xl is-invisible">
 
@@ -145,6 +181,7 @@
 
   </main>
   <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/index.js"></script>
   <script src="/assets/account.js?v=202605241800"></script>
 </body>
 </html>
