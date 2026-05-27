@@ -24,6 +24,7 @@
   function showNavAvatar(url, userId) {
     navAvatarImg.onload = null;
     navAvatarImg.src = url;
+    navAvatarImg.hidden = false;
     navAvatarImg.classList.remove('hidden');
     navAvatarIcon.classList.add('hidden');
     try {
@@ -35,6 +36,7 @@
   function showNavAvatarFallback(userId) {
     navAvatarImg.onload = null;
     navAvatarImg.removeAttribute('src');
+    navAvatarImg.hidden = true;
     navAvatarImg.classList.add('hidden');
     navAvatarIcon.classList.remove('hidden');
     try {

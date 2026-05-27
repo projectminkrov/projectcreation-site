@@ -53,6 +53,7 @@
     const navAvatarIcon = document.getElementById('navAvatarIcon');
     if (!navAvatarImg || !navAvatarIcon || !currentUser) return;
     navAvatarImg.src = url;
+    navAvatarImg.hidden = false;
     navAvatarImg.classList.remove('hidden');
     navAvatarIcon.classList.add('hidden');
     try {
