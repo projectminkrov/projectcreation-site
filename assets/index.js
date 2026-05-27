@@ -18,17 +18,43 @@
       const navAvatarImg      = document.getElementById('navAvatarImg');
       const navAvatarIcon     = document.getElementById('navAvatarIcon');
 
-      const AVATAR_KEY = 'pc-avatar';
-      try {
-        const cached = localStorage.getItem(AVATAR_KEY);
-        if (cached) {
+      const LEGACY_AVATAR_KEY = 'pc-avatar';
+      const avatarKeyFor = (userId) => `pc-avatar:${userId}`;
+
+      function showNavAvatar(url, userId) {
+        navAvatarImg.onload = null;
+        navAvatarImg.src = url;
+        navAvatarImg.classList.remove('hidden');
+        navAvatarIcon.classList.add('hidden');
+        try {
+          localStorage.setItem(avatarKeyFor(userId), url);
+          localStorage.removeItem(LEGACY_AVATAR_KEY);
+        } catch(e) {}
+      }
+
+      function showNavAvatarFallback(userId) {
+        navAvatarImg.onload = null;
+        navAvatarImg.removeAttribute('src');
+        navAvatarImg.classList.add('hidden');
+        navAvatarIcon.classList.remove('hidden');
+        try {
+          if (userId) localStorage.removeItem(avatarKeyFor(userId));
+          localStorage.removeItem(LEGACY_AVATAR_KEY);
+        } catch(e) {}
+      }
+
+      function showCachedNavAvatar(userId) {
+        try {
+          const cached = localStorage.getItem(avatarKeyFor(userId));
+          if (!cached) return;
           navAvatarImg.onload = () => {
             navAvatarImg.onload = null;
-            navAvatarImg.classList.remove('hidden');
+            showNavAvatar(cached, userId);
           };
+          navAvatarImg.onerror = () => showNavAvatarFallback(userId);
           navAvatarImg.src = cached;
-        }
-      } catch(e) {}
+        } catch(e) {}
+      }
 
       function showProfile(user) {
         navSignIn.classList.add('auth-nav-hidden');
@@ -40,6 +66,8 @@
         const d = new Date(user.created_at);
         dropSince.textContent = d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 
+        showNavAvatarFallback(user.id);
+        showCachedNavAvatar(user.id);
         loadProfileExtras(user.id);
       }
 
@@ -51,7 +79,10 @@
             .eq('id', userId)
             .single();
 
-          if (!data) return;
+          if (!data) {
+            showNavAvatarFallback(userId);
+            return;
+          }
 
           if (data.handle) {
             dropHandle.textContent = '▎ @' + data.handle;
@@ -60,20 +91,14 @@
           if (data.avatar_url && data.avatar_url.startsWith('https://')) {
             const probe = new Image();
             probe.onload = () => {
-              navAvatarImg.src = data.avatar_url;
-              navAvatarImg.classList.remove('hidden');
-              navAvatarIcon.classList.add('hidden');
-              try { localStorage.setItem(AVATAR_KEY, data.avatar_url); } catch(e) {}
+              showNavAvatar(data.avatar_url, userId);
             };
             probe.onerror = () => {
-              navAvatarImg.classList.add('hidden');
-              navAvatarIcon.classList.remove('hidden');
-              try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
+              showNavAvatarFallback(userId);
             };
             probe.src = data.avatar_url + '?t=' + Date.now();
           } else {
-            navAvatarIcon.classList.remove('hidden');
-            try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
+            showNavAvatarFallback(userId);
           }
         } catch {}
       }
@@ -107,7 +132,7 @@
       // Sign out
       dropSignOut.addEventListener('click', async () => {
         try { await db.auth.signOut(); } catch(e) {}
-        try { localStorage.removeItem(AVATAR_KEY); } catch(e) {}
+        try { localStorage.removeItem(LEGACY_AVATAR_KEY); } catch(e) {}
         window.location.reload();
       });
 
@@ -118,6 +143,7 @@
         } else {
           profileWrapper.classList.remove('visible');
           profileDropdown.classList.remove('open');
+          showNavAvatarFallback();
           navSignIn.classList.remove('auth-nav-hidden');
           navCreateAccount.classList.remove('auth-nav-hidden');
         }

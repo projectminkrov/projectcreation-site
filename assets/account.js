@@ -48,6 +48,19 @@
     avatarWrap.classList.add('has-photo');
   }
 
+  function syncNavAvatar(url) {
+    const navAvatarImg = document.getElementById('navAvatarImg');
+    const navAvatarIcon = document.getElementById('navAvatarIcon');
+    if (!navAvatarImg || !navAvatarIcon || !currentUser) return;
+    navAvatarImg.src = url;
+    navAvatarImg.classList.remove('hidden');
+    navAvatarIcon.classList.add('hidden');
+    try {
+      localStorage.setItem(`pc-avatar:${currentUser.id}`, url.split('?')[0]);
+      localStorage.removeItem('pc-avatar');
+    } catch(e) {}
+  }
+
   function setStatus(el, msg, ok) {
     el.textContent = msg;
     el.classList.remove('text-primary-fixed-dim', 'text-error');
@@ -64,7 +77,7 @@
 
     // No row yet — user predates the auto-create trigger
     if (error && error.code === 'PGRST116') {
-      await db.from('profiles').insert({ id: userId });
+      await db.from('profiles').insert({ id: userId, email: currentUser.email });
       return;
     }
 
@@ -92,7 +105,7 @@
     if (!updData || updData.length === 0) {
       const { error: insError } = await db
         .from('profiles')
-        .insert({ id: currentUser.id, ...fields });
+        .insert({ id: currentUser.id, email: currentUser.email, ...fields });
       return insError || null;
     }
 
@@ -300,7 +313,7 @@
       }
 
       showAvatarImg(publicUrl + '?t=' + Date.now());
-      try { localStorage.setItem('pc-avatar', publicUrl); } catch(e) {}
+      syncNavAvatar(publicUrl + '?t=' + Date.now());
       setStatus(avatarStatus, 'Photo updated.', true);
       closeCropModal();
     }, 'image/png');
