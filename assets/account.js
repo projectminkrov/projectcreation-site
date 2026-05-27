@@ -55,6 +55,7 @@
     navAvatarImg.src = url;
     navAvatarImg.hidden = false;
     navAvatarImg.classList.remove('hidden');
+    navAvatarIcon.hidden = true;
     navAvatarIcon.classList.add('hidden');
     try {
       localStorage.setItem(`pc-avatar:${currentUser.id}`, url.split('?')[0]);

@@ -287,6 +287,10 @@
   transform: translateY(-2px);
 }
 
+#navAvatarIcon.hidden {
+  display: none !important;
+}
+
 /* ── Profile editor — avatar ─────────────────────────── */
 .profile-avatar-wrap {
   position: relative;

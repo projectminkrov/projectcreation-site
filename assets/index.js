@@ -26,6 +26,7 @@
         navAvatarImg.src = url;
         navAvatarImg.hidden = false;
         navAvatarImg.classList.remove('hidden');
+        navAvatarIcon.hidden = true;
         navAvatarIcon.classList.add('hidden');
         try {
           localStorage.setItem(avatarKeyFor(userId), url);
@@ -38,6 +39,7 @@
         navAvatarImg.removeAttribute('src');
         navAvatarImg.hidden = true;
         navAvatarImg.classList.add('hidden');
+        navAvatarIcon.hidden = false;
         navAvatarIcon.classList.remove('hidden');
         try {
           if (userId) localStorage.removeItem(avatarKeyFor(userId));
