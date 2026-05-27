@@ -2,3 +2,9 @@
 .pricing-discount {
   color: #4ade80 !important;
 }
+
+/* In green theme the discount accent must switch to blue so it is
+   distinguishable from the green theme colour. */
+body.theme-green .pricing-discount {
+  color: #2aa8ff !important;
+}
