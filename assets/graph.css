@@ -73,6 +73,7 @@ body.theme-red  .gn-core .gn-label { color: #ff2a2a; }
 body.theme-red  .gn:hover .gn-box { border-color: #ff2a2a; }
 body.theme-red  .gn:hover .gn-box .material-symbols-outlined { color: #ff2a2a; }
 body.theme-red  .gn-core:hover .gn-box-core { background: #ff2a2a; }
+body.theme-red  .gn-core:hover .gn-box-core .material-symbols-outlined { color: #131313 !important; }
 
 body.theme-green .gn-box-core { border-color: #39ff14; }
 body.theme-green .gn-box-core .material-symbols-outlined { color: #39ff14; }
@@ -80,6 +81,7 @@ body.theme-green .gn-core .gn-label { color: #39ff14; }
 body.theme-green .gn:hover .gn-box { border-color: #39ff14; }
 body.theme-green .gn:hover .gn-box .material-symbols-outlined { color: #39ff14; }
 body.theme-green .gn-core:hover .gn-box-core { background: #39ff14; }
+body.theme-green .gn-core:hover .gn-box-core .material-symbols-outlined { color: #0a0a0a !important; }
 
 body.theme-purple .gn-box-core { border-color: #a855f7; }
 body.theme-purple .gn-box-core .material-symbols-outlined { color: #a855f7; }
@@ -87,6 +89,7 @@ body.theme-purple .gn-core .gn-label { color: #a855f7; }
 body.theme-purple .gn:hover .gn-box { border-color: #a855f7; }
 body.theme-purple .gn:hover .gn-box .material-symbols-outlined { color: #a855f7; }
 body.theme-purple .gn-core:hover .gn-box-core { background: #a855f7; }
+body.theme-purple .gn-core:hover .gn-box-core .material-symbols-outlined { color: #131313 !important; }
 
 /* ── Nav active state ─────────────────────────────────────── */
 .nav-brand-active {
