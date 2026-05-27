@@ -718,4 +718,4 @@ body.theme-purple .drop-cta { border-color: #a855f7; color: #a855f7; }
 body.theme-purple .drop-divider { border-bottom-color: #3d374b; }
 body.theme-purple .drop-signout { border-color: #3d374b; color: #8e7e96; }
 
-.newsletter-form-wrap { width: 100%; max-width: 360px; }
+.newsletter-form-wrap { width: 100%; max-width: 576px; }

@@ -34,6 +34,13 @@
           const { error } = await db.auth.signInWithPassword({ email, password });
 
           if (error) {
+            // User signed up but hasn't verified their email yet — send them
+            // to the verify page so they can complete the OTP step.
+            if (error.code === 'email_not_confirmed') {
+              try { sessionStorage.setItem('pendingEmail', email); } catch {}
+              window.location.replace('/verify.html');
+              return;
+            }
             // Generic message — do not reveal whether email exists
             errorMsg.textContent = 'Invalid credentials. Please check your email and password.';
             errorMsg.classList.remove('hidden');

@@ -2669,3 +2669,272 @@ Tags:
 - community
 - homepage
 - deploy
+
+## 2026-05-26 00:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced IntersectionObserver trigger with a scroll listener that fires only when the section top is within ±70px of the viewport top — eliminates the premature trigger that paused scroll too early
+- Two-phase auto-scroll: Phase 1 (2700ms) drifts gently to the boot area in sync with the boot sequence; 640ms pause for card reveal; Phase 2 (1300ms) drops to place cards 180px below viewport top, matching the target screenshot
+- 250ms settling window before cancel listeners attach to prevent self-cancellation from the triggering scroll
+
+Why it matters:
+The auto-scroll now fires at exactly the right moment, plays in sync with the boot and card animations, and lands on the precise final position showing all three cards.
+
+Next:
+- Verify on live site
+
+Tags:
+- homepage
+- tools-section
+- auto-scroll
+- animation-sync
+
+## 2026-05-25 23:36 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced two-phase cinematic auto-scroll with scroll-driven boot animation
+- Boot sequence lines appear/disappear based on how far user has scrolled into the section
+- Card grid fades in from progress 0.78 to 1.0, driven entirely by scroll position
+- Animation locks permanently once fully complete (no reversal after cards fully appear)
+- Canvas animations initialize the moment cards start becoming visible
+
+Why it matters:
+The tools section now feels like a native scroll-driven experience — the user is in full control of the playback speed rather than being taken along for a ride.
+
+Next:
+- Visual QA on live site
+
+Tags:
+- tools-section
+- scroll-animation
+- interactivity
+- ux
+
+## 2026-05-25 23:44 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reduced scroll zone from 640px to 300px — animation completes with normal scrolling speed
+- Cards no longer scroll-driven: they auto-reveal with CSS transition the moment the last boot line appears
+- Adjusted boot line thresholds to spread evenly across the tighter scroll zone
+
+Why it matters:
+The boot sequence now feels snappy and responsive — a short scroll through the section plays the full animation, and the cards pop in automatically as soon as SYSTEM READY appears.
+
+Next:
+- Live QA on projectcreation.net
+
+Tags:
+- tools-section
+- scroll-animation
+- ux
+- performance
+
+## 2026-05-25 23:51 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Boot animation now starts as soon as the tools section enters the viewport from below
+- Progress formula changed from measuring past the section top to measuring from the viewport bottom — animation begins at the section boundary line, not after fully scrolling into it
+
+Why it matters:
+The animation now starts right as the user crosses from the vision section into the tools section, making the transition feel immediately responsive.
+
+Next:
+- Live QA on projectcreation.net
+
+Tags:
+- tools-section
+- scroll-animation
+- ux
+
+## 2026-05-25 23:56 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Retuned boot animation trigger offset to vh*0.5 — starts when section header is halfway down the screen, completes as it approaches the viewport top
+
+Why it matters:
+Fixes regression where animation completed off-screen before user could see it. Now visible and interactive as section scrolls into view.
+
+Next:
+- Live QA
+
+Tags:
+- tools-section
+- scroll-animation
+- bugfix
+
+## 2026-05-26 00:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Dropped scroll-driven boot animation entirely after persistent timing issues across viewport sizes
+- Restored IntersectionObserver-based boot sequence: plays automatically with staggered delays once the tools section scrolls into view
+- Cards reveal with smooth CSS transition 480ms after the last boot line appears
+- Canvas animations initialize immediately after card reveal
+- Scramble-on-hover and corner bracket effects remain intact
+
+Why it matters:
+The Tools for the Next Epoch section now has a reliable, cinematic boot sequence that fires once per page load when the user reaches it — no dependency on scroll speed or viewport height. ProjectCipher, ProjectWord, and ProjectBuilt each have their own canvas animation that activates on reveal.
+
+Next:
+- Continue UI polish on other sections
+
+Tags:
+- tools-section
+- boot-animation
+- intersection-observer
+- canvas
+- ux
+
+## 2026-05-26 00:14 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced IntersectionObserver (threshold 0.15) with explicit scroll listener for boot trigger
+- Animation now fires when section top reaches the upper 55% of the viewport — user can clearly see the section before animation starts
+- Prevents early-trigger bug where animation played and completed off-screen
+
+Why it matters:
+Low IntersectionObserver threshold was triggering when the section was barely a sliver at the viewport bottom, causing animation to finish before user arrived at the section.
+
+Tags:
+- tools-section
+- boot-animation
+- bugfix
+
+## 2026-05-26 00:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed boot animation jitter: all 7 boot lines now pre-inserted into the DOM at page load (invisible via opacity:0), animation only toggles the shown class rather than inserting new elements
+- Eliminates layout reflow during animation that was causing scroll-anchor to nudge the viewport
+
+Why it matters:
+Inserting DOM nodes mid-animation changed the page height, triggering browser scroll anchoring that shifted the viewport ~3 times during playback. Pre-allocation keeps the layout stable.
+
+Tags:
+- tools-section
+- boot-animation
+- bugfix
+- layout
+
+## 2026-05-26 15:33 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added the shared theme override stylesheet to the login, signup, verify, forgot-password, and reset-password screens
+- Verified every page that restores the saved theme also loads the stylesheet that defines red, green, and purple theme colors
+- Rebuilt the deploy output after the auth theme consistency fix
+
+Why it matters:
+When someone chooses a site color, the auth screens now honor that same saved theme instead of falling back to blue.
+
+Next:
+- Check the login and signup screens in each saved theme before publishing the update
+
+Tags:
+- auth
+- theme
+- visual-fix
+
+## 2026-05-26 15:42 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the production signup profile trigger so new accounts create profile rows with both user ID and email
+- Added a local migration file matching the production database fix
+- Ran a controlled signup smoke test against the live auth endpoint and cleaned up the temporary test account afterward
+
+Why it matters:
+New users can create accounts again instead of hitting the generic signup failure caused by a database trigger error.
+
+Next:
+- Ask the affected user to retry signup with their real email and password
+
+Tags:
+- auth
+- signup
+- database
+
+## 2026-05-26 18:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Aligned the local profile setup SQL with the live signup trigger fix
+- Kept the local setup script inserting profile email during account creation
+- Restricted direct public access to the signup trigger function
+
+Why it matters:
+Future database setup now matches the production signup behavior, so new account creation does not regress when the schema is rebuilt or migrated.
+
+Next:
+- Keep the production signup smoke test result as the source of truth and ask the affected user to retry signup
+
+Tags:
+- auth
+- signup
+- database
+- local-setup
+
+## 2026-05-27 18:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Audited the full sign-up / sign-in / verify / forgot-password / reset-password auth flow.
+- Identified root cause of "Unable to create account" error: Supabase auth returns HTTP 500 because the projectcreation.net sending domain is not yet verified in Resend (infrastructure issue, not JS).
+- Fixed signup.js: added emailRedirectTo option to signUp() call so confirmation links land on the site rather than the Supabase default page.
+- Fixed signup.js: detect Supabase's fake-success response for already-registered emails (empty identities array) and show a clear "account already exists" message instead of routing to verify.html.
+- Fixed login.js: detect the email_not_confirmed error code and redirect unverified users to /verify.html instead of showing a generic "invalid credentials" message.
+
+Why it matters:
+The signup 500 error is blocked at the Resend sending-domain level and will resolve once that domain is verified. The JS fixes improve UX for edge cases (duplicate registrations, returning unverified users) that would cause silent failures or confusing error messages post-fix.
+
+Next:
+- Verify the projectcreation.net sending domain on https://resend.com/domains to unblock all new account creation.
+- Test signup end-to-end once Resend domain is active.
+
+Tags:
+- auth
+- bug-fix
+- signup
+- login

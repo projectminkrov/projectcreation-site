@@ -62,7 +62,13 @@
         submitBtn.disabled = true;
 
         try {
-          const { error } = await db.auth.signUp({ email, password: pass });
+          const { data, error } = await db.auth.signUp({
+            email,
+            password: pass,
+            options: {
+              emailRedirectTo: 'https://projectcreation.net/verify.html'
+            }
+          });
 
           if (error) {
             // Rate limit — a code was already sent, redirect to verify page
@@ -73,6 +79,16 @@
             }
             // Generic error — do not reveal whether email is already registered
             showError('Unable to create account. Please check your details and try again.');
+            submitBtn.textContent = 'INITIALIZE ACCOUNT';
+            submitBtn.disabled = false;
+            return;
+          }
+
+          // Supabase returns a fake success with empty identities when the email
+          // is already registered (anti-enumeration behaviour). Redirect to login
+          // so the user can sign in or use forgot-password instead.
+          if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+            showError('An account with this email already exists. Please sign in or reset your password.');
             submitBtn.textContent = 'INITIALIZE ACCOUNT';
             submitBtn.disabled = false;
             return;
