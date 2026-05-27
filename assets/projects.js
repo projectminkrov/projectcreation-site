@@ -87,7 +87,7 @@
         return;
       }
 
-      if (data.handle) {
+      if (dropHandle && data.handle) {
         dropHandle.textContent = '▎ @' + data.handle;
       }
 
