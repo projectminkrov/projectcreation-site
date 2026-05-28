@@ -262,8 +262,13 @@
 .nav-avatar {
   width: 28px;
   height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  flex: 0 0 28px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center;
   border: 1px solid rgba(55, 68, 75, 0.6);
   display: block;
 }
