@@ -20,6 +20,7 @@
 
   const LEGACY_AVATAR_KEY = 'pc-avatar';
   const avatarKeyFor = (userId) => `pc-avatar:${userId}`;
+  let lastNavUserId = null; // Bug 4: track for avatar cache cleanup on sign-out
 
   function showNavAvatar(url, userId) {
     navAvatarImg.onload = null;
@@ -29,7 +30,7 @@
     navAvatarIcon.hidden = true;
     navAvatarIcon.classList.add('hidden');
     try {
-      localStorage.setItem(avatarKeyFor(userId), url);
+      localStorage.setItem(avatarKeyFor(userId), url.split('?')[0]);
       localStorage.removeItem(LEGACY_AVATAR_KEY);
     } catch(e) {}
   }
@@ -108,6 +109,7 @@
 
   db.auth.getUser().then(({ data: { user } }) => {
     if (user) {
+      lastNavUserId = user.id;
       showProfile(user);
     } else {
       profileWrapper.classList.remove('visible');
@@ -135,11 +137,13 @@
 
   db.auth.onAuthStateChange((event, session) => {
     if (session?.user) {
+      lastNavUserId = session.user.id;
       showProfile(session.user);
     } else {
       profileWrapper.classList.remove('visible');
       profileDropdown.classList.remove('open');
-      showNavAvatarFallback();
+      showNavAvatarFallback(lastNavUserId); // Bug 4: pass userId so cache is cleaned up
+      lastNavUserId = null;
       navSignIn.classList.remove('auth-nav-hidden');
       navCreateAccount.classList.remove('auth-nav-hidden');
     }

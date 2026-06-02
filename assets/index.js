@@ -20,6 +20,7 @@
 
       const LEGACY_AVATAR_KEY = 'pc-avatar';
       const avatarKeyFor = (userId) => `pc-avatar:${userId}`;
+      let lastNavUserId = null; // Bug 4: track for avatar cache cleanup on sign-out
 
       function showNavAvatar(url, userId) {
         navAvatarImg.onload = null;
@@ -29,7 +30,7 @@
         navAvatarIcon.hidden = true;
         navAvatarIcon.classList.add('hidden');
         try {
-          localStorage.setItem(avatarKeyFor(userId), url);
+          localStorage.setItem(avatarKeyFor(userId), url.split('?')[0]);
           localStorage.removeItem(LEGACY_AVATAR_KEY);
         } catch(e) {}
       }
@@ -110,6 +111,7 @@
       // Check session on load — also hides profile if local session is revoked server-side
       db.auth.getUser().then(({ data: { user } }) => {
         if (user) {
+          lastNavUserId = user.id;
           showProfile(user);
         } else {
           profileWrapper.classList.remove('visible');
@@ -143,11 +145,13 @@
       // React to auth changes (login in another tab, etc.)
       db.auth.onAuthStateChange((event, session) => {
         if (session?.user) {
+          lastNavUserId = session.user.id;
           showProfile(session.user);
         } else {
           profileWrapper.classList.remove('visible');
           profileDropdown.classList.remove('open');
-          showNavAvatarFallback();
+          showNavAvatarFallback(lastNavUserId); // Bug 4: pass userId so cache is cleaned up
+          lastNavUserId = null;
           navSignIn.classList.remove('auth-nav-hidden');
           navCreateAccount.classList.remove('auth-nav-hidden');
         }
@@ -681,23 +685,64 @@
   const newsletterSuccess = document.getElementById('newsletterSuccess');
 
   if (newsletterForm) {
-    newsletterForm.addEventListener('submit', e => {
+    const submitBtn = newsletterForm.querySelector('[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.textContent : '';
+
+    newsletterForm.addEventListener('submit', async e => {
       e.preventDefault();
+
       const val = (newsletterEmail.value || '').trim();
       const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+
       if (!valid) {
+        newsletterError.textContent = 'Please enter a valid email address.';
         newsletterError.classList.remove('hidden');
         newsletterEmail.focus();
         return;
       }
+
       newsletterError.classList.add('hidden');
-      // TODO: wire to backend when newsletter service is configured
-      newsletterDefault.classList.add('hidden');
-      newsletterSuccess.classList.remove('hidden');
-      newsletterSuccess.classList.add('flex');
+
+      // Loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'JOINING...';
+      }
+
+      try {
+        const res = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: val }),
+        });
+
+        if (!res.ok) {
+          let msg = 'Something went wrong. Please try again.';
+          try {
+            const data = await res.json();
+            if (data && data.error) msg = data.error;
+          } catch {}
+          throw new Error(msg);
+        }
+
+        // Show success state
+        newsletterDefault.classList.add('hidden');
+        newsletterSuccess.classList.remove('hidden');
+        newsletterSuccess.classList.add('flex');
+
+      } catch (err) {
+        newsletterError.textContent = (err && err.message) || 'Something went wrong. Please try again.';
+        newsletterError.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        }
+      }
     });
 
     newsletterEmail.addEventListener('input', () => {
+      // Reset to default validation message when user edits the field
+      newsletterError.textContent = 'Please enter a valid email address.';
       newsletterError.classList.add('hidden');
     });
   }

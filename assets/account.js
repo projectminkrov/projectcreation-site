@@ -4,9 +4,24 @@
   const SUPABASE_KEY = 'sb_publishable_rBSID_xnOICGEpVQWPW8KA_FYFSdoS1';
   const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  let currentUser = null;
+  let currentUser    = null;
+  let lastNavUserId  = null; // Bug 4: track for avatar cache cleanup on sign-out
 
-  // ── DOM refs ──────────────────────────────────────────
+  // ── Nav DOM refs (Bug 1: owned here, index.js no longer loaded on this page) ──
+  const profileWrapper   = document.getElementById('profileWrapper');
+  const profileBtn       = document.getElementById('profileBtn');
+  const profileDropdown  = document.getElementById('profileDropdown');
+  const navSignIn        = document.getElementById('navSignIn');
+  const navCreateAccount = document.getElementById('navCreateAccount');
+  const dropEmail        = document.getElementById('dropEmail');
+  const dropId           = document.getElementById('dropId');
+  const dropSince        = document.getElementById('dropSince');
+  const dropSignOut      = document.getElementById('dropSignOut');
+  const dropHandle       = document.getElementById('dropHandle'); // null on account page — handled gracefully
+  const navAvatarImg     = document.getElementById('navAvatarImg');
+  const navAvatarIcon    = document.getElementById('navAvatarIcon');
+
+  // ── Account DOM refs ──────────────────────────────────
   const avatarWrap     = document.getElementById('avatarWrap');
   const avatarImg      = document.getElementById('avatarImg');
   const avatarFallback = document.getElementById('avatarFallback');
@@ -39,7 +54,83 @@
   let dragStart    = { x: 0, y: 0 };
   let panStart     = { x: 0, y: 0 };
 
-  // ── Avatar helpers ────────────────────────────────────
+  // ── Nav avatar helpers ────────────────────────────────
+  const LEGACY_AVATAR_KEY = 'pc-avatar';
+  const avatarKeyFor = (userId) => `pc-avatar:${userId}`;
+
+  function showNavAvatar(url, userId) {
+    navAvatarImg.onload = null;
+    navAvatarImg.src = url;
+    navAvatarImg.hidden = false;
+    navAvatarImg.classList.remove('hidden');
+    navAvatarIcon.hidden = true;
+    navAvatarIcon.classList.add('hidden');
+    try {
+      localStorage.setItem(avatarKeyFor(userId), url.split('?')[0]);
+      localStorage.removeItem(LEGACY_AVATAR_KEY);
+    } catch(e) {}
+  }
+
+  function showNavAvatarFallback(userId) {
+    navAvatarImg.onload = null;
+    navAvatarImg.removeAttribute('src');
+    navAvatarImg.hidden = true;
+    navAvatarImg.classList.add('hidden');
+    navAvatarIcon.hidden = false;
+    navAvatarIcon.classList.remove('hidden');
+    try {
+      if (userId) localStorage.removeItem(avatarKeyFor(userId));
+      localStorage.removeItem(LEGACY_AVATAR_KEY);
+    } catch(e) {}
+  }
+
+  function showCachedNavAvatar(userId) {
+    try {
+      const cached = localStorage.getItem(avatarKeyFor(userId));
+      if (!cached) return;
+      navAvatarImg.onload = () => {
+        navAvatarImg.onload = null;
+        showNavAvatar(cached, userId);
+      };
+      navAvatarImg.onerror = () => showNavAvatarFallback(userId);
+      navAvatarImg.src = cached;
+    } catch(e) {}
+  }
+
+  function showNavProfile(user) {
+    navSignIn.classList.add('auth-nav-hidden');
+    navCreateAccount.classList.add('auth-nav-hidden');
+    profileWrapper.classList.add('visible');
+    dropEmail.textContent = user.email;
+    dropId.textContent    = user.id;
+    const d = new Date(user.created_at);
+    dropSince.textContent = d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+    if (dropHandle && user.handle) dropHandle.textContent = '▎ @' + user.handle;
+    showNavAvatarFallback(user.id);
+    showCachedNavAvatar(user.id);
+  }
+
+  // ── Nav event listeners ───────────────────────────────
+  profileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') profileDropdown.classList.remove('open');
+  });
+
+  profileDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+  // Nav dropdown sign-out: global scope to log out all connected projects (intentional)
+  dropSignOut.addEventListener('click', async () => {
+    try { await db.auth.signOut(); } catch {}
+    window.location.replace('/login.html');
+  });
+
+  // ── Account avatar helpers ────────────────────────────
   function showAvatarImg(url) {
     avatarImg.src = url;
     avatarImg.classList.remove('hidden');
@@ -49,18 +140,8 @@
   }
 
   function syncNavAvatar(url) {
-    const navAvatarImg = document.getElementById('navAvatarImg');
-    const navAvatarIcon = document.getElementById('navAvatarIcon');
-    if (!navAvatarImg || !navAvatarIcon || !currentUser) return;
-    navAvatarImg.src = url;
-    navAvatarImg.hidden = false;
-    navAvatarImg.classList.remove('hidden');
-    navAvatarIcon.hidden = true;
-    navAvatarIcon.classList.add('hidden');
-    try {
-      localStorage.setItem(`pc-avatar:${currentUser.id}`, url.split('?')[0]);
-      localStorage.removeItem('pc-avatar');
-    } catch(e) {}
+    if (!currentUser) return;
+    showNavAvatar(url, currentUser.id);
   }
 
   function setStatus(el, msg, ok) {
@@ -87,10 +168,13 @@
 
     if (data.handle) {
       handleInput.value = data.handle;
+      if (dropHandle) dropHandle.textContent = '▎ @' + data.handle;
     }
 
     if (data.avatar_url) {
-      showAvatarImg(data.avatar_url + '?t=' + Date.now());
+      const busted = data.avatar_url + '?t=' + Date.now();
+      showAvatarImg(busted);
+      showNavAvatar(busted, userId);
     }
   }
 
@@ -122,23 +206,20 @@
 
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    // Image
     ctx.save();
     ctx.translate(cx + pan.x, cy + pan.y);
     ctx.scale(scale, scale);
     ctx.drawImage(cropImg, -cropImg.naturalWidth / 2, -cropImg.naturalHeight / 2);
     ctx.restore();
 
-    // Dim everything outside the crop circle
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.65)';
     ctx.beginPath();
     ctx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.arc(cx, cy, CROP_RADIUS, 0, Math.PI * 2, true); // CCW = hole
+    ctx.arc(cx, cy, CROP_RADIUS, 0, Math.PI * 2, true);
     ctx.fill('evenodd');
     ctx.restore();
 
-    // Crop circle border
     ctx.beginPath();
     ctx.arc(cx, cy, CROP_RADIUS, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(42,168,255,0.55)';
@@ -164,13 +245,9 @@
     cropZoom.value = 100;
 
     const img = new Image();
-    // Only remote (https) URLs need crossOrigin to keep the canvas un-tainted.
-    // blob: and data: URLs are same-origin — adding crossOrigin causes a CORS
-    // failure because there is no HTTP server to return Access-Control headers.
     if (src.startsWith('http')) img.crossOrigin = 'anonymous';
     img.onload = () => {
       cropImg = img;
-      // Minimum scale ensures the crop circle is fully covered
       minScale = Math.max(
         (CROP_RADIUS * 2) / img.naturalWidth,
         (CROP_RADIUS * 2) / img.naturalHeight
@@ -190,7 +267,7 @@
     cropModal.setAttribute('aria-hidden', 'true');
     cropImg = null;
     avatarInput.value = '';
-    cropSave.disabled  = false;
+    cropSave.disabled   = false;
     cropCancel.disabled = false;
   }
 
@@ -245,12 +322,10 @@
   // ── Crop editor: cancel ───────────────────────────────
   cropCancel.addEventListener('click', closeCropModal);
 
-  // Close on overlay click (outside the modal box)
   cropModal.addEventListener('click', (e) => {
     if (e.target === cropModal) closeCropModal();
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && cropModal.getAttribute('aria-hidden') === 'false') {
       closeCropModal();
@@ -265,7 +340,6 @@
     cropCancel.disabled = true;
     setStatus(cropStatusMsg, 'Saving…', true);
 
-    // Render cropped circle to an offscreen canvas
     const D = CROP_RADIUS * 2;
     const out = document.createElement('canvas');
     out.width  = D;
@@ -285,7 +359,7 @@
     out.toBlob(async (blob) => {
       if (!blob) {
         setStatus(cropStatusMsg, 'Crop failed — try again.', false);
-        cropSave.disabled  = false;
+        cropSave.disabled   = false;
         cropCancel.disabled = false;
         return;
       }
@@ -298,7 +372,7 @@
 
       if (uploadError) {
         setStatus(cropStatusMsg, `Upload failed: ${uploadError.message || 'try again'}`, false);
-        cropSave.disabled  = false;
+        cropSave.disabled   = false;
         cropCancel.disabled = false;
         return;
       }
@@ -309,13 +383,14 @@
 
       if (saveError) {
         setStatus(cropStatusMsg, `Save failed: ${saveError.message || saveError.code || 'unknown'}`, false);
-        cropSave.disabled  = false;
+        cropSave.disabled   = false;
         cropCancel.disabled = false;
         return;
       }
 
-      showAvatarImg(publicUrl + '?t=' + Date.now());
-      syncNavAvatar(publicUrl + '?t=' + Date.now());
+      const busted = publicUrl + '?t=' + Date.now();
+      showAvatarImg(busted);
+      syncNavAvatar(busted);
       setStatus(avatarStatus, 'Photo updated.', true);
       closeCropModal();
     }, 'image/png');
@@ -334,11 +409,8 @@
       return;
     }
 
-    // Use FileReader so the browser reads the bytes immediately.
-    // createObjectURL can silently fail for iCloud files that aren't
-    // downloaded locally yet, because the blob URL exists but has no data.
     const reader = new FileReader();
-    reader.onload = (ev) => openCropModal(ev.target.result); // data: URL
+    reader.onload = (ev) => openCropModal(ev.target.result);
     reader.onerror = () => {
       setStatus(avatarStatus, 'Could not read file — it may not be downloaded yet.', false);
       avatarInput.value = '';
@@ -349,7 +421,6 @@
   // ── Click existing photo → re-crop ────────────────────
   avatarWrap.addEventListener('click', () => {
     if (avatarImg.classList.contains('hidden') || !currentUser) return;
-    // Strip any cache-bust params and re-add a fresh one for CORS
     const base = avatarImg.src.split('?')[0];
     openCropModal(base + '?cb=' + Date.now());
   });
@@ -372,7 +443,6 @@
     setStatus(handleStatus, 'Checking availability…', true);
     handleBtn.disabled = true;
 
-    // Check if another user already owns this handle (case-insensitive via ilike)
     const { data: taken } = await db
       .from('profiles')
       .select('id')
@@ -400,6 +470,7 @@
       return;
     }
 
+    if (dropHandle) dropHandle.textContent = '▎ @' + raw;
     setStatus(handleStatus, `@${raw} saved.`, true);
   });
 
@@ -414,7 +485,10 @@
         window.location.replace('/login.html');
         return;
       }
-      currentUser = user;
+      currentUser   = user;
+      lastNavUserId = user.id; // Bug 4: track for sign-out cleanup
+
+      showNavProfile(user);
 
       document.getElementById('userEmail').textContent   = user.email;
       document.getElementById('userId').textContent      = user.id;
@@ -429,14 +503,53 @@
     })
     .catch(() => window.location.replace('/login.html'));
 
+  // ── Unified auth state listener ───────────────────────
+  // Bug 3 fix: was `event === 'SIGNED_OUT' || !session` — the !session branch
+  // fired on any null-session auth event (INITIAL_SESSION race, PASSWORD_RECOVERY,
+  // etc.) and caused false redirects. Only SIGNED_OUT should trigger a redirect.
+  // Bug 4 fix: track lastNavUserId so avatar cache is cleaned up on sign-out.
   db.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT' || !session) {
+    if (event === 'SIGNED_OUT') {
+      showNavAvatarFallback(lastNavUserId);
+      lastNavUserId = null;
       window.location.replace('/login.html');
+    } else if (session?.user) {
+      lastNavUserId = session.user.id;
+      showNavProfile(session.user);
     }
   });
 
+  // ── Page sign-out button ──────────────────────────────
+  // Global scope is intentional: signing out of ProjectCreation should also
+  // invalidate sessions in connected projects (ProjectWord etc.) for safety.
   document.getElementById('signOutBtn').addEventListener('click', async () => {
     try { await db.auth.signOut(); } catch {}
     window.location.replace('/login.html');
+  });
+})();
+
+// ── Theme switch ──────────────────────────────────────
+// Replaces the theme switch previously provided by index.js on this page.
+(() => {
+  const button = document.getElementById('themeSwitch');
+  if (!button) return;
+
+  const themes     = ['', 'theme-red', 'theme-green', 'theme-purple'];
+  const nextLabels = ['Switch to red theme', 'Switch to green theme', 'Switch to purple theme', 'Switch to blue theme'];
+  const saved = (function(){ try { return localStorage.getItem('pc-theme') || ''; } catch(e) { return ''; } }());
+  let idx = Math.max(0, themes.indexOf(saved));
+
+  if (idx !== 0) {
+    button.setAttribute('aria-label', nextLabels[idx]);
+    button.setAttribute('aria-pressed', 'true');
+  }
+
+  button.addEventListener('click', () => {
+    if (themes[idx]) document.body.classList.remove(themes[idx]);
+    idx = (idx + 1) % themes.length;
+    if (themes[idx]) document.body.classList.add(themes[idx]);
+    try { localStorage.setItem('pc-theme', themes[idx]); } catch(e) {}
+    button.setAttribute('aria-label', nextLabels[idx]);
+    button.setAttribute('aria-pressed', String(idx !== 0));
   });
 })();

@@ -107,6 +107,16 @@ if (!fs.existsSync(path.join('dist', 'assets', 'pricing-discounts.css'))) {
   cspBroken = true;
 }
 
+if (!fs.existsSync(path.join('dist', 'assets', 'nav-panels.js'))) {
+  console.error('  ✗ BUILD: dist/assets/nav-panels.js is missing');
+  cspBroken = true;
+}
+
+if (!fs.existsSync(path.join('dist', 'assets', 'nav-panels.css'))) {
+  console.error('  ✗ BUILD: dist/assets/nav-panels.css is missing');
+  cspBroken = true;
+}
+
 if (cspBroken) {
   process.exit(1);
 }

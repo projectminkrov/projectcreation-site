@@ -2913,6 +2913,186 @@ Tags:
 - database
 - local-setup
 
+## 2026-05-27 18:46 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the nav avatar fallback so accounts without uploaded photos clear any stale cached image and show only the centered account icon
+- Made avatar caching user-specific so a previous account photo cannot bleed into a different logged-in account
+- Updated profile-row fallback inserts to include email when older accounts need a missing profile row created
+- Rebuilt the static site output after the avatar UI fix
+
+Why it matters:
+New test accounts and fresh users now see a clean default account icon instead of a stray black avatar circle from another session or cached image state.
+
+Next:
+- Publish the avatar fallback fix and verify with a fresh account that has no uploaded profile photo
+
+Tags:
+- auth
+- avatar
+- profile
+- ui-fix
+
+## 2026-05-27 18:50 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Cache-busted the public account, homepage, pricing, and projects asset URLs for the avatar fallback fix
+- Deployed the rebuilt static site directly to Cloudflare Pages with Wrangler
+- Verified the live projects page now loads the new versioned avatar script and stylesheet
+
+Why it matters:
+The official site no longer has to wait for stale cached avatar JavaScript to expire before users see the corrected default account icon behavior.
+
+Next:
+- Re-test the fresh-account avatar button on projectcreation.net
+
+Tags:
+- cloudflare
+- deploy
+- avatar
+- cache
+
+## 2026-05-27 18:52 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the empty nav avatar image so it cannot render a stray border line beside the fallback account icon
+- Added native hidden-state toggling when switching between uploaded avatar photos and the default icon
+- Rebuilt the static site output for deployment
+
+Why it matters:
+Accounts without profile photos now show only the centered default account icon, with no leftover image border or gray line.
+
+Next:
+- Deploy the rebuilt site and verify the official account button no longer shows the stray line
+
+Tags:
+- avatar
+- ui-fix
+- profile
+
+## 2026-05-27 18:56 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Nudged the default nav profile icon upward so it visually aligns with the neighboring header buttons
+- Bumped the public asset version for the updated navigation CSS
+- Rebuilt the static site output for deployment
+
+Why it matters:
+The account button now sits in the same visual row as the terminal, network, and theme controls instead of feeling slightly lower.
+
+Next:
+- Deploy the alignment polish and verify on the official site
+
+Tags:
+- avatar
+- navigation
+- ui-polish
+
+## 2026-05-27 19:00 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed uploaded nav avatars so the fallback account icon is fully hidden when a profile photo is present
+- Added native hidden-state toggling for the fallback icon alongside the existing image visibility logic
+- Bumped the public asset version and rebuilt the static site output
+
+Why it matters:
+Uploaded profile photos now replace the default account icon instead of appearing beside it.
+
+Next:
+- Deploy and verify the official site loads the corrected avatar replacement behavior
+
+Tags:
+- avatar
+- profile
+- ui-fix
+
+## 2026-05-27 19:25 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed shared nav profile loading so pages without a handle label still load uploaded avatar photos
+- Bumped the public asset version across account, homepage, pricing, and projects pages
+- Rebuilt the static site output for deployment
+
+Why it matters:
+Uploaded profile pictures now appear consistently anywhere the account button is shown, including the pricing page.
+
+Next:
+- Deploy and verify the pricing page loads the corrected avatar script
+
+Tags:
+- avatar
+- pricing
+- profile
+- ui-fix
+
+## 2026-05-28 12:09 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Locked the nav avatar image to a non-shrinking square size with centered cover cropping
+- Bumped the public asset version for the updated avatar sizing CSS
+- Rebuilt the static site output for deployment
+
+Why it matters:
+Uploaded profile pictures should stay circular and proportional in the header instead of appearing squeezed or stretched.
+
+Next:
+- Deploy and verify the live avatar CSS on projectcreation.net
+
+Tags:
+- avatar
+- navigation
+- ui-fix
+
+## 2026-05-28 12:11 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Matched uploaded nav avatar vertical alignment to the fallback profile icon
+- Bumped the public asset version for the updated avatar alignment CSS
+- Rebuilt the static site output for deployment
+
+Why it matters:
+Uploaded profile pictures now sit in the same visual row as the neighboring header controls.
+
+Next:
+- Deploy and verify the live avatar image alignment on projectcreation.net
+
+Tags:
+- avatar
+- navigation
+- ui-polish
+
 ## 2026-05-27 18:30 — ProjectCreation
 
 Status: In progress
@@ -2938,3 +3118,161 @@ Tags:
 - bug-fix
 - signup
 - login
+
+## 2026-05-27 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed `display: block` from `.nav-avatar` CSS class (was overriding Tailwind's `hidden` utility, causing the img element to show as a black circle even with no src set)
+- Removed `hidden` from `navAvatarIcon` span in all 4 pages (index, projects, pricing, account) so the default account_circle icon shows immediately without waiting for JS
+- Rebuilt CSS
+
+Why it matters:
+Users with no profile picture were seeing a black circle above the account icon in the nav. The icon now shows correctly by default, and gets replaced with the actual avatar image only when the user has set one.
+
+Next:
+- Test signup flow end-to-end
+- Deploy when ready
+
+Tags:
+- bug-fix
+- nav
+- avatar
+- ui
+
+## 2026-06-02 17:58 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed account.html loading two separate Supabase clients simultaneously (index.js + account.js); nav auth code merged into account.js, index.js removed from account.html
+- Fixed onAuthStateChange in account.js using `|| !session` which caused redirects to login on non-sign-out auth events (INITIAL_SESSION race, token refresh hiccups); condition narrowed to SIGNED_OUT only
+- Fixed showNavAvatarFallback() called without userId in sign-out path on index.js and projects.js; added lastNavUserId tracking so the per-user avatar cache is properly cleaned on sign-out
+- Added theme switch IIFE to account.js to replace functionality previously provided by index.js on that page
+- Dev server moved to port 3000
+
+Why it matters:
+Four auth bugs were patching over each other to cause intermittent random sign-outs, especially when token refresh happened to fail briefly or a connected project triggered a global server-side sign-out. These fixes reduce false sign-out triggers significantly. ProjectCreation sign-out intentionally remains global scope to propagate sign-out across connected projects.
+
+Next:
+- Fix ProjectWord to use `scope: 'local'` for its own sign-out so it does not revoke the shared refresh token globally and sign out ProjectCreation users
+- Monitor for any remaining spurious SIGNED_OUT events in production
+
+Tags:
+- bug-fix
+- auth
+- session
+- sign-out
+
+## 2026-06-02 18:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Implemented command palette (terminal button): opens with click or ⌘K/Ctrl+K, keyboard navigation (↑↓ Enter ESC), fuzzy search, context-aware commands (nav, account/auth, sign out, open project status)
+- Implemented project status panel (sensors button): shows ProjectCipher, ProjectWord, ProjectBuilt with three statuses — Online (green pulse, active < 10 min), Offline (amber, last seen timestamp), Not Connected (gray, never used), Coming Soon for unavailable apps
+- Added project_connections Supabase table (migration 004) with RLS — each app upserts last_active_at when a user is active, ProjectCreation reads it to display status
+- Moved both features into dedicated nav-panels.js + nav-panels.css, loaded on all 4 main pages
+- Added IDs (terminalBtn, sensorsBtn) and updated aria-labels on nav buttons across all pages
+- Added nav-panels.js and nav-panels.css to build.js validation checks
+- Build passes all CSP and security checks
+
+Why it matters:
+The two previously unused nav buttons now have real utility matching the technical brand. The command palette gives power users keyboard-driven navigation and quick actions. The sensors panel gives a live view of which projects are connected to the account.
+
+Next:
+- Apply migration 004 in Supabase dashboard
+- Add project_connections upsert call to ProjectWord, ProjectCipher when user is active (see implementation note below)
+
+Tags:
+- feature
+- command-palette
+- sensors
+- nav
+- supabase
+
+## 2026-06-02 18:40 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- All three connected apps now implement project_connections presence pinging
+- ProjectWord: Swift REST upsert via SupabaseAuthClient, fires after every sign-in and token refresh
+- ProjectBuilt: supabase-js upsert in auth useEffect + 5-min interval keep-alive
+- ProjectCipher: optional account connection via sidebar gear menu, 5-min interval heartbeat once connected
+
+Why it matters:
+The sensors panel on ProjectCreation now has real data behind it. Each connected app reports activity independently and non-blockingly.
+
+Next:
+- Apply migration 004-project-connections.sql in the Supabase dashboard to create the table and RLS policies
+
+Tags:
+- feature
+- presence
+- sensors
+- multi-app
+
+## 2026-06-02 18:48 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed ProjectBuilt marked available:false in sensors PROJECTS array — it was always showing "Soon" even with real presence data wired up
+- Fixed race condition in openPalette: added guard after db.auth.getUser() await so double-click during network call no longer leaves palette in broken half-open state
+- Fixed Escape key not closing palette when focus is on a cmd-item rather than cmdInput — global keydown handler now closes both panels on Escape
+- Fixed showNavAvatar in index.js and projects.js storing cache-busting ?t= params in localStorage — now strips query before caching, consistent with account.js
+- Fixed ProjectWord Swift pingPresence building URL with trailing ? from empty queryItems — now constructs clean URL directly
+- Fixed ProjectBuilt presence interval useEffect depending on full User object reference instead of user?.id — interval no longer recreates on every token refresh
+
+Why it matters:
+Six bugs patched that would have caused the sensors panel to never show ProjectBuilt status, keyboard navigation to break, avatar cache to bloat, and presence intervals to unnecessarily reset hourly.
+
+Next:
+- All clean — no outstanding known issues
+
+Tags:
+- bug-fix
+- sensors
+- command-palette
+- avatar-cache
+- presence
+
+## 2026-06-02 19:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Implemented newsletter subscription end-to-end: form → Cloudflare Pages Function → Supabase backup + Kit (ConvertKit)
+- Created functions/api/newsletter.js: validates email server-side, writes to Supabase newsletter_subscribers table, adds to Kit mailing list, graceful degradation if either store is unavailable
+- Created supabase/migrations/005-newsletter-subscribers.sql: new table with RLS enabled and all client access revoked — only accessible via service role key from the CF function
+- Fixed critical CSP bug: connect-src was missing 'self', which would have blocked the same-origin fetch('/api/newsletter') at runtime in production
+- Replaced the TODO stub in index.js newsletter handler with full async flow: loading state, API error messages, success reveal, button restore on failure
+
+Why it matters:
+The newsletter form was fully designed but wired to nothing. Every submission went silently into the void. It's now a complete pipeline — subscribers are stored in our own Supabase table as a permanent backup and added to Kit for the actual sending workflow. Two layers of storage means no vendor lock-in.
+
+Next:
+- Apply migration 005 in Supabase dashboard
+- Create a Kit account, create a Form, add KIT_API_KEY and KIT_FORM_ID to Cloudflare Pages environment variables
+- Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to Cloudflare Pages environment variables
+- Deploy to Cloudflare Pages to activate the function
+
+Tags:
+- feature
+- newsletter
+- cloudflare-pages-functions
+- supabase

@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
   <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
   <link href="/assets/graph-20260527.css" rel="stylesheet"/>
+  <link href="/assets/nav-panels.css" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
   <script src="/assets/theme-restore.js"></script>
@@ -28,10 +29,10 @@
       <div class="flex items-center gap-sm">
         <a id="navSignIn" href="/login.html" class="hidden md:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
         <a id="navCreateAccount" href="/signup.html" class="hidden md:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
-        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open terminal">
+        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
           <span class="material-symbols-outlined">terminal</span>
         </button>
-        <button class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open network status">
+        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status">
           <span class="material-symbols-outlined">sensors</span>
         </button>
 
@@ -275,5 +276,6 @@
 
   <script src="/assets/supabase.min.js"></script>
   <script src="/assets/projects.js?v=202605281214"></script>
+  <script src="/assets/nav-panels.js?v=202606021800"></script>
 </body>
 </html>
