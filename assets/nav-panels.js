@@ -40,7 +40,8 @@
       return {
         icon, label,
         desc: isCurrent ? 'current page' : path,
-        action() { window.location.href = path; },
+        // Close palette before navigating so body.style.overflow is always restored
+        action() { closePalette(); window.location.href = path; },
       };
     }
 
@@ -181,6 +182,8 @@
   // ── Open / close ───────────────────────────────────────
   async function openPalette() {
     if (paletteOpen) return;
+    // Mutual exclusivity — only one panel open at a time
+    if (sensorsOpen) closeSensors();
     paletteOpen = true;
 
     let user = null;
@@ -319,6 +322,8 @@
   // ── Open / close ───────────────────────────────────────
   async function openSensors() {
     if (sensorsOpen) return;
+    // Mutual exclusivity — only one panel open at a time
+    if (paletteOpen) closePalette();
     sensorsOpen = true;
     positionPanel();
 
@@ -375,10 +380,9 @@
     }
   });
 
-  // Reposition on resize
-  window.addEventListener('resize', () => {
-    if (sensorsOpen) positionPanel();
-  });
+  // Reposition on resize OR scroll — panel is position:fixed so must track both
+  window.addEventListener('resize', () => { if (sensorsOpen) positionPanel(); });
+  window.addEventListener('scroll', () => { if (sensorsOpen) positionPanel(); }, { passive: true });
 
   // ════════════════════════════════════════════════════════
   //  GLOBAL KEYBOARD SHORTCUTS

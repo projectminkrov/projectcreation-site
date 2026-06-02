@@ -239,7 +239,12 @@
   }
 
   // ── Crop editor: open ─────────────────────────────────
+  let isCropLoading = false; // re-entry guard — prevents rapid-click state corruption
+
   function openCropModal(src) {
+    if (isCropLoading) return;
+    isCropLoading = true;
+
     cropStatusMsg.textContent = '';
     cropStatusMsg.classList.remove('text-primary-fixed-dim', 'text-error');
     cropZoom.value = 100;
@@ -247,6 +252,7 @@
     const img = new Image();
     if (src.startsWith('http')) img.crossOrigin = 'anonymous';
     img.onload = () => {
+      isCropLoading = false;
       cropImg = img;
       minScale = Math.max(
         (CROP_RADIUS * 2) / img.naturalWidth,
@@ -258,6 +264,9 @@
       cropModal.setAttribute('aria-hidden', 'false');
     };
     img.onerror = () => {
+      isCropLoading = false;
+      // Keep aria-hidden='true' — modal was never shown, so accessibility state is already correct
+      cropModal.setAttribute('aria-hidden', 'true');
       setStatus(avatarStatus, 'Could not load image — try again.', false);
     };
     img.src = src;

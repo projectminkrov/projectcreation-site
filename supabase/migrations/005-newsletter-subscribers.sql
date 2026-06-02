@@ -19,5 +19,8 @@ CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
 ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 
 -- No policies = anon and authenticated roles are fully denied.
--- The service role key used in the CF Pages Function bypasses RLS entirely.
 REVOKE ALL ON public.newsletter_subscribers FROM anon, authenticated;
+
+-- The CF Pages Function uses the service role key, which needs explicit grants
+-- even though it bypasses RLS.
+GRANT INSERT, SELECT ON public.newsletter_subscribers TO service_role;

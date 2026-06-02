@@ -65,8 +65,9 @@ export async function onRequestPost({ request, env }) {
           body: JSON.stringify({ email, source: 'website' }),
         }
       );
-      // 200/201/204 are all success for PostgREST upserts
-      results.supabase = res.ok;
+      // 200/201/204 = inserted or already handled
+      // 409 = duplicate email (unique constraint) — treat as success, subscriber already exists
+      results.supabase = res.ok || res.status === 409;
     } catch {
       // Network error — non-fatal, Kit is the primary sending store
     }
@@ -87,7 +88,11 @@ export async function onRequestPost({ request, env }) {
         }
       );
       results.kit = res.ok;
-    } catch {
+      if (!res.ok) {
+        console.error(`[newsletter] Kit API error: HTTP ${res.status} — check KIT_API_KEY and KIT_FORM_ID`);
+      }
+    } catch (err) {
+      console.error('[newsletter] Kit fetch failed:', err?.message ?? String(err));
       // Network error — non-fatal if Supabase backup succeeded
     }
   }

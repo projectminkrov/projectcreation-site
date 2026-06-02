@@ -733,9 +733,11 @@
       } catch (err) {
         newsletterError.textContent = (err && err.message) || 'Something went wrong. Please try again.';
         newsletterError.classList.remove('hidden');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
+        // Re-query the button in case the DOM was modified during the async call
+        const btn = newsletterForm.querySelector('[type="submit"]') || submitBtn;
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = originalBtnText;
         }
       }
     });
