@@ -74,26 +74,31 @@ export async function onRequestPost({ request, env }) {
   }
 
   // ── 2. Add to Kit (ConvertKit) ─────────────────────────────────────────────
+  // Supports both key formats:
+  //   V3 legacy (TYr_...): api_key in body, POST /v3/forms/{id}/subscribe
+  //   V4 personal token (kit_...): Bearer auth, POST /v4/forms/{id}/subscribers
   if (hasKit) {
     try {
-      const res = await fetch(
-        `https://api.convertkit.com/v3/forms/${env.KIT_FORM_ID}/subscribe`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            api_key: env.KIT_API_KEY,
-            email,
-          }),
-        }
-      );
+      const isV4 = env.KIT_API_KEY.startsWith('kit_');
+      const kitUrl = isV4
+        ? `https://api.kit.com/v4/forms/${env.KIT_FORM_ID}/subscribers`
+        : `https://api.convertkit.com/v3/forms/${env.KIT_FORM_ID}/subscribe`;
+
+      const kitHeaders = { 'Content-Type': 'application/json' };
+      if (isV4) kitHeaders['Authorization'] = `Bearer ${env.KIT_API_KEY}`;
+
+      const kitBody = isV4
+        ? JSON.stringify({ subscriber: { email_address: email } })
+        : JSON.stringify({ api_key: env.KIT_API_KEY, email });
+
+      const res = await fetch(kitUrl, { method: 'POST', headers: kitHeaders, body: kitBody });
       results.kit = res.ok;
       if (!res.ok) {
-        console.error(`[newsletter] Kit API error: HTTP ${res.status} — check KIT_API_KEY and KIT_FORM_ID`);
+        console.error(`[newsletter] Kit API error: HTTP ${res.status} (${isV4 ? 'V4' : 'V3'}) — check KIT_API_KEY and KIT_FORM_ID`);
       }
     } catch (err) {
       console.error('[newsletter] Kit fetch failed:', err?.message ?? String(err));
-      // Network error — non-fatal if Supabase backup succeeded
+      // Non-fatal if Supabase backup succeeded
     }
   }
 
