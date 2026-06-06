@@ -204,7 +204,8 @@
     }
 
     render(); // position nodes at home before first frame
-    function loop() { tick(); if (!frozen) render(); requestAnimationFrame(loop); }
+    let rafId;
+    function loop() { tick(); if (!frozen) render(); rafId = requestAnimationFrame(loop); }
     loop();
 
     // ── Drag ─────────────────────────────────────────────────
@@ -276,8 +277,10 @@
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         frozen = true;
+        cancelAnimationFrame(rafId);
       } else {
-        render();
+        frozen = false;
+        rafId = requestAnimationFrame(loop);
       }
     });
 

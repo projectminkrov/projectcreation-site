@@ -365,7 +365,7 @@
     oc.drawImage(cropImg, -cropImg.naturalWidth / 2, -cropImg.naturalHeight / 2);
     oc.restore();
 
-    out.toBlob(async (blob) => {
+    try { out.toBlob(async (blob) => {
       if (!blob) {
         setStatus(cropStatusMsg, 'Crop failed — try again.', false);
         cropSave.disabled   = false;
@@ -402,7 +402,11 @@
       syncNavAvatar(busted);
       setStatus(avatarStatus, 'Photo updated.', true);
       closeCropModal();
-    }, 'image/png');
+    }, 'image/png'); } catch {
+    setStatus(cropStatusMsg, 'Crop failed — try again.', false);
+    cropSave.disabled   = false;
+    cropCancel.disabled = false;
+  }
   });
 
   // ── File selection → open crop modal ─────────────────
@@ -411,6 +415,12 @@
   avatarInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file || !currentUser) return;
+
+    if (!file.type.startsWith('image/')) {
+      setStatus(avatarStatus, 'Please select an image file.', false);
+      avatarInput.value = '';
+      return;
+    }
 
     if (file.size > 5 * 1024 * 1024) {
       setStatus(avatarStatus, 'File too large — max 5 MB.', false);

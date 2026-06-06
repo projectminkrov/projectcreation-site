@@ -3276,3 +3276,93 @@ Tags:
 - newsletter
 - cloudflare-pages-functions
 - supabase
+
+## 2026-06-04 17:15 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Diagnosed and fixed the full newsletter signup workflow end-to-end
+- Added missing KIT_FORM_ID secret to Cloudflare Pages (was never set)
+- Fixed Kit API key detection in the newsletter function — now correctly handles V4 personal tokens, OAuth bearer tokens, and V3 legacy keys
+- Fixed V4 endpoint: switched from broken form-based subscription to direct subscriber creation via POST /v4/subscribers
+- Updated KIT_API_KEY in Cloudflare Pages to a working bearer token
+- Deployed updated function; confirmed Supabase backup and Kit subscriber creation both succeed on every signup
+
+Why it matters:
+The newsletter form on the homepage was silently failing to add subscribers to Kit — Supabase backup was succeeding so the user saw a success message, but no one was actually being added to the email list. The full dual-store pipeline (Supabase + Kit) is now verified working end-to-end.
+
+Next:
+- Set up a verified sending domain on Kit (projectcreation.net) to fix DMARC deliverability warning
+- Rotate KIT_API_KEY to a stable long-lived credential when Kit personal access tokens become available
+
+Tags:
+- newsletter
+- kit
+- cloudflare-pages
+- bugfix
+- env-vars
+
+## 2026-06-04 23:45 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Full codebase bug scan with 5 parallel agents across all pages, JS modules, Cloudflare functions, Supabase schema, and security headers
+- Fixed broken #community nav anchor — renamed newsletter section id so the Community nav link actually scrolls to destination
+- Fixed auth button flash on pricing page — added auth-nav-hidden class so logged-in users don't see a Sign In button flicker before JS runs
+- Fixed newsletter function hasKit check — no longer requires KIT_FORM_ID for V4/OAuth path (V3 only)
+- Fixed avatar upload — now validates MIME type server-side and client-side before FileReader, blocking non-image files that bypass the accept attribute
+- Fixed toBlob crash path in crop modal — wrapped in try-catch so a browser exception doesn't silently disable Save/Cancel buttons forever
+- Fixed graph.js animation loop — rAF is now properly cancelled on page hide (visibilitychange) instead of continuing to fire in the background, and correctly resumes on page show
+- Removed SVG from avatar bucket allowed MIME types in Supabase — SVG files can contain embedded JS and are an XSS vector when served with image/svg+xml content-type
+- Deployed all fixes to production at projectcreation.net
+
+Why it matters:
+Seven confirmed bugs patched across navigation, auth UX, avatar upload security, animation performance, and the newsletter function. The site is now significantly more robust and secure heading into broader use.
+
+Next:
+- Set up verified sending domain on Kit (projectcreation.net) for newsletter deliverability
+
+Tags:
+- bugfix
+- security
+- performance
+- auth
+- avatar
+- newsletter
+- graph
+
+## 2026-06-06 00:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added 6 animations and interactive elements to the pricing page
+- Terminal typewriter effect types "System_Pricing.cfg" label and "Pricing" headline on page load, with a blinking block cursor that fades after finishing
+- Price glitch counter scrambles digits for 130ms before resolving to the real value when switching Monthly ↔ Yearly
+- Billing toggle now uses a sliding CSS indicator that translates smoothly between Monthly and Yearly, replacing the instant class swap; theme color variants (red/green/purple) included
+- Pro card border tracer: animated conic-gradient ring travels around the Pro card's border continuously using @property --tracer-angle; theme variants included; respects prefers-reduced-motion
+- Comparison table row hover: hovering any row highlights all 4 cells with a dim accent background sweep; Pro column cells get a stronger highlight; uses event delegation + mouseleave cleanup
+- Savings count-up: switching to Yearly animates each savings amount from €0 to its target (€16/€50/€100) with an ease-out cubic curve over 420ms
+- Created new assets/pricing-animations.css for all animation styles (not processed by Tailwind)
+
+Why it matters:
+The pricing page is a key conversion surface — these animations make it feel dynamic and on-brand with the site's terminal/digital aesthetic. The glitch counter and savings counter reinforce the value prop at the moment of decision. The border tracer draws the eye to the Pro card without being aggressive.
+
+Next:
+- Consider adding reduced-motion fallbacks for the typewriter and glitch counter
+- Potential: card entrance animations on scroll (idea 5 from brainstorm)
+
+Tags:
+- pricing
+- animations
+- css
+- javascript
+- ux

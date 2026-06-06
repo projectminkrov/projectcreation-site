@@ -10,8 +10,9 @@
  * Environment variables required in Cloudflare Pages dashboard:
  *   SUPABASE_URL              — e.g. https://xxxx.supabase.co
  *   SUPABASE_SERVICE_ROLE_KEY — from Supabase → Settings → API → service_role
- *   KIT_API_KEY               — from Kit → Settings → Advanced → API Keys
- *   KIT_FORM_ID               — from Kit → Forms → pick your form → in the URL
+ *   KIT_API_KEY               — Kit V4 personal token (kit_...), OAuth bearer token,
+ *                               or V3 legacy key (TYr_...) — auto-detected at runtime
+ *   KIT_FORM_ID               — only used for V3 path; not required for V4/OAuth
  *
  * Graceful degradation:
  *   - If Kit env vars are missing, only Supabase backup runs.
@@ -44,7 +45,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const hasSupabase = Boolean(env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY);
-  const hasKit      = Boolean(env.KIT_API_KEY && env.KIT_FORM_ID);
+  const hasKit      = Boolean(env.KIT_API_KEY);
   const results     = { supabase: false, kit: false };
 
   // ── 1. Backup to Supabase ──────────────────────────────────────────────────
@@ -73,28 +74,31 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
-  // ── 2. Add to Kit (ConvertKit) ─────────────────────────────────────────────
-  // Supports both key formats:
-  //   V3 legacy (TYr_...): api_key in body, POST /v3/forms/{id}/subscribe
-  //   V4 personal token (kit_...): Bearer auth, POST /v4/forms/{id}/subscribers
+  // ── 2. Add to Kit ─────────────────────────────────────────────────────────
+  // Key format detection:
+  //   V3 legacy (e.g. TYr_...): exactly 3 alpha chars + underscore prefix, NOT kit_
+  //     → api_key in body, POST /v3/forms/{id}/subscribe
+  //   Everything else (kit_ personal tokens, OAuth bearer tokens):
+  //     → Bearer auth, POST /v4/subscribers (direct subscriber creation)
   if (hasKit) {
     try {
-      const isV4 = env.KIT_API_KEY.startsWith('kit_');
-      const kitUrl = isV4
-        ? `https://api.kit.com/v4/forms/${env.KIT_FORM_ID}/subscribers`
-        : `https://api.convertkit.com/v3/forms/${env.KIT_FORM_ID}/subscribe`;
+      const isV3 = /^[A-Za-z]{3}_/.test(env.KIT_API_KEY) && !env.KIT_API_KEY.startsWith('kit_');
+
+      const kitUrl = isV3
+        ? `https://api.convertkit.com/v3/forms/${env.KIT_FORM_ID}/subscribe`
+        : `https://api.kit.com/v4/subscribers`;
 
       const kitHeaders = { 'Content-Type': 'application/json' };
-      if (isV4) kitHeaders['Authorization'] = `Bearer ${env.KIT_API_KEY}`;
+      if (!isV3) kitHeaders['Authorization'] = `Bearer ${env.KIT_API_KEY}`;
 
-      const kitBody = isV4
-        ? JSON.stringify({ subscriber: { email_address: email } })
-        : JSON.stringify({ api_key: env.KIT_API_KEY, email });
+      const kitBody = isV3
+        ? JSON.stringify({ api_key: env.KIT_API_KEY, email })
+        : JSON.stringify({ email_address: email });
 
       const res = await fetch(kitUrl, { method: 'POST', headers: kitHeaders, body: kitBody });
       results.kit = res.ok;
       if (!res.ok) {
-        console.error(`[newsletter] Kit API error: HTTP ${res.status} (${isV4 ? 'V4' : 'V3'}) — check KIT_API_KEY and KIT_FORM_ID`);
+        console.error(`[newsletter] Kit API error: HTTP ${res.status} (${isV3 ? 'V3' : 'V4'}) — check KIT_API_KEY`);
       }
     } catch (err) {
       console.error('[newsletter] Kit fetch failed:', err?.message ?? String(err));

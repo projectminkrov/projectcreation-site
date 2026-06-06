@@ -9,6 +9,7 @@
   <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
   <link href="/assets/graph-20260527.css" rel="stylesheet"/>
   <link href="/assets/pricing-discounts.css" rel="stylesheet"/>
+  <link href="/assets/pricing-animations.css" rel="stylesheet"/>
   <link href="/assets/nav-panels.css" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
@@ -28,8 +29,8 @@
         <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#community">Community</a>
       </div>
       <div class="flex items-center gap-sm">
-        <a id="navSignIn" href="/login.html" class="hidden xl:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
-        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <a id="navSignIn" href="/login.html" class="hidden xl:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
         <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
           <span class="material-symbols-outlined">terminal</span>
         </button>
@@ -72,9 +73,9 @@
         <div class="md:col-span-8 min-w-0">
           <div class="flex items-center gap-xs mb-sm">
             <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
-            <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Pricing.cfg</span>
+            <span id="pricingLabel" class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Pricing.cfg</span>
           </div>
-          <h1 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
+          <h1 id="pricingHeadline" class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
             Pricing
           </h1>
           <p class="font-headline-sm text-headline-sm text-on-surface-variant max-w-3xl leading-snug break-words">
@@ -92,13 +93,14 @@
     <section class="py-lg border-b border-outline-variant">
       <!-- Billing segmented control -->
       <div class="flex flex-col items-center gap-sm pb-lg">
-        <div class="inline-flex border border-outline-variant" role="group" aria-label="Billing period">
+        <div class="inline-flex border border-outline-variant pricing-toggle-wrap" role="group" aria-label="Billing period">
+          <div id="billingSlider" class="pricing-toggle-slider" aria-hidden="true"></div>
           <button id="billMonthly" type="button" aria-pressed="true"
-            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 bg-primary-container text-on-primary border-r border-outline-variant cursor-pointer select-none">
+            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-primary border-r border-outline-variant cursor-pointer select-none relative z-10">
             Monthly
           </button>
           <button id="billYearly" type="button" aria-pressed="false"
-            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-surface-variant hover:bg-surface-container-highest cursor-pointer flex items-center gap-xs select-none">
+            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-surface-variant cursor-pointer flex items-center gap-xs select-none relative z-10">
             Yearly&nbsp;<span class="discount-badge pricing-discount pointer-events-none">20% off</span>
           </button>
         </div>
@@ -106,7 +108,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
         <div class="flex flex-col gap-xs">
-          <p id="savingsCore" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span class="pricing-discount">€16</span> / year</p>
+          <p id="savingsCore" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtCore" class="pricing-discount">€16</span> / year</p>
           <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
@@ -137,8 +139,9 @@
         </div>
 
         <div class="flex flex-col gap-xs">
-          <p id="savingsPro" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span class="pricing-discount">€50</span> / year</p>
-          <article class="border border-primary-fixed-dim bg-surface-container-low p-md md:p-lg pt-xl flex flex-col min-w-0 min-h-[520px] relative">
+          <p id="savingsPro" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtPro" class="pricing-discount">€50</span> / year</p>
+          <article class="border border-primary-fixed-dim bg-surface-container-low p-md md:p-lg pt-xl flex flex-col min-w-0 min-h-[520px] relative overflow-hidden">
+          <div class="pricing-tracer" aria-hidden="true"></div>
           <div class="absolute top-0 right-0 bg-primary-container text-on-primary px-md py-sm flex items-center gap-xs">
             <span class="font-label-md text-label-md font-mono uppercase tracking-widest">Most Popular</span>
             <span class="font-label-md text-label-md font-mono opacity-50">· 002</span>
@@ -171,7 +174,7 @@
         </div>
 
         <div class="flex flex-col gap-xs">
-          <p id="savingsMax" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span class="pricing-discount">€100</span> / year</p>
+          <p id="savingsMax" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtMax" class="pricing-discount">€100</span> / year</p>
           <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
@@ -215,31 +218,31 @@
       </div>
 
       <div class="border border-outline-variant bg-surface-container-lowest overflow-x-auto">
-        <div class="min-w-[820px] grid grid-cols-4">
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Area</div>
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Core</div>
-          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">Pro</div>
-          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest">Max</div>
+        <div class="min-w-[820px] grid grid-cols-4 pricing-table-grid">
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="0">Area</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="1">Core</div>
+          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest" data-row="0" data-col="2">Pro</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="3">Max</div>
 
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectBuilt</div>
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Mini</div>
-          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Mini + Full</div>
-          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">All releases</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="1" data-col="0">ProjectBuilt</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="1">Mini</div>
+          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="2">Mini + Full</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="3">All releases</div>
 
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectWord</div>
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Balanced + Accurate</div>
-          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Smart Cleanup + sync</div>
-          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Priority cloud</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="2" data-col="0">ProjectWord</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="1">Balanced + Accurate</div>
+          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="2">Smart Cleanup + sync</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="3">Priority cloud</div>
 
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">ProjectCipher</div>
-          <div class="p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono">Not included</div>
-          <div class="p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">8 terminals</div>
-          <div class="p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">12 terminals</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="0">ProjectCipher</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="1">Not included</div>
+          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="2">8 terminals</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="3">12 terminals</div>
 
-          <div class="p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono">Best for</div>
-          <div class="p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono">Getting started without the noise</div>
-          <div class="p-sm border-r border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono">Builders driven to create</div>
-          <div class="p-sm font-label-sm text-label-sm text-on-surface-variant font-mono">No limits, no compromises</div>
+          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="4" data-col="0">Best for</div>
+          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="1">Getting started without the noise</div>
+          <div class="pricing-table-cell col-pro p-sm border-r border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="2">Builders driven to create</div>
+          <div class="pricing-table-cell p-sm font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="3">No limits, no compromises</div>
         </div>
       </div>
 
