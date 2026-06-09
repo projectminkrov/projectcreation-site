@@ -1,12 +1,11 @@
-// pricing-toggle.js — Billing toggle, typewriter, glitch counter, savings meter,
-// border tracer, and table row hover for the pricing page.
+// pricing-toggle.js — Billing toggle crossfade, decipher reveal, price
+// count-up, savings meter, table row hover, and guided-rail scrollspy
+// for the pricing page.
 // External file so production CSP can keep script-src 'self' without unsafe-inline.
 (function () {
   var btnMonthly = document.getElementById('billMonthly');
   var btnYearly  = document.getElementById('billYearly');
   if (!btnMonthly || !btnYearly) return;
-
-  var slider = document.getElementById('billingSlider');
 
   var savingsEls = [
     document.getElementById('savingsCore'),
@@ -15,36 +14,37 @@
   ];
 
   var savingsAmtIds  = ['savingsAmtCore', 'savingsAmtPro', 'savingsAmtMax'];
-  var savingsTargets = [16, 50, 100];
+  var savingsTargets = [24, 60, 120];
   var savingsTimers  = [null, null, null];
 
   var plans = [
-    { price: 'priceCore', suffix: 'suffixCore', monthly: '8',  yearly: '80'  },
-    { price: 'pricePro',  suffix: 'suffixPro',  monthly: '20', yearly: '190' },
-    { price: 'priceMax',  suffix: 'suffixMax',  monthly: '40', yearly: '380' },
+    { price: 'priceCore', suffix: 'suffixCore', was: 'priceWasCore', monthly: '8',  yearly: '72'  },
+    { price: 'pricePro',  suffix: 'suffixPro',  was: 'priceWasPro',  monthly: '20', yearly: '180' },
+    { price: 'priceMax',  suffix: 'suffixMax',  was: 'priceWasMax',  monthly: '40', yearly: '360' },
   ];
 
-  var GLITCH_CHARS = '0123456789';
-  var glitchTimers = {};
+  var priceTimers = {};
 
-  // ── 2. Price glitch counter ─────────────────────────────────
-  function glitchPrice(el, target) {
+  // ── 2. Price count animation ────────────────────────────────
+  // Counts smoothly from the currently displayed value to the target,
+  // easing out so it visibly slows down as it nears the destination —
+  // reads as a deliberate roll rather than a random flicker.
+  function animatePriceTo(el, target) {
     var id = el.id;
-    clearInterval(glitchTimers[id]);
+    clearInterval(priceTimers[id]);
+    var startVal = parseInt(el.textContent, 10);
+    if (isNaN(startVal)) startVal = parseInt(target, 10);
+    var endVal   = parseInt(target, 10);
     var start    = Date.now();
-    var duration = 130;
-    glitchTimers[id] = setInterval(function () {
-      var elapsed = Date.now() - start;
-      if (elapsed >= duration) {
+    var duration = 650;
+    priceTimers[id] = setInterval(function () {
+      var progress = Math.min((Date.now() - start) / duration, 1);
+      var eased    = 1 - Math.pow(1 - progress, 3);
+      el.textContent = String(Math.round(startVal + (endVal - startVal) * eased));
+      if (progress >= 1) {
         el.textContent = target;
-        clearInterval(glitchTimers[id]);
-        return;
+        clearInterval(priceTimers[id]);
       }
-      var scrambled = '';
-      for (var i = 0; i < target.length; i++) {
-        scrambled += GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-      }
-      el.textContent = scrambled;
     }, 16);
   }
 
@@ -75,18 +75,19 @@
   }
 
   function activate(isYearly) {
-    // Text colours (bg handled by the CSS slider)
-    setClasses(btnMonthly,
-      isYearly ? ['text-on-primary']        : ['text-on-surface-variant'],
-      isYearly ? ['text-on-surface-variant'] : ['text-on-primary']
+    // Each button's accent background crossfades independently via the
+    // shared `transition-colors duration-200` utility — no moving part,
+    // so there's nothing to stretch between two differently-sized tabs.
+    setClasses(
+      btnMonthly,
+      isYearly ? ['bg-primary-container', 'text-on-primary'] : ['text-on-surface-variant', 'hover:bg-surface-container-highest'],
+      isYearly ? ['text-on-surface-variant', 'hover:bg-surface-container-highest'] : ['bg-primary-container', 'text-on-primary']
     );
-    setClasses(btnYearly,
-      isYearly ? ['text-on-surface-variant'] : ['text-on-primary'],
-      isYearly ? ['text-on-primary']         : ['text-on-surface-variant']
+    setClasses(
+      btnYearly,
+      isYearly ? ['text-on-surface-variant', 'hover:bg-surface-container-highest'] : ['bg-primary-container', 'text-on-primary'],
+      isYearly ? ['bg-primary-container', 'text-on-primary'] : ['text-on-surface-variant', 'hover:bg-surface-container-highest']
     );
-
-    // Slide indicator
-    if (slider) slider.classList.toggle('is-yearly', isYearly);
 
     btnMonthly.setAttribute('aria-pressed', String(!isYearly));
     btnYearly.setAttribute('aria-pressed',  String(isYearly));
@@ -95,12 +96,27 @@
     savingsEls.forEach(function (el) { if (el) el.classList.toggle('hidden', !isYearly); });
     if (isYearly) countUpSavings();
 
-    // Glitch prices
+    // The headline number always reads "per month" — billed monthly at
+    // its full rate, or billed annually at its discounted monthly-equivalent
+    // (yearly total ÷ 12). Keeping the unit constant across the toggle lets
+    // visitors compare tiers without doing the math themselves, and the
+    // crossed-out full price makes the saving land at a glance.
     plans.forEach(function (p) {
       var priceEl  = document.getElementById(p.price);
       var suffixEl = document.getElementById(p.suffix);
-      if (priceEl)  glitchPrice(priceEl, isYearly ? p.yearly : p.monthly);
-      if (suffixEl) suffixEl.textContent = isYearly ? '/yr' : '/mo';
+      var wasEl    = document.getElementById(p.was);
+      var monthlyEquivalent = String(Math.round(parseInt(p.yearly, 10) / 12));
+
+      if (priceEl)  animatePriceTo(priceEl, isYearly ? monthlyEquivalent : p.monthly);
+      if (suffixEl) suffixEl.textContent = '/mo';
+      if (wasEl) {
+        if (isYearly) {
+          wasEl.textContent = '€' + p.monthly;
+          wasEl.classList.remove('hidden');
+        } else {
+          wasEl.classList.add('hidden');
+        }
+      }
     });
   }
 
@@ -134,45 +150,89 @@
     });
   }
 
-  // ── 1. Typewriter ───────────────────────────────────────────
+  // ── 1. Decipher reveal ──────────────────────────────────────
+  // Same "deciphering text" effect as the homepage vision headline:
+  // characters resolve left-to-right while the rest still scramble
+  // through a random charset, reading as a terminal decoding itself.
   var labelEl    = document.getElementById('pricingLabel');
   var headlineEl = document.getElementById('pricingHeadline');
+  var DECIPHER_CHARS = '!<>-_/[]{}=+*?#@$%ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  function typewriter(el, text, charMs, onDone) {
-    el.textContent = '';
-    var cursor = document.createElement('span');
-    cursor.className = 'typewriter-cursor';
-    cursor.setAttribute('aria-hidden', 'true');
-    el.appendChild(cursor);
-    var i = 0;
-    var timer = setInterval(function () {
-      if (i < text.length) {
-        el.insertBefore(document.createTextNode(text[i]), cursor);
-        i++;
-      } else {
-        clearInterval(timer);
-        if (onDone) onDone(cursor);
+  function decipher(el, duration, cb) {
+    el.style.visibility = 'visible';
+    var final = el.textContent.trim();
+    var len   = final.length;
+    var frame = 0;
+    var totalFrames = Math.ceil(duration / 40);
+    var id = setInterval(function () {
+      var resolved = Math.floor(len * Math.min((frame / totalFrames) * 1.6, 1));
+      var out = '';
+      for (var i = 0; i < len; i++) {
+        if (final[i] === ' ') { out += ' '; continue; }
+        out += i < resolved ? final[i] : DECIPHER_CHARS[Math.floor(Math.random() * DECIPHER_CHARS.length)];
       }
-    }, charMs);
-  }
-
-  function blinkThenRemove(cursor) {
-    var count = 0;
-    var interval = setInterval(function () {
-      count++;
-      if (count >= 4) {
-        clearInterval(interval);
-        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+      el.textContent = out;
+      if (++frame > totalFrames) {
+        el.textContent = final;
+        clearInterval(id);
+        if (cb) cb();
       }
-    }, 330);
+    }, 40);
   }
 
   if (labelEl && headlineEl) {
-    typewriter(labelEl, 'System_Pricing.cfg', 28, function (cursor) {
-      if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+    decipher(labelEl, 500, function () {
       setTimeout(function () {
-        typewriter(headlineEl, 'Pricing', 55, blinkThenRemove);
+        decipher(headlineEl, 700);
       }, 80);
     });
+  }
+
+  // ── 8. Guided rail scrollspy ────────────────────────────────
+  // Walks the visitor through four steps (who it's for, your match,
+  // the climb, get started). As each step's section crosses the
+  // viewport center, its rail node lights up and the line segments
+  // before it fill in — a progress trail through the page, not just
+  // a static map of it.
+  var railNodes = document.querySelectorAll('.rail-node[data-rail-target]');
+  var railLines = document.querySelectorAll('.rail-line');
+  if (railNodes.length) {
+    var stepEls = [];
+    railNodes.forEach(function (node) {
+      var target = document.getElementById(node.getAttribute('data-rail-target'));
+      if (target) stepEls.push({ node: node, el: target });
+    });
+
+    function setActiveStep(index) {
+      stepEls.forEach(function (s, i) {
+        s.node.classList.toggle('active', i === index);
+      });
+      railLines.forEach(function (line, i) {
+        line.classList.toggle('filled', i < index);
+      });
+    }
+
+    var stepObserver = new IntersectionObserver(function (entries) {
+      // When several short sections cross the detection band at once
+      // (e.g. on first paint at narrow viewports), pick whichever one
+      // is most centered in the band rather than letting the last
+      // entry in the batch win arbitrarily.
+      var winner = null;
+      var winnerDist = Infinity;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var idx = stepEls.findIndex(function (s) { return s.el === entry.target; });
+        if (idx === -1) return;
+        var rect = entry.boundingClientRect;
+        var dist = Math.abs((rect.top + rect.bottom) / 2 - window.innerHeight / 2);
+        if (dist < winnerDist) {
+          winnerDist = dist;
+          winner = idx;
+        }
+      });
+      if (winner !== null) setActiveStep(winner);
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+    stepEls.forEach(function (s) { stepObserver.observe(s.el); });
   }
 }());

@@ -90,25 +90,58 @@
       </div>
     </section>
 
-    <section class="py-lg border-b border-outline-variant">
+    <nav class="pricing-rail py-md border-b border-outline-variant" aria-label="How this page is laid out">
+      <ol class="flex items-center font-label-sm text-label-sm font-mono uppercase tracking-widest text-outline overflow-x-auto">
+        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-who"><span class="rail-dot" aria-hidden="true"></span>Who's this for</li>
+        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
+        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-match"><span class="rail-dot" aria-hidden="true"></span>Your match</li>
+        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
+        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-climb"><span class="rail-dot" aria-hidden="true"></span>The climb</li>
+        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
+        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-start"><span class="rail-dot" aria-hidden="true"></span>Get started</li>
+      </ol>
+    </nav>
+
+    <section id="step-who" class="py-lg border-b border-outline-variant">
+      <div class="max-w-3xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 01 — Who this is for</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug mb-md">Three different shapes of building. Three tiers to match them.</h2>
+        <ul class="grid gap-sm font-label-md text-label-md text-on-surface-variant font-mono">
+          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Just getting started</strong> — you want the essentials, without the noise. <span class="text-primary-fixed-dim">Core fits.</span></span></li>
+          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Building regularly</strong> — you want the full toolkit and room to grow. <span class="text-primary-fixed-dim">Pro fits.</span></span></li>
+          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Running at full capacity</strong> — you want no limits and everything at launch. <span class="text-primary-fixed-dim">Max fits.</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="step-match" class="py-lg border-b border-outline-variant">
+      <div class="max-w-2xl mb-lg">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 02 — Your match</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Most builders land on <span class="text-primary-fixed-dim">Pro</span> — here's where every tier sits, priced out in full.
+          <span class="ghost-stairs inline-flex items-end gap-xs align-middle ml-xs" aria-hidden="true">
+            <span class="ghost-step ghost-step-core"></span>
+            <span class="ghost-step ghost-step-pro"></span>
+            <span class="ghost-step ghost-step-max"></span>
+          </span>
+        </h2>
+      </div>
       <!-- Billing segmented control -->
       <div class="flex flex-col items-center gap-sm pb-lg">
-        <div class="inline-flex border border-outline-variant pricing-toggle-wrap" role="group" aria-label="Billing period">
-          <div id="billingSlider" class="pricing-toggle-slider" aria-hidden="true"></div>
+        <div class="inline-flex border border-outline-variant" role="group" aria-label="Billing period">
           <button id="billMonthly" type="button" aria-pressed="true"
-            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-primary border-r border-outline-variant cursor-pointer select-none relative z-10">
+            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 bg-primary-container text-on-primary border-r border-outline-variant cursor-pointer select-none">
             Monthly
           </button>
           <button id="billYearly" type="button" aria-pressed="false"
-            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-surface-variant cursor-pointer flex items-center gap-xs select-none relative z-10">
-            Yearly&nbsp;<span class="discount-badge pricing-discount pointer-events-none">20% off</span>
+            class="billing-toggle px-md py-sm font-label-md text-label-md font-mono uppercase tracking-widest transition-colors duration-200 text-on-surface-variant hover:bg-surface-container-highest cursor-pointer flex items-center gap-xs select-none">
+            Yearly&nbsp;<span class="discount-badge pricing-discount pointer-events-none">25% off</span>
           </button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
         <div class="flex flex-col gap-xs">
-          <p id="savingsCore" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtCore" class="pricing-discount">€16</span> / year</p>
+          <p id="savingsCore" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtCore" class="pricing-discount">€24</span> / year</p>
           <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
@@ -119,10 +152,11 @@
           </div>
           <div class="flex items-end gap-xs mb-xs">
             <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
-            <span id="priceCore" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="8" data-yearly="80">8</span>
+            <span id="priceCore" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="8" data-yearly="72">8</span>
             <span id="suffixCore" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+            <span id="priceWasCore" class="hidden font-label-md text-label-md text-outline font-mono price-was self-end mb-sm">€8</span>
           </div>
-          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€80 yearly · two months free<span id="discountCore">&nbsp;· <span class="pricing-discount">20% off</span></span></p>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€72 yearly · three months free<span id="discountCore">&nbsp;· <span class="pricing-discount">25% off</span></span></p>
           <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
             For builders who need a real starting point. The essentials, without the noise.
           </p>
@@ -139,7 +173,7 @@
         </div>
 
         <div class="flex flex-col gap-xs">
-          <p id="savingsPro" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtPro" class="pricing-discount">€50</span> / year</p>
+          <p id="savingsPro" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtPro" class="pricing-discount">€60</span> / year</p>
           <article class="border border-primary-fixed-dim bg-surface-container-low p-md md:p-lg pt-xl flex flex-col min-w-0 min-h-[520px] relative overflow-hidden">
           <div class="pricing-tracer" aria-hidden="true"></div>
           <div class="absolute top-0 right-0 bg-primary-container text-on-primary px-md py-sm flex items-center gap-xs">
@@ -154,10 +188,11 @@
           </div>
           <div class="flex items-end gap-xs mb-xs">
             <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
-            <span id="pricePro" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="20" data-yearly="190">20</span>
+            <span id="pricePro" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="20" data-yearly="180">20</span>
             <span id="suffixPro" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+            <span id="priceWasPro" class="hidden font-label-md text-label-md text-outline font-mono price-was self-end mb-sm">€20</span>
           </div>
-          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€190 yearly · two months free<span id="discountPro">&nbsp;· <span class="pricing-discount">20% off</span></span></p>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€180 yearly · three months free<span id="discountPro">&nbsp;· <span class="pricing-discount">25% off</span></span></p>
           <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
             Build with everything ProjectCreation has. For the people who are driven to create.
           </p>
@@ -174,7 +209,7 @@
         </div>
 
         <div class="flex flex-col gap-xs">
-          <p id="savingsMax" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtMax" class="pricing-discount">€100</span> / year</p>
+          <p id="savingsMax" class="hidden text-center font-label-sm text-label-sm font-mono text-outline tracking-widest">You save up to <span id="savingsAmtMax" class="pricing-discount">€120</span> / year</p>
           <article class="border border-outline-variant bg-surface-container-lowest p-md md:p-lg flex flex-col min-w-0 min-h-[520px]">
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
@@ -185,10 +220,11 @@
           </div>
           <div class="flex items-end gap-xs mb-xs">
             <span class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim">€</span>
-            <span id="priceMax" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="40" data-yearly="380">40</span>
+            <span id="priceMax" class="font-body-lg font-bold text-[72px] leading-none text-primary-fixed-dim" data-monthly="40" data-yearly="360">40</span>
             <span id="suffixMax" class="font-label-md text-label-md text-outline font-mono mb-sm">/mo</span>
+            <span id="priceWasMax" class="hidden font-label-md text-label-md text-outline font-mono price-was self-end mb-sm">€40</span>
           </div>
-          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€380 yearly · two months free<span id="discountMax">&nbsp;· <span class="pricing-discount">20% off</span></span></p>
+          <p class="inline-block self-start border border-outline-variant bg-background px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-mono mb-md">€360 yearly · three months free<span id="discountMax">&nbsp;· <span class="pricing-discount">25% off</span></span></p>
           <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg ">
             The greatest things get built at full capacity. No limits, no compromises.
           </p>
@@ -206,11 +242,32 @@
       </div>
     </section>
 
-    <section class="py-lg mb-xl">
+    <section id="step-climb" class="py-lg border-b border-outline-variant">
+      <div class="max-w-3xl mb-lg">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 03 — The climb</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Each tier is a step up from the one below it — not a different path.</h2>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-start gap-md md:gap-lg mb-lg md:pt-16">
+        <div class="border border-outline-variant bg-surface-container-lowest p-md flex flex-col gap-xs md:flex-1 transition-transform duration-200 hover:-translate-y-1">
+          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Core · €8/mo</span>
+          <span class="font-body-lg text-body-lg text-on-background leading-snug">Two products. The essentials, no noise.</span>
+        </div>
+        <div class="border border-primary-fixed-dim bg-surface-container-low p-md flex flex-col gap-xs md:flex-1 relative transition-transform duration-200 hover:-translate-y-1 md:-translate-y-8">
+          <span class="absolute -top-3 right-4 font-label-sm text-label-sm font-mono text-primary-fixed-dim bg-background px-xs">★ Most popular</span>
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">Pro · €20/mo</span>
+          <span class="font-body-lg text-body-lg text-on-background leading-snug">+ full toolkit, cloud sync, 8 terminals.</span>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest p-md flex flex-col gap-xs md:flex-1 transition-transform duration-200 hover:-translate-y-1 md:-translate-y-16">
+          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Max · €40/mo</span>
+          <span class="font-body-lg text-body-lg text-on-background leading-snug">+ everything, 12 terminals, no ceiling.</span>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end border-b border-outline-variant pb-md mb-md">
         <div class="md:col-span-7">
           <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Feature Snapshot</p>
-          <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Compare the tiers without decoding the cards.</h2>
+          <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Or see the full breakdown, area by area.</h2>
         </div>
         <p class="md:col-span-5 font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
           Create an account for free. After the 3-day Pro trial, product access requires an active subscription.
@@ -221,32 +278,65 @@
         <div class="min-w-[820px] grid grid-cols-4 pricing-table-grid">
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="0">Area</div>
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="1">Core</div>
-          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest" data-row="0" data-col="2">Pro</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest" data-row="0" data-col="2">Pro</div>
           <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="3">Max</div>
+
+          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Products</div>
 
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="1" data-col="0">ProjectBuilt</div>
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="1">Mini</div>
-          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="2">Mini + Full</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="2">Mini + Full</div>
           <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="3">All releases</div>
 
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="2" data-col="0">ProjectWord</div>
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="1">Balanced + Accurate</div>
-          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="2">Smart Cleanup + sync</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="2">Smart Cleanup + sync</div>
           <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="3">Priority cloud</div>
 
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="0">ProjectCipher</div>
           <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="1">Not included</div>
-          <div class="pricing-table-cell col-pro p-sm border-r border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="2">8 terminals</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="2">8 terminals</div>
           <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="3">12 terminals</div>
 
-          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="4" data-col="0">Best for</div>
-          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="1">Getting started without the noise</div>
-          <div class="pricing-table-cell col-pro p-sm border-r border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="2">Builders driven to create</div>
-          <div class="pricing-table-cell p-sm font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="4" data-col="3">No limits, no compromises</div>
+          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Capacity &amp; Limits</div>
+
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="4" data-col="0">Dictation history</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="1">100 entries</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="2">100 entries</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="3">100 entries</div>
+
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="5" data-col="0">Cloud sync</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="5" data-col="1">—</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="5" data-col="2">✓</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="5" data-col="3">✓</div>
+
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="6" data-col="0">Orchestrator</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="6" data-col="1">—</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="6" data-col="2">✓</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="6" data-col="3">✓</div>
+
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="7" data-col="0">Future products</div>
+          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="7" data-col="1">—</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-outline font-mono text-center" data-row="7" data-col="2">—</div>
+          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="7" data-col="3">✓ at launch</div>
+
+          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Best Fit</div>
+
+          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="8" data-col="0">Best for</div>
+          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="1">Getting started without the noise</div>
+          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="2">Builders driven to create</div>
+          <div class="pricing-table-cell p-sm font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="3">No limits, no compromises</div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-12 border-x border-b border-outline-variant bg-background">
+    </section>
+
+    <section id="step-start" class="py-lg mb-xl">
+      <div class="max-w-2xl mb-md">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 04 — Get started</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Pick a tier. The trial covers the rest.</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 border border-outline-variant bg-background">
         <p class="md:col-span-8 p-sm font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
           Start with the free account and trial. Upgrade only when the products become part of your actual workflow.
         </p>

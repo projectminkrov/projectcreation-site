@@ -3366,3 +3366,279 @@ Tags:
 - css
 - javascript
 - ux
+
+## 2026-06-07 08:27 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed a flicker on the pricing page where the headline text would briefly appear statically, get cleared, and retype itself while the small label above it was still typing in
+- Both the label and the headline now stay invisible from first paint and only become visible the instant their own typewriter animation begins, so the sequence reads as one clean continuous reveal with no flash or layout shift
+- Iterated on the billing toggle and price-change animations based on hands-on feedback: replaced the sliding indicator with a simpler crossfade between Monthly/Yearly, and replaced the digit-scramble price effect with a smooth ease-out count-up that settles gently on the final number
+
+Why it matters:
+First impressions matter most on a pricing page — a clean, glitch-free reveal keeps attention on the offer instead of on rough edges in the motion design. Tuning the toggle and price animations after live feedback brings the page closer to the "premium, considered" feel the brand is going for.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+- Consider reduced-motion fallbacks for the typewriter sequence
+
+Tags:
+- pricing
+- animations
+- bugfix
+- ux
+- javascript
+
+## 2026-06-07 08:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the typewriter cursor on the pricing headline sitting visibly below the uppercase letters it follows; it now lines up cleanly on the same baseline as the text for both the small label and the large title
+
+Why it matters:
+Small alignment details like this are exactly what make terminal-style motion feel deliberate instead of rough — the cursor now reads as part of the same line of text rather than a stray block beneath it.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+
+Tags:
+- pricing
+- animations
+- css
+- bugfix
+- ux
+
+## 2026-06-07 08:48 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the pricing page's typewriter reveal with the same "deciphering text" effect used on the homepage's vision headline: characters resolve left-to-right while the rest still scramble through a randomized terminal charset before locking into place
+- Both the small label and the pricing title now decode in sequence with this effect, staying invisible until their own reveal begins so there's no flash of static text first
+- Removed the now-unused typewriter cursor styles and logic in favor of the shared decipher approach
+
+Why it matters:
+Reusing the same decode animation across the homepage and pricing page makes the "Digital Craft" terminal aesthetic feel consistent and intentional site-wide, rather than having two different reveal styles competing for attention.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+
+Tags:
+- pricing
+- animations
+- css
+- javascript
+- ux
+
+## 2026-06-07 08:55 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Made the Pro card's animated border tracer more noticeable: thickened the glowing ring and widened/brightened the traveling arc so the flash reads more clearly as it travels around the card, across all theme color variants
+
+Why it matters:
+The tracer is meant to draw the eye to the highlighted plan — at its original subtlety it was easy to miss, so boosting its presence helps it actually do that job.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+
+Tags:
+- pricing
+- animations
+- css
+- ux
+
+## 2026-06-07 09:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworked how the Yearly billing toggle displays price on the pricing page: the headline number now always reads "per month" instead of switching units between monthly and yearly totals
+- Switching to Yearly now animates the headline number down to its discounted monthly-equivalent (yearly total divided by twelve) and shows the original full monthly price crossed out right beside it, so the saving is visible at a glance
+- Kept the existing "billed €X yearly · save 20%" detail line and savings badge underneath for full transparency on what's actually charged
+
+Why it matters:
+Keeping the unit constant across the toggle (always "per month") matches how visitors naturally think about cost and how most SaaS pricing pages present it — it removes the mental math of comparing a monthly price to a yearly total, and the crossed-out comparison makes the 20% saving land instantly instead of needing to be calculated.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+
+Tags:
+- pricing
+- ux
+- javascript
+- conversion
+
+## 2026-06-07 09:18 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the crossed-out comparison price next to the pricing headline not actually showing a strikethrough — the relevant styling utility wasn't present in the compiled stylesheet, so the old price looked like plain text and read as confusing rather than as "this is the price you're not paying"
+- Added an explicit strikethrough rule to the page's animation stylesheet so the comparison price now renders with a clear line through it, making it obvious at a glance which number is the real price
+
+Why it matters:
+A comparison price that doesn't visually read as "crossed out" defeats the whole point — it just adds a second number next to the real one and confuses rather than clarifies. With the strikethrough now actually rendering, the saving is unambiguous.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+
+Tags:
+- pricing
+- css
+- bugfix
+- ux
+
+## 2026-06-07 09:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Adjusted the Pro and Max annual prices (€190 → €180, €380 → €360) so their monthly-equivalent figures land on clean whole numbers (€15/mo and €30/mo) with no rounding involved — the displayed price now divides evenly and matches the actual yearly charge exactly
+- Updated the savings badges to match (Pro now shows "save €60/year", Max "save €120/year" — both larger than before, since the new annual prices are a better deal)
+- Synced the change across the page copy, the billing toggle's underlying data, and the canonical brand/pricing reference doc
+- Re-checked the whole pricing flow end to end: toggle math, crossed-out comparison prices, savings count-up targets, and the small print all line up with no stale numbers left anywhere in the codebase
+
+Why it matters:
+A monthly-equivalent price that requires rounding (e.g. "€16/mo" representing an actual €15.83/mo charge) creates exactly the kind of subtle mismatch that erodes trust with a technical audience. Adjusting the underlying annual price so the math comes out exact removes that gap entirely — the number shown is the number charged, period — while also making the annual savings look more compelling.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+- Consider whether the "two months free" copy for Pro/Max should eventually be updated to reflect the larger real saving (closer to three months free at the new prices)
+
+Tags:
+- pricing
+- conversion
+- ux
+- javascript
+- bugfix
+
+## 2026-06-07 09:50 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Adjusted Core's annual price (€80 → €72) to align it with Pro and Max under one consistent structure: every tier's yearly price is now exactly 9 × its monthly price, exactly 25% off the full annual rate, and divides evenly into a clean monthly-equivalent (€6 / €15 / €30) with zero rounding anywhere
+- Updated the "20% off" badges across the toggle and all three tiers to the now-accurate "25% off" — the claim is precise for every tier rather than an approximation
+- Updated Core's savings badge from "save €16/year" to "save €24/year" to match the new structure
+- Synced the change across the page copy, the toggle's underlying data, and the canonical brand/pricing reference doc
+- Re-ran the full math check end to end across all three tiers — confirmed exact, consistent numbers with no stale references left anywhere
+
+Why it matters:
+The page previously advertised a flat "20% off" that wasn't quite true for any tier (Core was actually ~17% off, Pro/Max ~21% then 25% after the last price change). Aligning Core onto the same 9-months structure as Pro and Max makes "25% off" a precise, page-wide truth instead of a rounded marketing approximation — removing the last numerical inconsistency on the pricing page and giving the discount badge a bigger, fully accurate number to lead with.
+
+Next:
+- Final visual pass on localhost before redeploying to the live site
+- Consider whether the "two months free" copy should eventually be updated to reflect the larger real saving across all tiers (closer to three months free / 25% off)
+
+Tags:
+- pricing
+- conversion
+- ux
+- javascript
+- bugfix
+
+## 2026-06-07 09:58 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Finished aligning the pricing page's annual-billing messaging into one fully consistent, fully accurate structure across all three tiers
+- Updated the "two months free" copy to "three months free" everywhere it appears — the new pricing structure (yearly = 9 × monthly) makes this the literal truth for Core, Pro, and Max alike, not an approximation
+- Updated the canonical brand/pricing reference doc to describe the finished structure: every tier is now simultaneously exactly 25% off, exactly 3 months free, and divides into a clean whole-number monthly-equivalent — with nothing rounded or approximated anywhere in the chain
+
+Why it matters:
+This closes out the full pass on the pricing page's annual-billing story: every number a visitor sees — the badge, the "months free" framing, the savings amount, and the headline monthly price — now says exactly what it means and means exactly what it says, for all three tiers equally. That kind of internal consistency is what makes a pricing page feel considered rather than approximate, and is worth highlighting as a finished piece of work rather than another incremental tweak.
+
+Next:
+- Final visual pass on localhost, then redeploy the polished pricing page to the live site
+
+Tags:
+- pricing
+- conversion
+- ux
+- milestone
+
+## 2026-06-07 11:51 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Redesigned the pricing page's tier-comparison table from a single flat grid into three labeled panels (Products, Capacity & Limits, Best Fit) with comment-style section dividers
+- Added new comparison rows (history limits, cloud sync, orchestrator, future-product access) pulled from the brand reference doc
+- Replaced verbose cell text with compact glyphs for binary features and added a continuous accent bar down the Pro column to echo the card styling above
+
+Why it matters:
+The comparison table felt thin and generic next to the polished pricing cards above it — grouping the rows into clear categories and giving the Pro column a visual through-line makes the whole section feel like one designed system instead of cards-plus-an-afterthought-table.
+
+Next:
+- Visual QA pass in-browser across themes and breakpoints
+
+Tags:
+- pricing
+- design
+- frontend
+
+## 2026-06-07 12:24 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Restructured the pricing page into a guided four-step narrative (who it's for, your match, the climb, get started) threaded by a scroll-spy rail nav that lights up and fills in as you move through each step
+- Added a literal ascending "staircase" visual for the three tiers, with a small ghosted preview of it placed earlier on the page as a visual bridge between steps
+- Kept all existing toggle, pricing-card, and comparison-table functionality fully intact inside the new structure
+- Fixed a layout bug where the ghost-stairs glyph sat disconnected at the page edge instead of beside its heading, and a scroll-spy edge case where two short steps could both register as "active" on first load
+
+Why it matters:
+Turns the pricing page from a stack of separate sections into one connected walk-through — visitors get a sense of progress and a visual preview of where they're headed, instead of just scrolling past disconnected blocks.
+
+Next:
+- Continue general visual QA across themes and breakpoints
+
+Tags:
+- pricing
+- design
+- frontend
+- navigation
+
+## 2026-06-07 12:32 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworked the ghosted staircase glyph on the pricing page so it flows inline at the end of the "Your match" heading instead of sitting in a separate column, removing a visible gap that made it look stranded next to the text
+
+Why it matters:
+The glyph is meant to read as part of the sentence introducing it — a small visual wink before the full staircase appears later on the page — so it needed to sit directly against the words rather than floating apart from them.
+
+Tags:
+- pricing
+- design
+- frontend
