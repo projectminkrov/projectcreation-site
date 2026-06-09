@@ -90,40 +90,114 @@
       </div>
     </section>
 
-    <nav class="pricing-rail py-md border-b border-outline-variant" aria-label="How this page is laid out">
-      <ol class="flex items-center font-label-sm text-label-sm font-mono uppercase tracking-widest text-outline overflow-x-auto">
-        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-who"><span class="rail-dot" aria-hidden="true"></span>Who's this for</li>
-        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
-        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-match"><span class="rail-dot" aria-hidden="true"></span>Your match</li>
-        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
-        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-climb"><span class="rail-dot" aria-hidden="true"></span>The climb</li>
-        <li class="rail-line flex-1 min-w-[24px] h-px bg-outline-variant mx-sm" aria-hidden="true"></li>
-        <li class="rail-node flex items-center gap-xs whitespace-nowrap" data-rail-target="step-start"><span class="rail-dot" aria-hidden="true"></span>Get started</li>
-      </ol>
-    </nav>
+    <section id="step-who" class="py-xl md:py-[96px] border-b border-outline-variant">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 01 — Who this is for</p>
+        <h2 id="whoHeadline" class="font-headline-sm text-headline-sm text-on-background leading-snug">Three different shapes of building. Three tiers to match them.</h2>
+      </div>
+      <div class="who-terminals grid grid-cols-1 lg:grid-cols-3 gap-md">
 
-    <section id="step-who" class="py-lg border-b border-outline-variant">
-      <div class="max-w-3xl">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 01 — Who this is for</p>
-        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug mb-md">Three different shapes of building. Three tiers to match them.</h2>
-        <ul class="grid gap-sm font-label-md text-label-md text-on-surface-variant font-mono">
-          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Just getting started</strong> — you want the essentials, without the noise. <span class="text-primary-fixed-dim">Core fits.</span></span></li>
-          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Building regularly</strong> — you want the full toolkit and room to grow. <span class="text-primary-fixed-dim">Pro fits.</span></span></li>
-          <li class="grid grid-cols-[18px_minmax(0,1fr)] gap-xs"><span class="text-primary-fixed-dim">&gt;</span><span><strong class="text-on-background">Running at full capacity</strong> — you want no limits and everything at launch. <span class="text-primary-fixed-dim">Max fits.</span></span></li>
-        </ul>
+        <!-- CORE -->
+        <div class="who-terminal" data-tier="core"
+          data-headline="You're just getting started. Core has everything you actually need.">
+          <div class="who-terminal-header">
+            <span class="who-terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="who-terminal-title">CORE.cfg</span>
+          </div>
+          <div class="who-terminal-body">
+            <div class="who-line who-line-tier">CORE &nbsp;<span class="who-price">€8<span class="who-price-unit"> / mo</span></span></div>
+            <div class="who-line who-line-desc">Just getting started.</div>
+            <div class="who-line who-line-sub">The essentials, without the noise.</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">ProjectWord</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">ProjectBuilt Mini</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-limited" aria-hidden="true"></span><span class="who-status-name">ProjectCipher</span><span class="who-status-label who-limited">LIMITED</span></div>
+            <div class="who-line who-line-detail">↳ 4 terminals · 1 active workspace</div>
+            <div class="who-line who-line-detail">↳ unlimited saved workspaces</div>
+            <div class="who-line who-line-detail">↳ no orchestrator</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-label">PICK THIS IF:</div>
+            <div class="who-line who-line-check">· You're just starting your first project</div>
+            <div class="who-line who-line-check">· You publish occasionally, not every day</div>
+            <div class="who-line who-line-check">· You want to explore the tools, low commitment</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-tag">&gt;&nbsp;For builders finding their pace.<span class="who-cursor" aria-hidden="true">█</span></div>
+          </div>
+          <div class="who-terminal-footer">
+            <span class="who-terminal-label">Core fits.</span>
+            <a href="/signup.html" class="who-terminal-cta" tabindex="-1" aria-hidden="true">START CORE →</a>
+          </div>
+        </div>
+
+        <!-- PRO -->
+        <div class="who-terminal" data-tier="pro"
+          data-headline="You're building every day. Pro gives you the room to keep going.">
+          <div class="who-terminal-header">
+            <span class="who-terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="who-terminal-title">PRO.cfg</span>
+            <span class="who-popular-badge">MOST POPULAR</span>
+          </div>
+          <div class="who-terminal-body">
+            <div class="who-line who-line-tier">PRO &nbsp;&nbsp;<span class="who-price">€20<span class="who-price-unit"> / mo</span></span></div>
+            <div class="who-line who-line-desc">Building regularly.</div>
+            <div class="who-line who-line-sub">The full toolkit and room to grow.</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">ProjectWord</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">ProjectBuilt Full</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">ProjectCipher</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-detail">↳ 8 terminals · 2 workspaces</div>
+            <div class="who-line who-line-detail">↳ orchestrator: 10 uses/hr</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-label">PICK THIS IF:</div>
+            <div class="who-line who-line-check">· You ship content or projects daily</div>
+            <div class="who-line who-line-check">· You're running clients or building in public</div>
+            <div class="who-line who-line-check">· You need the full suite with generous, not unlimited, headroom</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-tag">&gt;&nbsp;For builders shipping every day.<span class="who-cursor" aria-hidden="true">█</span></div>
+          </div>
+          <div class="who-terminal-footer">
+            <span class="who-terminal-label">Pro fits.</span>
+            <a href="/signup.html" class="who-terminal-cta" tabindex="-1" aria-hidden="true">START PRO →</a>
+          </div>
+        </div>
+
+        <!-- MAX -->
+        <div class="who-terminal" data-tier="max"
+          data-headline="You're running at full capacity. Max removes every ceiling.">
+          <div class="who-terminal-header">
+            <span class="who-terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="who-terminal-title">MAX.cfg</span>
+          </div>
+          <div class="who-terminal-body">
+            <div class="who-line who-line-tier">MAX &nbsp;&nbsp;<span class="who-price">€40<span class="who-price-unit"> / mo</span></span></div>
+            <div class="who-line who-line-desc">Running at full capacity.</div>
+            <div class="who-line who-line-sub">No limits. No compromises.</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">All tools</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status"><span class="who-dot who-dot-on" aria-hidden="true"></span><span class="who-status-name">Launch priority</span><span class="who-status-label who-on">ACTIVE</span></div>
+            <div class="who-line who-line-status who-line-cpu"><span class="who-dot who-dot-max" aria-hidden="true"></span><span class="who-status-name">Uptime</span><span class="who-cpu-bar">█████████░</span><span class="who-cpu-pct">94%</span></div>
+            <div class="who-line who-line-detail who-line-detail-max">↳ 12 terminals · unlimited workspaces</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-label">PICK THIS IF:</div>
+            <div class="who-line who-line-check">· You're running a high-output creative operation</div>
+            <div class="who-line who-line-check">· You manage teams, clients, or multiple brands</div>
+            <div class="who-line who-line-check">· Limits are not an option — you need everything, now</div>
+            <div class="who-line who-line-divider" aria-hidden="true"></div>
+            <div class="who-line who-line-tag">&gt;&nbsp;For builders always shipping.<span class="who-cursor" aria-hidden="true">█</span></div>
+          </div>
+          <div class="who-terminal-footer">
+            <span class="who-terminal-label">Max fits.</span>
+            <a href="/signup.html" class="who-terminal-cta" tabindex="-1" aria-hidden="true">START MAX →</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section id="step-match" class="py-lg border-b border-outline-variant">
+    <section id="step-match" class="py-xl md:py-[96px] border-b border-outline-variant">
       <div class="max-w-2xl mb-lg">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 02 — Your match</p>
-        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Most builders land on <span class="text-primary-fixed-dim">Pro</span> — here's where every tier sits, priced out in full.
-          <span class="ghost-stairs inline-flex items-end gap-xs align-middle ml-xs" aria-hidden="true">
-            <span class="ghost-step ghost-step-core"></span>
-            <span class="ghost-step ghost-step-pro"></span>
-            <span class="ghost-step ghost-step-max"></span>
-          </span>
-        </h2>
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 02 — Your match</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Most builders land on <span class="text-primary-fixed-dim">Pro</span> — here's where every tier sits, priced out in full.</h2>
       </div>
       <!-- Billing segmented control -->
       <div class="flex flex-col items-center gap-sm pb-lg">
@@ -242,107 +316,242 @@
       </div>
     </section>
 
-    <section id="step-climb" class="py-lg border-b border-outline-variant">
-      <div class="max-w-3xl mb-lg">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 03 — The climb</p>
+    <section id="step-climb" class="py-xl md:py-[96px] border-b border-outline-variant">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 03 — The climb</p>
         <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Each tier is a step up from the one below it — not a different path.</h2>
       </div>
 
-      <div class="flex flex-col md:flex-row md:items-start gap-md md:gap-lg mb-lg md:pt-16">
-        <div class="border border-outline-variant bg-surface-container-lowest p-md flex flex-col gap-xs md:flex-1 transition-transform duration-200 hover:-translate-y-1">
-          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Core · €8/mo</span>
-          <span class="font-body-lg text-body-lg text-on-background leading-snug">Two products. The essentials, no noise.</span>
+      <!-- Upgrade Track -->
+      <div class="climb-track" id="climbTrack">
+        <div class="climb-track-rail" aria-hidden="true">
+          <div class="climb-track-fill" id="climbTrackFill"></div>
         </div>
-        <div class="border border-primary-fixed-dim bg-surface-container-low p-md flex flex-col gap-xs md:flex-1 relative transition-transform duration-200 hover:-translate-y-1 md:-translate-y-8">
-          <span class="absolute -top-3 right-4 font-label-sm text-label-sm font-mono text-primary-fixed-dim bg-background px-xs">★ Most popular</span>
-          <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">Pro · €20/mo</span>
-          <span class="font-body-lg text-body-lg text-on-background leading-snug">+ full toolkit, cloud sync, 8 terminals.</span>
+
+        <div class="climb-node" data-tier="core" data-col="1">
+          <div class="climb-node-dot" aria-hidden="true"></div>
+          <div class="climb-node-label">
+            <span class="climb-node-name">CORE</span>
+            <span class="climb-node-price">€8/mo</span>
+          </div>
+          <div class="climb-node-callout" aria-hidden="true">
+            <div class="climb-callout-line">The essentials, no noise.</div>
+            <div class="climb-callout-line">ProjectBuilt Mini + ProjectWord</div>
+            <div class="climb-callout-line">ProjectCipher — 4t · 1 active workspace</div>
+            <div class="climb-callout-line">Unlimited saved workspaces · no orchestrator</div>
+            <a href="/signup.html" class="climb-callout-cta">START CORE →</a>
+          </div>
         </div>
-        <div class="border border-outline-variant bg-surface-container-lowest p-md flex flex-col gap-xs md:flex-1 transition-transform duration-200 hover:-translate-y-1 md:-translate-y-16">
-          <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">Max · €40/mo</span>
-          <span class="font-body-lg text-body-lg text-on-background leading-snug">+ everything, 12 terminals, no ceiling.</span>
+
+        <div class="climb-node climb-node-pro" data-tier="pro" data-col="2">
+          <div class="climb-node-badge">★ MOST POPULAR</div>
+          <div class="climb-node-dot" aria-hidden="true"></div>
+          <div class="climb-node-label">
+            <span class="climb-node-name">PRO</span>
+            <span class="climb-node-price">€20/mo</span>
+          </div>
+          <div class="climb-node-callout" aria-hidden="true">
+            <div class="climb-callout-line">+ Smart Cleanup &amp; cloud sync</div>
+            <div class="climb-callout-line">+ ProjectCipher — 8t · 2 workspaces</div>
+            <div class="climb-callout-line">+ Orchestrator (10/hr) &amp; custom CLI</div>
+            <div class="climb-callout-line">Full toolkit, room to grow.</div>
+            <a href="/signup.html" class="climb-callout-cta">START PRO →</a>
+          </div>
+        </div>
+
+        <div class="climb-node" data-tier="max" data-col="3">
+          <div class="climb-node-dot" aria-hidden="true"></div>
+          <div class="climb-node-label">
+            <span class="climb-node-name">MAX</span>
+            <span class="climb-node-price">€40/mo</span>
+          </div>
+          <div class="climb-node-callout" aria-hidden="true">
+            <div class="climb-callout-line">+ Priority cloud transcription</div>
+            <div class="climb-callout-line">12 terminals · unlimited workspaces</div>
+            <div class="climb-callout-line">+ Launch priority — every new product, day one</div>
+            <div class="climb-callout-line">No limits. No ceiling.</div>
+            <a href="/signup.html" class="climb-callout-cta">START MAX →</a>
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end border-b border-outline-variant pb-md mb-md">
-        <div class="md:col-span-7">
-          <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Feature Snapshot</p>
-          <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Or see the full breakdown, area by area.</h2>
+      <!-- Mission Control Terminal — focused single-tier view -->
+      <div class="snap-terminal" id="snapTerminal">
+        <div class="snap-terminal-header">
+          <span class="snap-terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="snap-terminal-title">FEATURE_SNAPSHOT.cfg</span>
+          <div class="snap-col-tabs" role="group" aria-label="Switch tier">
+            <button class="snap-tab" data-tier="core" type="button">CORE</button>
+            <button class="snap-tab snap-tab-active" data-tier="pro" type="button">PRO</button>
+            <button class="snap-tab" data-tier="max" type="button">MAX</button>
+          </div>
         </div>
-        <p class="md:col-span-5 font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
-          Create an account for free. After the 3-day Pro trial, product access requires an active subscription.
-        </p>
-      </div>
+        <div class="snap-focus-body">
 
-      <div class="border border-outline-variant bg-surface-container-lowest overflow-x-auto">
-        <div class="min-w-[820px] grid grid-cols-4 pricing-table-grid">
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="0">Area</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="1">Core</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest" data-row="0" data-col="2">Pro</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-background font-mono uppercase tracking-widest" data-row="0" data-col="3">Max</div>
+          <div class="snap-scan-line" id="snapScanLine">
+            &gt;&nbsp;<span class="snap-scan-text" id="snapScanText"></span><span class="snap-scan-cursor">█</span>
+          </div>
 
-          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Products</div>
+          <div class="snap-feat-list" id="snapFeatList">
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="1" data-col="0">ProjectBuilt</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="1">Mini</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="2">Mini + Full</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="1" data-col="3">All releases</div>
+            <div class="snap-feat-section">// PRODUCTS</div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="2" data-col="0">ProjectWord</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="1">Balanced + Accurate</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="2">Smart Cleanup + sync</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="2" data-col="3">Priority cloud</div>
+            <div class="snap-feat-row"
+              data-core-pct="38" data-pro-pct="78" data-max-pct="100"
+              data-core-status="active" data-pro-status="active" data-max-status="active"
+              data-core-val="Mini only"
+              data-pro-val="Mini + Full"
+              data-max-val="All releases">
+              <span class="snap-feat-name">ProjectBuilt</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="0">ProjectCipher</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="3" data-col="1">Not included</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="2">8 terminals</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="3" data-col="3">12 terminals</div>
+            <div class="snap-feat-row"
+              data-core-pct="38" data-pro-pct="78" data-max-pct="100"
+              data-core-status="active" data-pro-status="active" data-max-status="active"
+              data-core-val="Balanced + Accurate"
+              data-pro-val="Smart Cleanup + sync"
+              data-max-val="Priority cloud">
+              <span class="snap-feat-name">ProjectWord</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Capacity &amp; Limits</div>
+            <div class="snap-feat-row"
+              data-core-pct="20" data-pro-pct="78" data-max-pct="100"
+              data-core-status="limited" data-pro-status="active" data-max-status="active"
+              data-core-val="◐ 4t · 1 active ws"
+              data-pro-val="[OK] 8t · 2 workspaces"
+              data-max-val="[OK] 12t · unlimited">
+              <span class="snap-feat-name">ProjectCipher</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="4" data-col="0">Dictation history</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="1">100 entries</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="2">100 entries</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="4" data-col="3">100 entries</div>
+            <div class="snap-feat-section">// CAPACITY</div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="5" data-col="0">Cloud sync</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="5" data-col="1">—</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="5" data-col="2">✓</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="5" data-col="3">✓</div>
+            <div class="snap-feat-row"
+              data-core-pct="0" data-pro-pct="100" data-max-pct="100"
+              data-core-status="off" data-pro-status="active" data-max-status="active"
+              data-core-val="[--]" data-pro-val="[OK]" data-max-val="[OK]">
+              <span class="snap-feat-name">Cloud sync</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="6" data-col="0">Orchestrator</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="6" data-col="1">—</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="6" data-col="2">✓</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="6" data-col="3">✓</div>
+            <div class="snap-feat-row"
+              data-core-pct="0" data-pro-pct="55" data-max-pct="100"
+              data-core-status="off" data-pro-status="limited" data-max-status="active"
+              data-core-val="[--]" data-pro-val="◐ 10 uses/hr" data-max-val="[OK] unlimited">
+              <span class="snap-feat-name">Orchestrator</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="7" data-col="0">Future products</div>
-          <div class="pricing-table-cell p-sm border-r border-b border-outline-variant font-label-sm text-label-sm text-outline font-mono text-center" data-row="7" data-col="1">—</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-b border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-outline font-mono text-center" data-row="7" data-col="2">—</div>
-          <div class="pricing-table-cell p-sm border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono text-center" data-row="7" data-col="3">✓ at launch</div>
+            <div class="snap-feat-row"
+              data-core-pct="0" data-pro-pct="100" data-max-pct="100"
+              data-core-status="off" data-pro-status="active" data-max-status="active"
+              data-core-val="[--]" data-pro-val="[OK]" data-max-val="[OK]">
+              <span class="snap-feat-name">Custom CLI</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="col-span-4 px-sm py-xs border-b border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">// Best Fit</div>
+            <div class="snap-feat-row"
+              data-core-pct="0" data-pro-pct="60" data-max-pct="100"
+              data-core-status="off" data-pro-status="limited" data-max-status="active"
+              data-core-val="[--]" data-pro-val="◐ after Max" data-max-val="[OK] day one">
+              <span class="snap-feat-name">Launch priority</span>
+              <div class="snap-feat-bar-track"><div class="snap-feat-bar"></div></div>
+              <span class="snap-feat-val"></span>
+            </div>
 
-          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-outline font-mono" data-row="8" data-col="0">Best for</div>
-          <div class="pricing-table-cell p-sm border-r border-outline-variant font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="1">Getting started without the noise</div>
-          <div class="pricing-table-cell col-pro p-sm border-l-2 border-r border-outline-variant border-l-primary-fixed-dim bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="2">Builders driven to create</div>
-          <div class="pricing-table-cell p-sm font-label-sm text-label-sm text-on-surface-variant font-mono" data-row="8" data-col="3">No limits, no compromises</div>
+            <div class="snap-feat-section">// BEST FIT</div>
+
+            <div class="snap-feat-row snap-feat-row-nobar"
+              data-core-status="active" data-pro-status="active" data-max-status="active"
+              data-core-val="Starting out, low noise"
+              data-pro-val="Builders driven to create"
+              data-max-val="No limits, no compromises">
+              <span class="snap-feat-name">Best for</span>
+              <span class="snap-feat-val snap-feat-val-solo"></span>
+            </div>
+
+          </div>
+
+          <div class="snap-cursor-line">&gt;&nbsp;<span class="snap-terminal-cursor">█</span></div>
+
         </div>
       </div>
 
     </section>
 
-    <section id="step-start" class="py-lg mb-xl">
-      <div class="max-w-2xl mb-md">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">// 04 — Get started</p>
-        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Pick a tier. The trial covers the rest.</h2>
+    <section id="step-start" class="py-xl md:py-[96px] mb-xl">
+      <div class="max-w-2xl mb-lg">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 04 — Get started</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">One handshake. Three days free. No card required.</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-12 border border-outline-variant bg-background">
-        <p class="md:col-span-8 p-sm font-label-sm text-label-sm text-on-surface-variant font-mono leading-relaxed">
-          Start with the free account and trial. Upgrade only when the products become part of your actual workflow.
-        </p>
-        <div class="md:col-span-4 p-sm border-t md:border-t-0 md:border-l border-outline-variant flex md:justify-end">
-          <a href="/signup.html" class="block text-center px-md py-sm bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+
+      <!-- Tier selector panel -->
+      <div class="gs-panel" id="gsTierPanel">
+        <div class="gs-panel-hdr">
+          <span class="gs-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="gs-label">TIER_SELECT.cfg</span>
         </div>
+        <div class="gs-tier-row">
+          <button class="gs-tier-card" data-tier="core" type="button">
+            <span class="gs-tier-name">CORE</span>
+            <span class="gs-tier-price">€8/mo</span>
+            <span class="gs-tier-ind">○ STANDBY</span>
+          </button>
+          <button class="gs-tier-card gs-tier-armed" data-tier="pro" type="button">
+            <span class="gs-tier-popular">★ MOST POPULAR</span>
+            <span class="gs-tier-name">PRO</span>
+            <span class="gs-tier-price">€20/mo</span>
+            <span class="gs-tier-ind">● ARMED</span>
+          </button>
+          <button class="gs-tier-card" data-tier="max" type="button">
+            <span class="gs-tier-name">MAX</span>
+            <span class="gs-tier-price">€40/mo</span>
+            <span class="gs-tier-ind">○ STANDBY</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Handshake terminals -->
+      <div class="gs-handshake" id="gsHandshake">
+        <div class="gs-term" id="gsClientTerm">
+          <div class="gs-term-hdr">
+            <span class="gs-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="gs-label">CLIENT.terminal</span>
+          </div>
+          <div class="gs-term-body" id="gsClientBody"></div>
+        </div>
+
+        <div class="gs-stream" id="gsStream" aria-hidden="true">
+          <div class="gs-beam gs-beam-r"></div>
+          <div class="gs-beam gs-beam-l"></div>
+          <div class="gs-beam gs-beam-r2"></div>
+          <div class="gs-beam gs-beam-l2"></div>
+        </div>
+
+        <div class="gs-term" id="gsSysTerm">
+          <div class="gs-term-hdr">
+            <span class="gs-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="gs-label">PROJECTCREATION.sys</span>
+          </div>
+          <div class="gs-term-body" id="gsSysBody"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="gs-cta-wrap" id="gsCtaWrap">
+        <a href="/signup.html" class="gs-cta-btn" id="gsCtaBtn">
+          <span class="gs-ring" aria-hidden="true"></span>
+          <span class="gs-cta-label" id="gsCtaLabel">INITIALIZE PRO TRIAL →</span>
+        </a>
+        <p class="gs-cta-note">3 days full access · no card · cancel anytime</p>
       </div>
     </section>
   </main>

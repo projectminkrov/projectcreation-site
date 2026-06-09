@@ -3668,3 +3668,325 @@ Tags:
 - pricing
 - cloudflare
 - supabase
+
+## 2026-06-09 18:45 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Deleted .netlify/ local directory (was leftover from a previous hosting setup)
+- Removed .netlify/ from .gitignore (nothing left to ignore)
+- Pushed cleanup to GitHub
+
+Why it matters:
+Site fully moved to Cloudflare Pages. No Netlify references remain in the repo or locally.
+
+Next:
+- Continue with next feature or maintenance work
+
+Tags:
+- cleanup
+- cloudflare
+- hosting
+
+## 2026-06-09 19:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced static bullet list in "// 01 — Who this is for" section with three interactive terminal windows (CORE.cfg, PRO.cfg, MAX.cfg)
+- Hover a terminal: panel lifts with cyan border glow, others dim, headline morphs via decipher scramble to persona-specific copy, CTA slides in
+- MAX terminal has live animated CPU bar on hover
+- Terminals stagger in on scroll with opacity/translate animation
+- Full theme override support (red, green, purple)
+- Removed guided rail navigation strip — sections carry the structure on their own
+
+Why it matters:
+The pricing page "who is this for" section now feels like a live system rather than a static list — each persona gets their own terminal showing their actual workflow, and the page responds to exploration.
+
+Next:
+- Commit and deploy to projectcreation.net
+
+Tags:
+- pricing
+- animation
+- ui
+- interactive
+
+## 2026-06-09 19:50 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Fully rewrote who-terminal CSS to match new human-readable HTML class system (`.who-line`, `.who-price`, `.who-dot`, `.who-status-name`, etc.)
+- Sequential line-reveal animation: each row slides in from the left with staggered CSS nth-child delays on scroll
+- Pulsing green dots for ACTIVE status, blue pulse for MAX uptime, grey for not included
+- Blinking block cursor at the end of each card's tag line
+- Cyan scan-line sweeps through the terminal body on hover
+- Bigger, more readable content: €22px price size, 15px descriptions, generous padding
+- MOST POPULAR badge on PRO in solid cyan
+
+Why it matters:
+The terminal windows are now genuinely impressive — human-readable content, purposeful animations (pulse, blink, scan), and a clear visual hierarchy that makes the three tiers feel like a live dashboard rather than a price list. First-time visitors now get an immediate "WOAH" from the section.
+
+Next:
+- Commit and deploy to projectcreation.net when ready
+
+Tags:
+- pricing
+- animation
+- ui
+- who-section
+- terminal
+
+## 2026-06-09 19:57 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added "PICK THIS IF:" decision section to all three terminal cards (CORE, PRO, MAX)
+- Each card now has 3 plain-language bullet points helping users self-select the right tier
+- New CSS classes: `who-line-label` (muted uppercase header) and `who-line-check` (light decision bullets)
+- Extended sequential line-reveal nth-child delays from 9 to 14 to cover the additional lines
+
+Why it matters:
+Users now have enough information inside the cards to make a decision without leaving the section — the terminals tell you what each plan includes AND who it's actually for.
+
+Next:
+- Commit and deploy to projectcreation.net when ready
+
+Tags:
+- pricing
+- ui
+- who-section
+- copy
+
+## 2026-06-09 20:08 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Added ProjectCipher to Core plan as a limited inclusion (4 terminals, 1 workspace, built-in providers only, no team features or orchestrator)
+- Pro plan now explicitly supports up to 2 workspaces; Max plan now explicitly supports unlimited workspaces
+- Updated PROJECTCREATION.md (brand source of truth) to reflect all three tiers' Cipher limits
+- Updated pricing.html: Core Cipher row now shows an amber "LIMITED" dot and pulsing amber indicator; all three cards show terminal/workspace count detail lines (↳ 4 terminals · 1 workspace, etc.)
+- Max card's detail line renders in faint cyan to visually distinguish unlimited capacity
+- Updated projects.html ProjectCipher section: replaced "Twelve AI agents" with "Up to twelve" and added a clear tier breakdown line (Core: 4 · Pro: 8 · Max: 12)
+
+Why it matters:
+Users can now see exactly what ProjectCipher access looks like at each tier without leaving the pricing section. The amber LIMITED indicator makes the Core restriction clear at a glance without feeling punishing — it's included, just capped. The source-of-truth doc (PROJECTCREATION.md) and every public-facing surface are now aligned.
+
+Next:
+- Commit and deploy to projectcreation.net when ready
+
+Tags:
+- pricing
+- projectcipher
+- tiers
+- workspaces
+- copy
+
+## 2026-06-09 20:38 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Removed the "weird chart" ghost-stairs element from the // 02 heading
+- Completely redesigned // 03 — The Climb section with an A+B hybrid approach:
+  - Upgrade Track: horizontal timeline with three glowing nodes (CORE/PRO/MAX), animated fill line that extends left→right on scroll, hover callouts that expand per tier
+  - Mission Control Terminal: FEATURE_SNAPSHOT.cfg terminal panel replacing the flat grid table
+  - Terminal rows reveal sequentially on scroll (staggered 55ms per cell, 320ms per section)
+  - Section headers (// scanning products...) typewrite character by character on reveal
+  - Row hover scan-line: all cells in a hovered row highlight together via JS
+  - Column tab switcher (CORE/PRO/MAX) with PRO highlighted by default
+  - Climb node hover → automatically switches the highlighted column in the table below
+  - ProjectCipher now shows amber ◐ LIMITED for Core, green [OK] for Pro/Max
+  - [OK] / [--] indicators throughout replace plain text checkmarks
+
+Why it matters:
+The climb section went from three flat static boxes + a generic grid to a fully animated, interactive system dashboard that matches the ProjectCreation terminal aesthetic. Users can hover tier nodes, see callouts with tier highlights, watch the table reveal itself, and switch column focus — all without leaving the section.
+
+Next:
+- Commit and deploy to projectcreation.net when ready
+
+Tags:
+- pricing
+- animation
+- ui
+- climb
+- feature-table
+- interactive
+- redesign
+
+## 2026-06-09 20:29 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Completed the Tier Focus Bar View JS IIFE in pricing-animations.js
+- Replaced broken grid-based snap terminal logic with new switchTier system
+- Tab clicks and climb node hover now animate tier transitions (fade out → update content + bars → fade in)
+- IntersectionObserver stagger reveals rows and sections on scroll, animating bars from 0 to target width
+- Typewriter scan header updates on every tier switch
+- bar-active / bar-limited / bar-off classes applied per tier from data attributes on each row
+- fmtVal helper wraps [OK], [--], and limited values in colour-coded spans
+
+Why it matters:
+The // 03 section now has a fully interactive feature comparison — visitors can click tier tabs or hover the upgrade track nodes to switch the focused view, with smooth animated transitions. This makes the pricing page feel like a live product demo rather than a static table, consistent with the ProjectCreation terminal aesthetic.
+
+Next:
+- Visual QA pass on the tier transitions and bar animations
+- Check climb node hover → tab sync across all three tiers
+- Commit and deploy when ready
+
+Tags:
+- pricing
+- interactive
+- animations
+- tier-focus
+- snap-terminal
+
+## 2026-06-09 20:34 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added orchestrator rate limit to Pro plan: 10 uses per hour in ProjectCipher
+- Max plan now explicitly states unlimited orchestrator usage
+- Updated PROJECTCREATION.md tier definitions accordingly
+- pricing.html — Pro who-terminal card: added "↳ orchestrator: 10 uses/hr" detail line
+- pricing.html — Pro "Pick this if" copy updated to reflect limited headroom, not unlimited
+- pricing.html — Climb node Pro callout updated to "Orchestrator (10/hr) & custom CLI"
+- pricing.html — Snap feature table Orchestrator row: Pro now shows limited (amber bar, 55%, ◐ 10 uses/hr), Max shows unlimited active
+- projects.html — ProjectCipher tier breakdown line updated with orchestrator limits
+
+Why it matters:
+Adds a meaningful differentiation between Pro and Max for power users who rely on the orchestrator heavily. Pro is still fully capable for most builders; Max removes the ceiling entirely for those who need it.
+
+Next:
+- Visual QA of Orchestrator row in the snap feature table across all three tiers
+- Commit and deploy when ready
+
+Tags:
+- pricing
+- projectcipher
+- orchestrator
+- tier-limits
+
+## 2026-06-09 20:38 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Clarified Core plan ProjectCipher limits across all files:
+  - 1 active workspace at a time (not just "1 workspace")
+  - Unlimited saved/starred workspace configs allowed
+  - No orchestrator access explicitly stated
+- Updated PROJECTCREATION.md Core tier definition
+- pricing.html — Core who-terminal card: added three detail lines (1 active workspace, unlimited saved workspaces, no orchestrator)
+- pricing.html — Core climb node callout: updated workspace wording + added saved workspaces/no orchestrator line
+- pricing.html — Snap feature Orchestrator row Core val unchanged ([--]) but ProjectCipher row Core updated to "1 active ws"
+- projects.html — tier breakdown updated with full Core limits
+
+Why it matters:
+The distinction between "active workspace" and "saved workspace configs" is important UX — Core users aren't artificially blocked from organising their setups, they just run one at a time. This also makes the upgrade path to Pro (2 active workspaces + orchestrator) clearer and more motivating.
+
+Next:
+- Visual QA on Core who-terminal card (detail lines may push height)
+- Commit and deploy when ready
+
+Tags:
+- pricing
+- projectcipher
+- core-plan
+- workspace-limits
+
+## 2026-06-09 20:42 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Renamed "Future products" to "Launch priority" across all files
+- Snap feature table: Max = active (day one), Pro = limited (after Max), Core = limited (after Pro) — bars and statuses updated accordingly
+- Max who-terminal card: "Early access" status line renamed to "Launch priority"
+- Max climb node callout: updated to "Launch priority — every new product, day one"
+- PROJECTCREATION.md: Max tier bullet rewritten to describe the rollout order explicitly
+
+Why it matters:
+"Future products" implied a binary — you either get it or you don't. "Launch priority" frames it as a rollout sequence: Max gets everything day one, Pro follows, Core follows after. Every tier eventually gets access; Max just gets there first.
+
+Next:
+- Commit and deploy when ready
+
+Tags:
+- pricing
+- launch-priority
+- max-plan
+- tier-framing
+
+## 2026-06-09 20:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Launch priority row: Core changed from limited (amber) to off ([--]) — matches Cloud sync treatment
+- PROJECTCREATION.md updated to clarify Core has no priority guarantee on new releases
+
+Tags:
+- pricing
+- core-plan
+- launch-priority
+
+## 2026-06-09 20:55 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Completely rebuilt // 04 Get Started section as a Deploy Panel + Handshake Protocol hybrid
+- Three tier selector cards (CORE / PRO / MAX) with animated armed/standby states and pulsing glow on active
+- Handshake split: CLIENT.terminal on the left, PROJECTCREATION.sys on the right
+- Animated beam stream between terminals — two glowing data beams flow in opposite directions continuously
+- Clicking a tier card arms it, flashes the stream, and updates both terminals with that tier's real specs
+- Terminal lines fade+slide in sequentially; sys terminal delays slightly after stream reconnects
+- CTA button updates its label (INITIALIZE CORE/PRO/MAX TRIAL →) to match selected tier
+- Pulsing outer ring on CTA, letter-spacing expands on hover
+- Full scroll-reveal: terminals fade in, CTA slides up from below
+- All theme variants (red, green, purple) fully wired — beams, armed glow, CTA, cursor all respect theme
+
+Why it matters:
+The conversion section now feels like activating a real system rather than clicking a button. Users engage with their tier choice through an interactive console before committing — making the CTA feel like a natural conclusion to the flow rather than an arbitrary prompt.
+
+Next:
+- Commit and deploy when ready
+
+Tags:
+- pricing
+- get-started
+- cta
+- interactive
+- animations
+- handshake
