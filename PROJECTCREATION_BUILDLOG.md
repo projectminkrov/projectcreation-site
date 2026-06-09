@@ -3642,3 +3642,29 @@ Tags:
 - pricing
 - design
 - frontend
+
+## 2026-06-09 18:15 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Committed and deployed pricing page animation updates (toggle, transitions, layout)
+- Added Supabase avatar bucket patch and profiles table SQL to repo
+- Added team coordination context file (CLAUDE.md)
+- Pushed to GitHub main branch, triggering Cloudflare Pages auto-deploy
+- Confirmed live on projectcreation.net via direct wrangler deploy
+
+Why it matters:
+All recent pricing page work is now live on the official website. The GitHub → Cloudflare Pages pipeline is confirmed working, and the deploy workflow is documented: push to main auto-deploys; wrangler pages deploy dist can be used for immediate manual pushes.
+
+Next:
+- Apply Supabase SQL patches to the live database if not yet run
+- Continue work on next feature
+
+Tags:
+- deploy
+- pricing
+- cloudflare
+- supabase
