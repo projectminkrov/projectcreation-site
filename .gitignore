@@ -2,7 +2,6 @@
 dist/
 
 # Local and private tooling state
-.netlify/
 .claude/
 node_modules/
 
