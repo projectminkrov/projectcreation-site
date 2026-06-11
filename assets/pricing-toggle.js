@@ -299,6 +299,7 @@ window.PRICING = {
   var scanTextEl  = document.getElementById('snapScanText');
   var currentTier = 'pro';
   var switching   = false;
+  var pendingTier = null;
 
   var TIER_PRICES = {
     core: { monthly: 8,  yearly: 6  },
@@ -374,15 +375,13 @@ window.PRICING = {
 
   // ── Switch tier (animated) ─────────────────────────────────
   function switchTier(tier, skipAnim) {
-    if (tier === currentTier && !skipAnim) return;
-    currentTier = tier;
-
-    // Update tabs
+    // Always reflect the clicked tab right away, even mid-animation
     terminal.querySelectorAll('.snap-tab').forEach(function (t) {
       t.classList.toggle('snap-tab-active', t.dataset.tier === tier);
     });
 
     if (skipAnim) {
+      currentTier = tier;
       applyTierContent(tier);
       if (scanTextEl) {
         scanTextEl.textContent = SCAN_MSGS[tier];
@@ -392,7 +391,13 @@ window.PRICING = {
       return;
     }
 
-    if (switching) return;
+    if (switching) {
+      pendingTier = tier;
+      return;
+    }
+
+    if (tier === currentTier) return;
+    currentTier = tier;
     switching = true;
 
     // Fade rows out
@@ -408,10 +413,10 @@ window.PRICING = {
 
     setTimeout(function () {
       // Update content
-      applyTierContent(tier);
+      applyTierContent(currentTier);
 
       // Typewrite scan header
-      if (scanTextEl) typewrite(scanTextEl, SCAN_MSGS[tier], 28);
+      if (scanTextEl) typewrite(scanTextEl, SCAN_MSGS[currentTier], 28);
 
       // Fade rows + sections in
       featSects.forEach(function (s, i) {
@@ -425,11 +430,18 @@ window.PRICING = {
       });
 
       // Animate bars after rows are visible
-      animateBars(tier, 180);
+      animateBars(currentTier, 180);
 
       setTimeout(function () {
         featRows.forEach(function (r) { r.style.transitionDelay = ''; });
         switching = false;
+        if (pendingTier && pendingTier !== currentTier) {
+          var next = pendingTier;
+          pendingTier = null;
+          switchTier(next, false);
+        } else {
+          pendingTier = null;
+        }
       }, 80 + featRows.length * 50 + 400);
 
     }, 18 * featRows.length + 100);

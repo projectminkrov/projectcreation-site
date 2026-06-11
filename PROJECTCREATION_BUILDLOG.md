@@ -4323,3 +4323,43 @@ Tags:
 - pricing
 - projectword
 - copy
+
+## 2026-06-11 11:53 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Granted a Max-tier subscription to a tester account for ProjectWord access
+
+Why it matters:
+Lets a tester try ProjectWord's full feature set ahead of public availability.
+
+Next:
+- Gather tester feedback on ProjectWord
+
+Tags:
+- projectword
+- subscriptions
+- testing
+
+## 2026-06-11 12:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the pricing page's tier comparison terminal so quickly switching between Core/Pro/Max tabs always lands on the tier you actually clicked, even mid-animation
+
+Why it matters:
+Rapid tab switching no longer leaves the highlighted tab out of sync with the displayed feature details.
+
+Next:
+- None for this pass
+
+Tags:
+- pricing
+- bugfix
+- ux
