@@ -521,10 +521,6 @@
   background-color: rgba(42, 168, 255, 0.03);
 }
 
-.tools-card--upcoming {
-  opacity: 0.55;
-}
-
 .tools-card-canvas {
   position: absolute;
   inset: 0;

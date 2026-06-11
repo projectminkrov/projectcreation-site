@@ -318,6 +318,23 @@
   line-height: 1.5;
 }
 
+/* ── Theme overrides ──────────────────────────────────────── */
+
+body.theme-red    .cmd-prompt,
+body.theme-red    .cmd-item-icon,
+body.theme-red    .sensors-title { color: #ff2a2a; }
+body.theme-red    .cmd-item.active { border-left-color: #ff2a2a; }
+
+body.theme-green  .cmd-prompt,
+body.theme-green  .cmd-item-icon,
+body.theme-green  .sensors-title { color: #39ff14; }
+body.theme-green  .cmd-item.active { border-left-color: #39ff14; }
+
+body.theme-purple .cmd-prompt,
+body.theme-purple .cmd-item-icon,
+body.theme-purple .sensors-title { color: #a855f7; }
+body.theme-purple .cmd-item.active { border-left-color: #a855f7; }
+
 /* ── Reduced motion ───────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {

@@ -3990,3 +3990,336 @@ Tags:
 - interactive
 - animations
 - handshake
+
+## 2026-06-09 21:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Consistency audit across all pricing surfaces and PROJECTCREATION.md
+- Core pricing card: added missing ProjectCipher entry (4t · 1 active workspace · no orchestrator)
+- Pro pricing card: expanded Cipher line to show workspaces and orchestrator cap (8t · 2 workspaces · orchestrator 10/hr)
+- Max pricing card: updated stale "Future products at launch" → "Launch priority — new products day one"
+- PROJECTCREATION.md: corrected hosting platform from Netlify to Cloudflare Pages
+- Committed, built, and deployed to production
+
+Why it matters:
+Every surface now shows the same accurate information. No tier is missing its Cipher details, no outdated copy remains, and the source-of-truth file matches what the website shows.
+
+Tags:
+- audit
+- consistency
+- pricing
+- projectcipher
+
+## 2026-06-09 21:12 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Second consistency audit pass — found and fixed two remaining gaps in Max tier displays
+- Max who-terminal card: detail line now reads "12 terminals · unlimited workspaces · unlimited orchestrator" (matches how Core and Pro each state their orchestrator status)
+- Max pricing card: Cipher line now reads "12t · unlimited workspaces · unlimited orchestrator" (matches Pro's format of listing all three specs)
+- Committed, built, deployed to production
+
+Tags:
+- audit
+- consistency
+- max-plan
+- projectcipher
+
+## 2026-06-10 12:00 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Reworked the pricing page layout: removed the redundant "Get Started" section and reordered the remaining sections so the plan-comparison cards lead, followed by the audience breakdown and the feature roadmap
+- The yearly/monthly billing toggle now updates pricing everywhere on the page, including the audience cards and the roadmap track, not just the main plan cards
+
+Why it matters:
+The pricing page is simpler and easier to scan, and switching to yearly billing now gives a consistent picture across the whole page instead of just one section.
+
+Next:
+- None — feature complete
+
+Tags:
+- pricing
+- redesign
+- ui
+
+## 2026-06-10 12:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the command palette and project status panel so their accent colors follow the site's selected color theme instead of always showing the default blue
+- Verified all theme options render correctly across both panels
+
+Why it matters:
+Visual consistency across the whole site, regardless of which theme a visitor picks.
+
+Next:
+- None
+
+Tags:
+- theming
+- ui-fix
+
+## 2026-06-10 12:20 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Swapped the order of the pricing page sections so "Who this is for" now leads and the plan-comparison cards follow
+- Removed the price tags from the "Who this is for" cards so visitors see the audience breakdown first before any pricing
+
+Why it matters:
+Leads with the "is this for me?" framing instead of pricing up front, which should reduce early drop-off, while pricing is still front-and-center on the very next section.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+- redesign
+
+## 2026-06-10 12:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- The CORE, PRO, and MAX tier names in the "Who this is for" section now use the site's accent color, matching the rest of the page's styling and following the selected color theme
+
+Why it matters:
+Small visual consistency tweak so tier names stand out and match the site's theme system.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+
+## 2026-06-10 12:50 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added hover animations to the pricing cards: a glowing scanline sweeps down each card on hover, and the "Includes" list lights up sequentially as it passes
+- Added a small live "process feed" line at the bottom of each pricing card that types out and cycles through tier-specific status messages (workspace, orchestrator, cipher), simulating an active terminal session
+- Both effects follow the site's color theme and respect reduced-motion preferences
+
+Why it matters:
+Makes the pricing cards feel more alive and on-brand with the terminal/CLI aesthetic, without changing the existing card layout or pricing logic.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+- animation
+
+## 2026-06-10 13:00 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the glowing scanline hover effect from the pricing cards — found distracting in practice
+- Kept the sequential "Includes" list reveal and the live process feed line on hover, which tested well
+
+Why it matters:
+Keeps the pricing cards feeling alive without the busier scan animation getting in the way.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+- animation
+
+## 2026-06-10 13:10 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the closing tagline ("For builders finding their pace.", etc.) from each terminal card in the "Who this is for" section
+- Pricing cards in section 02 now lift slightly with a soft shadow on hover for a more tactile feel
+
+Why it matters:
+Trims redundant copy from the audience cards and adds a small interactive touch to the pricing cards.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+- animation
+
+## 2026-06-10 13:20 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the "Most Popular" badge on the Pro tier in section 03's track: hovering no longer enlarges the glowing dot underneath it
+- Hovering the Pro node now slightly enlarges the "Most Popular" badge itself instead
+
+Why it matters:
+Cleaner hover feedback on the climb track — the glow no longer looks like it's bleeding out from behind the badge.
+
+Next:
+- None
+
+Tags:
+- pricing
+- ui
+
+## 2026-06-10 13:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Cleanup pass on the pricing page stylesheet: removed leftover `.who-line-tag` styles (base + theme overrides) that were no longer used after the earlier tagline removal
+
+Why it matters:
+Keeps the stylesheet free of dead code from prior pricing page changes.
+
+Next:
+- None
+
+Tags:
+- pricing
+- cleanup
+
+## 2026-06-10 15:02 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Added a new standalone Community page with a Discord hub card and follow links for X, YouTube, and TikTok (placeholder links for now).
+- Updated the Community nav link site-wide to point to the new page.
+
+Why it matters:
+Gives people a real front door to find other vibe coders and creators around ProjectCreation, with Discord as the main hangout spot.
+
+Next:
+- Swap in the real Discord invite and social handles once shared.
+
+Tags:
+- community
+- discord
+- social
+
+## 2026-06-10 21:55 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Reordered the pricing page so the plan/price cards (with the monthly/yearly toggle) appear first, followed by the "who this is for" breakdown
+- Replaced "MOST POPULAR" badges with "RECOMMENDED" across the pricing page
+- Simplified technical wording on the pricing page into plain language a new visitor can follow
+- Replaced an unverifiable uptime stat on the top-tier card with a clearer queue-priority note
+- Marked ProjectBuilt as a fully available product across the homepage and projects page, with a working call-to-action and updated stats
+
+Why it matters:
+The pricing page now leads with the actual decision (which plan, what it costs) and explains things in everyday language instead of jargon, while ProjectBuilt joins ProjectCipher and ProjectWord as a live, ready-to-use product.
+
+Next:
+- Revisit the proof/trust section of the pricing page (deferred for now)
+
+Tags:
+- pricing
+- projectbuilt
+- ux
+
+## 2026-06-10 22:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Did a full consistency pass across the pricing, home, and projects pages after the recent pricing rebuild
+- Replaced a few remaining shorthand terms in the pricing page's small live-status indicators with plain wording
+
+Why it matters:
+Confirms the pricing and product pages are consistent and ready for visitors, with no leftover technical shorthand or stale "coming soon" language.
+
+Next:
+- None — ready for review
+
+Tags:
+- pricing
+- qa
+- consistency
+
+## 2026-06-10 22:20 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Site-wide accuracy pass across all pages, not just pricing
+- Fixed a homepage line that overstated ProjectCipher's agent count as a flat "twelve," now matches the accurate "up to twelve" wording used elsewhere
+
+Why it matters:
+Keeps the homepage and product page descriptions honest and consistent with the actual tier-by-tier limits shown on pricing.
+
+Next:
+- None for this pass
+
+Tags:
+- qa
+- consistency
+- copy
+
+## 2026-06-11 09:10 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Confirmed ProjectWord cloud sync is fully live and updated copy on the pricing and projects pages to reflect that, removing "coming soon" / "when live" hedging
+- Aligned the pricing page's feature snapshot so ProjectBuilt access is described consistently across Pro and Max
+
+Why it matters:
+The pricing page no longer undersells a feature that's actually shipped, and tier comparisons read consistently end to end.
+
+Next:
+- None for this pass
+
+Tags:
+- pricing
+- projectword
+- copy

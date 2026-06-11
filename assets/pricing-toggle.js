@@ -2,6 +2,14 @@
 // count-up, savings meter, table row hover, and guided-rail scrollspy
 // for the pricing page.
 // External file so production CSP can keep script-src 'self' without unsafe-inline.
+
+// Shared billing state — other sections (who-cards, climb track) read
+// this to keep their price displays in sync with the toggle.
+window.PRICING = {
+  isYearly: false,
+  onToggle: [],
+};
+
 (function () {
   var btnMonthly = document.getElementById('billMonthly');
   var btnYearly  = document.getElementById('billYearly');
@@ -21,6 +29,15 @@
     { price: 'priceCore', suffix: 'suffixCore', was: 'priceWasCore', monthly: '8',  yearly: '72'  },
     { price: 'pricePro',  suffix: 'suffixPro',  was: 'priceWasPro',  monthly: '20', yearly: '180' },
     { price: 'priceMax',  suffix: 'suffixMax',  was: 'priceWasMax',  monthly: '40', yearly: '360' },
+  ];
+
+  // Plain monthly-equivalent price displays elsewhere on the page
+  // (who-cards, climb track) — no suffix/was elements to manage,
+  // just the number itself.
+  var extraPrices = [
+    { price: 'climbPriceCore', monthly: '8',  yearly: '6'  },
+    { price: 'climbPricePro',  monthly: '20', yearly: '15' },
+    { price: 'climbPriceMax',  monthly: '40', yearly: '30' },
   ];
 
   var priceTimers = {};
@@ -75,6 +92,8 @@
   }
 
   function activate(isYearly) {
+    window.PRICING.isYearly = isYearly;
+
     // Each button's accent background crossfades independently via the
     // shared `transition-colors duration-200` utility — no moving part,
     // so there's nothing to stretch between two differently-sized tabs.
@@ -118,6 +137,16 @@
         }
       }
     });
+
+    // Sync the plain monthly-equivalent prices shown in the who-cards
+    // and climb track.
+    extraPrices.forEach(function (p) {
+      var el = document.getElementById(p.price);
+      if (el) animatePriceTo(el, isYearly ? p.yearly : p.monthly);
+    });
+
+    // Let other sections react (e.g. the climb track's scan messages).
+    window.PRICING.onToggle.forEach(function (fn) { fn(isYearly); });
   }
 
   btnMonthly.addEventListener('click', function () { activate(false); });
@@ -255,28 +284,6 @@
     });
   });
 
-  // CPU bar ticker on MAX terminal hover
-  var maxEl   = terminalsWrap.querySelector('[data-tier="max"]');
-  var cpuBar  = maxEl ? maxEl.querySelector('.who-cpu-bar') : null;
-  var cpuPct  = maxEl ? maxEl.querySelector('.who-cpu-pct') : null;
-  if (maxEl && cpuBar && cpuPct) {
-    var bars = ['███░░░░░░░','█████░░░░░','███████░░░','█████████░','██████████','█████████░','████████░░','██████░░░░'];
-    var pcts = ['31%','52%','71%','90%','99%','94%','83%','67%'];
-    var cpuIdx = 3;
-    var cpuTimer = null;
-    maxEl.addEventListener('mouseenter', function () {
-      cpuTimer = setInterval(function () {
-        cpuIdx = (cpuIdx + 1) % bars.length;
-        cpuBar.textContent = bars[cpuIdx];
-        cpuPct.textContent = pcts[cpuIdx];
-      }, 380);
-    });
-    maxEl.addEventListener('mouseleave', function () {
-      clearInterval(cpuTimer);
-      cpuBar.textContent = '█████████░';
-      cpuPct.textContent = '94%';
-    });
-  }
 }());
 
 // ── Upgrade Track + Focused Snap Terminal ─────────────────────
@@ -293,22 +300,36 @@
   var currentTier = 'pro';
   var switching   = false;
 
-  var SCAN_MSGS = {
-    core: 'scanning tier: CORE · €8/mo...',
-    pro:  'scanning tier: PRO · €20/mo...',
-    max:  'scanning tier: MAX · €40/mo...'
+  var TIER_PRICES = {
+    core: { monthly: 8,  yearly: 6  },
+    pro:  { monthly: 20, yearly: 15 },
+    max:  { monthly: 40, yearly: 30 },
   };
 
+  function buildScanMsgs() {
+    var isYearly = window.PRICING && window.PRICING.isYearly;
+    var msgs = {};
+    Object.keys(TIER_PRICES).forEach(function (tier) {
+      var price = isYearly ? TIER_PRICES[tier].yearly : TIER_PRICES[tier].monthly;
+      msgs[tier] = 'scanning tier: ' + tier.toUpperCase() + ' · €' + price + '/mo...';
+    });
+    return msgs;
+  }
+
+  var SCAN_MSGS = buildScanMsgs();
+
   // ── Helpers ────────────────────────────────────────────────
+  var typewriteTimer = null;
   function typewrite(el, text, speed) {
+    clearInterval(typewriteTimer);
     el.textContent = '';
     var i = 0;
     var cursor = el.nextElementSibling;
     if (cursor) cursor.style.display = '';
-    var t = setInterval(function () {
+    typewriteTimer = setInterval(function () {
       el.textContent = text.slice(0, ++i);
       if (i >= text.length) {
-        clearInterval(t);
+        clearInterval(typewriteTimer);
         if (cursor) cursor.style.display = 'none';
       }
     }, speed);
@@ -414,6 +435,17 @@
     }, 18 * featRows.length + 100);
   }
 
+  // ── Billing toggle: refresh scan messages + live scan text ──
+  window.PRICING.onToggle.push(function () {
+    SCAN_MSGS = buildScanMsgs();
+    if (scanTextEl) {
+      clearInterval(typewriteTimer);
+      var cursor = scanTextEl.nextElementSibling;
+      scanTextEl.textContent = SCAN_MSGS[currentTier];
+      if (cursor) cursor.style.display = 'none';
+    }
+  });
+
   // ── Tab clicks ────────────────────────────────────────────
   terminal.querySelectorAll('.snap-tab').forEach(function (tab) {
     tab.addEventListener('click', function () { switchTier(tab.dataset.tier, false); });
@@ -466,185 +498,89 @@
 
 }());
 
-// ── // 04 Get Started ─────────────────────────────────────────
+// ── Section 02: pricing card live process feed ────────────────
+// Each card has a small terminal-style status line that types out,
+// holds, then erases and types the next message — looping while the
+// card is in view, like a live monitoring feed for that tier.
 (function () {
-  var tierPanel  = document.getElementById('gsTierPanel');
-  var clientBody = document.getElementById('gsClientBody');
-  var sysBody    = document.getElementById('gsSysBody');
-  var ctaLabel   = document.getElementById('gsCtaLabel');
-  var ctaBtn     = document.getElementById('gsCtaBtn');
-  var stream     = document.getElementById('gsStream');
-  var ctaWrap    = document.getElementById('gsCtaWrap');
-  var handshake  = document.getElementById('gsHandshake');
-  if (!tierPanel || !clientBody || !sysBody) return;
-
-  var activeTier = 'pro';
-
-  var TIERS = {
-    core: {
-      cta:  'INITIALIZE CORE TRIAL →',
-      client: [
-        { k: '> tier:',   v: 'CORE',          c: '' },
-        { k: '> trial:',  v: '3 days',         c: '' },
-        { k: '> card:',   v: 'NOT REQUIRED',   c: 'ok' },
-        { k: '> status:', v: 'READY',          c: 'cyan' },
-      ],
-      sys: [
-        { k: 'ACK:',          v: 'TIER_RECEIVED',    c: '' },
-        { k: 'GRANT:',        v: 'FULL_CORE_ACCESS', c: 'ok' },
-        { k: 'TERMINALS:',    v: '4',                c: '' },
-        { k: 'WORKSPACES:',   v: '1 active',         c: '' },
-        { k: 'ORCHESTRATOR:', v: 'NONE',             c: 'dim' },
-        { k: 'STATUS:',       v: 'AWAITING CONFIRM', c: 'cyan' },
-      ],
-    },
-    pro: {
-      cta:  'INITIALIZE PRO TRIAL →',
-      client: [
-        { k: '> tier:',   v: 'PRO',            c: '' },
-        { k: '> trial:',  v: '3 days',         c: '' },
-        { k: '> card:',   v: 'NOT REQUIRED',   c: 'ok' },
-        { k: '> status:', v: 'READY',          c: 'cyan' },
-      ],
-      sys: [
-        { k: 'ACK:',          v: 'TIER_RECEIVED',   c: '' },
-        { k: 'GRANT:',        v: 'FULL_PRO_ACCESS', c: 'ok' },
-        { k: 'TERMINALS:',    v: '8',               c: '' },
-        { k: 'WORKSPACES:',   v: '2',               c: '' },
-        { k: 'ORCHESTRATOR:', v: '10 / hr',         c: 'amber' },
-        { k: 'STATUS:',       v: 'AWAITING CONFIRM',c: 'cyan' },
-      ],
-    },
-    max: {
-      cta:  'INITIALIZE MAX TRIAL →',
-      client: [
-        { k: '> tier:',   v: 'MAX',            c: '' },
-        { k: '> trial:',  v: '3 days',         c: '' },
-        { k: '> card:',   v: 'NOT REQUIRED',   c: 'ok' },
-        { k: '> status:', v: 'READY',          c: 'cyan' },
-      ],
-      sys: [
-        { k: 'ACK:',          v: 'TIER_RECEIVED',   c: '' },
-        { k: 'GRANT:',        v: 'FULL_MAX_ACCESS', c: 'ok' },
-        { k: 'TERMINALS:',    v: '12',              c: '' },
-        { k: 'WORKSPACES:',   v: 'unlimited',       c: 'ok' },
-        { k: 'ORCHESTRATOR:', v: 'unlimited',       c: 'ok' },
-        { k: 'STATUS:',       v: 'AWAITING CONFIRM',c: 'cyan' },
-      ],
-    },
+  var FEEDS = {
+    core: [
+      'workspace: 1/1 active',
+      'automated runs: off',
+      'cipher: 4 terminals',
+    ],
+    pro: [
+      'workspace: 2/2 synced',
+      'automated runs: 10/hr',
+      'cipher: 8 terminals',
+    ],
+    max: [
+      'workspace: unlimited',
+      'automated runs: unlimited',
+      'cipher: 12 terminals',
+    ],
   };
 
-  var CLS = { '': 'gs-lv', 'ok': 'gs-lv-ok', 'cyan': 'gs-lv-cyan', 'amber': 'gs-lv-amber', 'dim': 'gs-lv-dim' };
+  var TYPE_SPEED   = 45;
+  var ERASE_SPEED  = 25;
+  var HOLD_MS      = 1800;
+  var prefersReduced = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function makeLine(k, v, c) {
-    var el = document.createElement('div');
-    el.className = 'gs-term-line';
-    var kEl = document.createElement('span');
-    kEl.className = 'gs-lk';
-    kEl.textContent = k;
-    var vEl = document.createElement('span');
-    vEl.className = CLS[c] || 'gs-lv';
-    vEl.textContent = v;
-    el.appendChild(kEl);
-    el.appendChild(vEl);
-    return el;
-  }
+  document.querySelectorAll('.pricing-feed').forEach(function (feed) {
+    var tier = feed.getAttribute('data-tier');
+    var msgs = FEEDS[tier];
+    if (!msgs) return;
+    var textEl = feed.querySelector('.pricing-feed-text');
+    if (!textEl) return;
 
-  function makeCursor() {
-    var el = document.createElement('div');
-    el.className = 'gs-term-line';
-    var kEl = document.createElement('span');
-    kEl.className = 'gs-lk';
-    kEl.textContent = '> confirm? [Y/n]:';
-    var c = document.createElement('span');
-    c.className = 'gs-cursor';
-    c.textContent = ' ▌';
-    el.appendChild(kEl);
-    el.appendChild(c);
-    return el;
-  }
-
-  function renderTerminal(container, rows, withCursor, baseDelay) {
-    container.innerHTML = '';
-    var d = baseDelay || 0;
-    rows.forEach(function (row, i) {
-      var line = makeLine(row.k, row.v, row.c);
-      container.appendChild(line);
-      setTimeout(function () { line.classList.add('gs-in'); }, d + i * 70);
-    });
-    if (withCursor) {
-      var cur = makeCursor();
-      container.appendChild(cur);
-      setTimeout(function () { cur.classList.add('gs-in'); }, d + rows.length * 70 + 40);
+    if (prefersReduced) {
+      textEl.textContent = '$ ' + msgs[0];
+      return;
     }
-  }
 
-  function flashStream(cb) {
-    if (!stream) { if (cb) cb(); return; }
-    stream.classList.add('gs-stream-off');
-    setTimeout(function () {
-      stream.classList.remove('gs-stream-off');
-      if (cb) cb();
-    }, 220);
-  }
+    var index = 0;
+    var timer = null;
+    var running = false;
 
-  function selectTier(tier, animate) {
-    activeTier = tier;
-    var data = TIERS[tier];
+    function step() {
+      var full = '$ ' + msgs[index];
+      var i = 0;
+      typeForward();
 
-    // Update cards
-    tierPanel.querySelectorAll('.gs-tier-card').forEach(function (card) {
-      var on = card.dataset.tier === tier;
-      card.classList.toggle('gs-tier-armed', on);
-      card.querySelector('.gs-tier-ind').textContent = on ? '● ARMED' : '○ STANDBY';
-    });
+      function typeForward() {
+        textEl.textContent = full.slice(0, i++);
+        if (i <= full.length) {
+          timer = setTimeout(typeForward, TYPE_SPEED);
+        } else {
+          timer = setTimeout(eraseBack, HOLD_MS);
+        }
+      }
 
-    // Update CTA text
-    if (ctaLabel) ctaLabel.textContent = data.cta;
-
-    // Render client terminal
-    renderTerminal(clientBody, data.client, true, 0);
-
-    // Render sys terminal (with stream flash if animating)
-    if (animate) {
-      flashStream(function () { renderTerminal(sysBody, data.sys, false, 80); });
-    } else {
-      renderTerminal(sysBody, data.sys, false, 0);
+      function eraseBack() {
+        textEl.textContent = full.slice(0, i--);
+        if (i >= 0) {
+          timer = setTimeout(eraseBack, ERASE_SPEED);
+        } else {
+          index = (index + 1) % msgs.length;
+          timer = setTimeout(step, 200);
+        }
+      }
     }
-  }
 
-  // Card clicks
-  tierPanel.querySelectorAll('.gs-tier-card').forEach(function (card) {
-    card.addEventListener('click', function () {
-      if (card.dataset.tier !== activeTier) selectTier(card.dataset.tier, true);
-    });
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !running) {
+          running = true;
+          feed.classList.add('feed-active');
+          step();
+        } else if (!entry.isIntersecting && running) {
+          running = false;
+          feed.classList.remove('feed-active');
+          clearTimeout(timer);
+        }
+      });
+    }, { threshold: 0.2 }).observe(feed);
   });
-
-  // Scroll reveal
-  var revealed = false;
-  new IntersectionObserver(function (entries) {
-    if (revealed || !entries[0].isIntersecting) return;
-    revealed = true;
-
-    selectTier('pro', false);
-
-    if (handshake) {
-      handshake.style.opacity = '0';
-      setTimeout(function () {
-        handshake.style.transition = 'opacity 500ms ease';
-        handshake.style.opacity = '1';
-      }, 160);
-    }
-
-    if (ctaWrap) {
-      ctaWrap.style.opacity = '0';
-      ctaWrap.style.transform = 'translateY(14px)';
-      setTimeout(function () {
-        ctaWrap.style.transition = 'opacity 500ms ease, transform 500ms ease';
-        ctaWrap.style.opacity = '1';
-        ctaWrap.style.transform = 'none';
-      }, 560);
-    }
-  }, { threshold: 0.08 }).observe(tierPanel);
-
 }());
+
