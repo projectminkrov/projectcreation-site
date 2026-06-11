@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Community | ProjectCreation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+  <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
+  <link href="/assets/graph-20260527.css" rel="stylesheet"/>
+  <link href="/assets/community.css" rel="stylesheet"/>
+  <link href="/assets/nav-panels.css" rel="stylesheet"/>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+  <script src="/assets/theme-restore.js"></script>
+  <script src="/assets/font-guard.js"></script>
+  <div class="scan-line"></div>
+
+  <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
+    <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
+      <a id="navBrand" href="/" class="font-headline-sm text-headline-sm font-bold tracking-tighter no-underline transition-colors duration-200">
+        ProjectCreation
+      </a>
+      <div class="hidden xl:flex items-center gap-lg">
+        <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/projects.html">Projects</a>
+        <a id="navPricing"   class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/pricing.html">Pricing</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#vision">Vision</a>
+        <a id="navCommunity" class="font-label-md text-label-md nav-link-active transition-colors duration-200" href="/community.html">Community</a>
+      </div>
+      <div class="flex items-center gap-sm">
+        <a id="navSignIn" href="/login.html" class="hidden xl:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status">
+          <span class="material-symbols-outlined">sensors</span>
+        </button>
+
+        <div id="profileWrapper">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+            <img id="navAvatarImg" alt="" class="nav-avatar hidden">
+            <span id="navAvatarIcon" class="material-symbols-outlined material-symbols-fill">account_circle</span>
+          </button>
+          <div id="profileDropdown">
+            <div class="drop-divider dropdown-inner">
+              <p class="drop-accent drop-status">&#9646; Session_Active</p>
+              <p class="drop-label">Email</p>
+              <p id="dropEmail" class="drop-value"></p>
+              <p class="drop-label">Account ID</p>
+              <p id="dropId" class="drop-value-muted"></p>
+              <p class="drop-label">Member Since</p>
+              <p id="dropSince" class="drop-value-last"></p>
+            </div>
+            <div class="dropdown-actions">
+              <a href="/account.html" class="drop-cta">GO TO ACCOUNT -></a>
+              <button id="dropSignOut" class="drop-signout">SIGN OUT</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="theme-switch p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80 flex items-center justify-center" type="button" aria-label="Switch to red theme" aria-pressed="false" id="themeSwitch">
+          <span class="theme-shape" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
+
+    <!-- ════════════════ 1. HERO ════════════════ -->
+    <section class="pt-lg pb-md border-b border-outline-variant">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end">
+        <div class="md:col-span-8 min-w-0">
+          <div class="flex items-center gap-xs mb-sm">
+            <div class="w-2 h-2 bg-primary-fixed-dim community-live-dot"></div>
+            <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Community_Hub.cfg</span>
+          </div>
+          <h1 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
+            Community
+          </h1>
+          <p class="font-headline-sm text-headline-sm text-on-surface-variant max-w-3xl leading-snug break-words">
+            Builders. Dreamers. Shippers. A live space for people building things — share your goals, your progress, your wins, and your stuck-at-2am moments.
+          </p>
+        </div>
+        <div class="md:col-span-4 border border-outline-variant bg-surface-container-lowest p-sm min-w-0">
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Discord</p>
+          <p class="font-headline-sm text-headline-sm text-on-background">Join the build</p>
+          <p id="discordMemberCount" class="font-label-sm text-label-sm text-outline mt-xs font-mono break-words hidden"></p>
+          <a href="#" class="mt-sm inline-block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+            JOIN DISCORD →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════ 2. CHANNEL SHOWCASE ════════════════ -->
+    <section class="py-xl md:py-[96px] border-b border-outline-variant">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="channelSectionTag">// 01 — Inside the server</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
+        <h2 id="channelSectionHeading" class="font-headline-sm text-headline-sm text-on-background leading-snug">A culture built around goals, progress, and shipping.</h2>
+      </div>
+
+      <div class="channel-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#goals-2026</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Post your dream and the plan to get there. Say it out loud, make it real.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@mira: just dropped my 2026 roadmap — feedback welcome 👀</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#build-log</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Daily and weekly progress updates. Small steps count — this is the trail of the work.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@alex: shipped the dark mode toggle tonight 🌙</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#showcase</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Show what you shipped — demos, screenshots, launches, and finished builds.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@devkid: demo's up, would love a look 🎥</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#accountability</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Pair up with another builder and check in on each other's progress.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@sam: day 14 — still on track 💪</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#wins</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Celebrate the milestones — first user, first sale, first launch, finished feature.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@jordan: just hit 100 users! 🎉</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+
+        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
+          <div class="relative z-[1] flex flex-col gap-xs">
+            <div class="flex items-center justify-between">
+              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#stuck</span>
+              <span class="channel-activity-dot" aria-hidden="true"></span>
+            </div>
+            <div class="channel-desc-wrap relative min-h-[76px]">
+              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Ask for help when you're blocked. No question is too small.</p>
+              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@riley: anyone know why this build keeps failing?</p>
+            </div>
+          </div>
+          <span class="channel-cursor" aria-hidden="true">_</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════ 3. LIVE BUILD LOG FEED ════════════════ -->
+    <section class="py-xl md:py-[96px] border-b border-outline-variant">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="buildLogSectionTag">// 02 — Live from #build-log</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
+        <h2 id="buildLogSectionHeading" class="font-headline-sm text-headline-sm text-on-background leading-snug">Real progress, posted by the people doing the work.</h2>
+      </div>
+
+      <div class="border border-outline-variant bg-surface-container-lowest">
+        <div class="flex items-center justify-between gap-sm px-md py-sm border-b border-outline-variant">
+          <div class="flex items-center gap-sm">
+            <span class="feed-terminal-dots text-outline" aria-hidden="true"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></span>
+            <span class="font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest">build-log.feed</span>
+          </div>
+          <span id="feedStatus" class="feed-status font-label-sm text-label-sm text-outline font-mono uppercase tracking-widest flex items-center gap-xs">
+            <span class="feed-status-dot" aria-hidden="true"></span>
+            <span class="feed-status-text">connecting…</span>
+          </span>
+        </div>
+        <div id="buildLogFeed" class="px-md py-sm divide-y divide-outline-variant">
+          <div class="feed-line flex items-start gap-sm py-xs">
+            <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log…</span>
+            <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
+              <span class="feed-time"></span>
+              <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+            </span>
+          </div>
+        </div>
+        <div class="feed-cursor-line flex items-center gap-xs px-md py-xs border-t border-outline-variant" aria-hidden="true">
+          <span class="font-label-sm text-label-sm text-outline font-mono">$</span>
+          <span class="feed-cursor-blink font-mono text-outline">▌</span>
+        </div>
+      </div>
+
+      <a id="buildLogCta" href="#" class="feed-cta inline-flex items-center gap-xs mt-md font-label-md text-label-md text-primary-fixed-dim font-mono transition-[gap] duration-200">
+        <span>$ tail -f #build-log on Discord</span>
+        <span class="feed-cta-arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <!-- ════════════════ 4. BUILDER SPOTLIGHT ════════════════ -->
+    <section class="py-xl md:py-[96px] border-b border-outline-variant">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 03 — Shipped this week</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Builder spotlight — pulled straight from #showcase.</h2>
+      </div>
+
+      <div id="spotlightFeed" class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+        <div class="spotlight-card border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">@alex</span>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Finally launched my note app after 3 months of grinding. Feels unreal.</p>
+        </div>
+        <div class="spotlight-card border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">@mira</span>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">30 days of building in public, done. Posted the recap thread.</p>
+        </div>
+        <div class="spotlight-card border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">@devkid</span>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">First paying customer today. Small win but a real one.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════ 6. WHY JOIN ════════════════ -->
+    <section class="py-xl md:py-[96px]">
+      <div class="max-w-3xl mb-xl">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 04 — Why be here</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Three reasons builders stick around.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+        <div class="border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">check_circle</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Accountability</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Say your goal out loud, and someone will check on you.</p>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">visibility</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Visibility</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Show your work and get real reactions from people who get it.</p>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest p-md">
+          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">groups</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Proximity</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Be near people actually building, not just talking about it.</p>
+        </div>
+      </div>
+
+      <div class="mt-xl">
+        <a href="#" class="inline-block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+          JOIN THE DISCORD →
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-surface-container-lowest border-t border-outline-variant w-full">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-md w-full gap-md">
+      <div class="font-headline-sm text-headline-sm text-on-surface">ProjectCreation</div>
+      <div class="flex flex-wrap justify-center gap-md">
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/projects.html">Projects</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/pricing.html">Pricing</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/#vision">Vision</a>
+        <a class="font-label-sm text-label-sm text-primary-fixed-dim underline transition-all" href="/community.html">Community</a>
+      </div>
+      <div class="font-label-sm text-label-sm text-outline">
+        &copy; 2026 ProjectCreation. Engineered for Digital Craft.
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/index.js?v=202605281214"></script>
+  <script src="/assets/nav-panels.js?v=202606021800"></script>
+  <script src="/assets/community.js?v=202606111200"></script>
+</body>
+</html>

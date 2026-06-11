@@ -4,8 +4,10 @@ dist/
 # Local and private tooling state
 .claude/
 node_modules/
+.wrangler/
 
 # Local secrets and OS/editor noise
 .env
 .env.*
+.dev.vars
 .DS_Store

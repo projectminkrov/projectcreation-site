@@ -4383,3 +4383,302 @@ Next:
 Tags:
 - community
 - cleanup
+
+## 2026-06-11 18:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Rebuilt community.html from scratch: hero with Discord CTA, channel-culture
+  grid (#goals-2026, #build-log, #showcase, #accountability, #wins, #stuck),
+  a live build-log feed, a builder spotlight grid, and a "why join" section
+- Added a Cloudflare Pages function (api/discord-feed) that pulls recent
+  messages from configured Discord channels with sample-data fallback
+- Added assets/community.css and assets/community.js for feed rendering and
+  an optional live online-member count
+- Repointed the Community nav link across all pages to /community.html
+
+Why it matters:
+Gives the community page a real identity centered on the Discord server,
+with live content pulled from the build-log and showcase channels once
+configured.
+
+Next:
+- Wire up real Discord bot token, channel IDs, server ID, and invite link
+- Decide on a curation rhythm for the builder spotlight
+
+Tags:
+- community
+- discord
+- live-feed
+
+## 2026-06-11 19:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added scroll-triggered entrance animations to the community page's
+  channel grid: typewriter section label, fade-in heading, and a
+  staggered "terminal window opening" border-trace + glitch-decode
+  effect on each channel hashtag
+- Added per-card hover interactions: a live message preview that
+  swaps the description for a sample Discord message, a border
+  retrace, a blinking corner cursor, subtle 3D tilt following the
+  cursor, and a pulsing/spiking activity dot
+- All effects respect prefers-reduced-motion
+
+Why it matters:
+Makes the community page's "inside the server" section feel alive and
+matches the terminal/system aesthetic, reinforcing that Discord is a
+living space.
+
+Next:
+- Wire up real Discord bot token, channel IDs, server ID, and invite link
+
+Tags:
+- community
+- animation
+- ui
+
+## 2026-06-11 19:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed a stray blue line artifact on the community page's channel
+  cards: the entrance border-trace SVG overlay now fades out and
+  hands off to the card's normal border once it finishes, and the
+  hover re-trace (which caused the artifact under the 3D tilt) was
+  removed
+
+Why it matters:
+Removes a visual glitch on the channel showcase cards while keeping
+the hover tilt, live message preview, and other interactions intact.
+
+Tags:
+- community
+- bugfix
+- ui
+
+## 2026-06-11 19:45 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the "border trace" SVG animation on the community page's
+  channel cards (the blue line that drew around each card on entrance)
+- Cards now simply fade/slide in on scroll, keeping the typewriter
+  label, glitch hashtags, hover live-message preview, tilt, and
+  activity dots
+
+Why it matters:
+The border-trace effect didn't read well visually; entrance is now
+simpler and cleaner.
+
+Tags:
+- community
+- ui
+- cleanup
+
+## 2026-06-11 20:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a "spin-in" entrance effect to the community page's channel
+  cards: a short cyan light sweeps rapidly around each card's border
+  on reveal, decelerating and fading out smoothly (CSS conic-gradient
+  + animated custom property, ease-out timing)
+- Disabled under prefers-reduced-motion
+
+Why it matters:
+Gives the channel grid a more premium, polished entrance without
+the earlier "spinning blue line" artifact.
+
+Tags:
+- community
+- animation
+- ui
+
+## 2026-06-11 20:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- The channel card spin-in entrance now matches the user's selected
+  theme color (cyan/red/green/purple) via a --spin-color CSS variable
+
+Tags:
+- community
+- animation
+- theming
+
+## 2026-06-11 20:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- The community page channel cards' hover "live message" preview now
+  decodes/deciphers character-by-character (matching the scramble
+  effect used on the homepage's "Digital Craftsmanship" headline)
+  instead of a plain opacity crossfade
+
+Tags:
+- community
+- animation
+- ui
+
+## 2026-06-11 16:02 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the placeholder community-member messages in the
+  community page's "LIVE FROM #BUILD-LOG" feed with real
+  ProjectDiver-style updates about ProjectCreation's own recent
+  changes (both the static fallback and the API sample data)
+
+Why it matters:
+The build-log feed now reflects actual ProjectCreation development
+updates instead of generic sample chatter, matching its purpose.
+
+Tags:
+- community
+- content
+
+## 2026-06-11 19:05 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Redesigned the community page's "LIVE FROM #BUILD-LOG" section with
+  a fuller terminal feel: typewriter section tag + decode-in heading
+  on scroll, sequential traffic-light dots, and a connection status
+  badge ("connected" / "sample data")
+- Each feed entry now types itself out in sequence with a blinking
+  cursor, shows a live-updating relative timestamp, highlights inline
+  code terms, and reveals a "view on Discord" link on hover
+- New entries from the live feed get a brief highlight flash; added a
+  trailing terminal cursor and a "tail -f #build-log on Discord" CTA
+  below the terminal, all theme-color matched
+
+Why it matters:
+Turns the build-log feed from a static list into an interactive,
+"alive" terminal that mirrors the rest of the page's hacker/terminal
+aesthetic.
+
+Tags:
+- community
+- animation
+- ui
+
+## 2026-06-11 19:28 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Wired the community page's live build-log and showcase feeds up to
+  the real Discord server by configuring the site's hosting
+  environment with the bot credentials and channel references needed
+  to read recent messages
+
+Why it matters:
+The "LIVE FROM #BUILD-LOG" and builder spotlight sections can now
+pull real messages instead of sample data, once the site is
+redeployed.
+
+Next:
+- Redeploy the site so the new configuration takes effect
+
+Tags:
+- community
+- infrastructure
+
+## 2026-06-11 19:32 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the live build-log feed: ProjectDiver posts updates as rich
+  embeds rather than plain text, so the feed endpoint now pulls a
+  readable summary from each entry's "Changed" field instead of
+  discarding them as empty
+- Verified end-to-end against the real Discord server locally — the
+  build-log feed now returns real, live entries
+
+Why it matters:
+The "LIVE FROM #BUILD-LOG" section will show genuine project updates
+once redeployed, instead of falling back to sample data.
+
+Next:
+- Redeploy the site so the fix and live config take effect
+- Builder spotlight (#showcase) still needs Discord's Message Content
+  intent enabled before it can show real community messages
+
+Tags:
+- community
+- bugfix
+- infrastructure
+
+## 2026-06-11 19:50 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a `dev:live` script that runs the site locally with the real
+  Pages Functions and live Discord credentials enabled, so the
+  build-log feed updates locally instead of showing static content
+- Removed the hardcoded sample build-log messages from the community
+  page and the API fallback, replacing them with a single neutral
+  "connecting" placeholder shown only if the live feed is unreachable
+
+Why it matters:
+The build-log feed on the community page now reflects real, current
+updates both locally and once deployed, instead of frozen sample text.
+
+Tags:
+- community
+- dev-tooling
+- infrastructure
+
+## 2026-06-11 22:04 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Widened the build-log terminal on the community page to span the
+  full section width instead of being capped to a narrow column
+
+Why it matters:
+The live feed now uses the available space, making messages easier
+to read on wider screens.
+
+Tags:
+- community
+- ui

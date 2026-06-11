@@ -1,0 +1,440 @@
+/* ============================================================
+   community.css — Community page
+   Layout-only helpers; colours come from Tailwind design tokens
+   on the elements themselves so theme switching keeps working.
+   ============================================================ */
+
+/* ── Hero ──────────────────────────────────────────────────── */
+
+.community-live-dot {
+  animation: community-pulse 2s ease-in-out infinite;
+}
+
+@keyframes community-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* ── Section entrance: typewriter tag + heading fade ───────── */
+
+.section-tag-cursor {
+  display: inline-block;
+  width: 0.5em;
+  margin-left: 2px;
+  background: currentColor;
+  animation: community-pulse 1s step-end infinite;
+}
+
+#channelSectionHeading {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#channelSectionHeading.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Channel grid ──────────────────────────────────────────── */
+
+.channel-grid {
+  perspective: 1000px;
+}
+
+.channel-card {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.channel-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Card spin-in: a light sweeps around the border, then settles ──── */
+
+@property --spin-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.channel-card {
+  --spin-color: #2aa8ff;
+}
+
+body.theme-red    .channel-card { --spin-color: #ff2a2a; }
+body.theme-green  .channel-card { --spin-color: #39ff14; }
+body.theme-purple .channel-card { --spin-color: #a855f7; }
+
+.channel-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  background: conic-gradient(from var(--spin-angle), transparent 0deg, var(--spin-color) 35deg, transparent 110deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.channel-card.is-visible::before {
+  animation: card-spin-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes card-spin-in {
+  0%   { --spin-angle: 0deg;    opacity: 1; }
+  85%  { opacity: 1; }
+  100% { --spin-angle: 1080deg; opacity: 0; }
+}
+
+/* ── Live message preview ─────────────────────────────────── */
+
+.channel-desc-wrap {
+  display: grid;
+}
+
+.channel-desc-default,
+.channel-desc-live {
+  grid-area: 1 / 1;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.channel-desc-default {
+  opacity: 1;
+  transform: none;
+}
+
+.channel-desc-live {
+  opacity: 0;
+  transform: translateY(4px);
+  color: #2aa8ff;
+}
+
+.channel-card:hover .channel-desc-default,
+.channel-card:focus-within .channel-desc-default {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.channel-card:hover .channel-desc-live,
+.channel-card:focus-within .channel-desc-live {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Corner cursor ─────────────────────────────────────────── */
+
+.channel-cursor {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #2aa8ff;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.channel-card:hover .channel-cursor,
+.channel-card:focus-within .channel-cursor {
+  opacity: 1;
+  animation: community-pulse 1s step-end infinite;
+}
+
+/* ── Activity dot ──────────────────────────────────────────── */
+
+.channel-activity-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  opacity: 0.4;
+  animation: dot-idle 2.6s ease-in-out infinite;
+}
+
+@keyframes dot-idle {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+.channel-activity-dot.spike {
+  animation: dot-spike 0.7s ease-out;
+}
+
+@keyframes dot-spike {
+  0%   { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
+  70%  { opacity: 1; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+  100% { opacity: 0.4; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+/* ── Build log section heading decode ──────────────────────── */
+
+#buildLogSectionHeading {
+  display: inline-block;
+}
+
+/* ── Live feed terminal ───────────────────────────────────── */
+
+#buildLogFeed,
+.feed-cursor-line,
+.feed-cta {
+  --feed-accent: #2aa8ff;
+}
+
+body.theme-red    #buildLogFeed,
+body.theme-red    .feed-cursor-line,
+body.theme-red    .feed-cta { --feed-accent: #ff2a2a; }
+body.theme-green  #buildLogFeed,
+body.theme-green  .feed-cursor-line,
+body.theme-green  .feed-cta { --feed-accent: #39ff14; }
+body.theme-purple #buildLogFeed,
+body.theme-purple .feed-cursor-line,
+body.theme-purple .feed-cta { --feed-accent: #a855f7; }
+
+.feed-terminal-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.feed-terminal-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.25;
+  display: inline-block;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.feed-terminal-dots.is-visible .dot-red {
+  background: #ff5f56;
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+.feed-terminal-dots.is-visible .dot-yellow {
+  background: #ffbd2e;
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+
+.feed-terminal-dots.is-visible .dot-green {
+  background: #27c93f;
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+
+/* ── Connection status badge ─────────────────────────────────── */
+
+.feed-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+  flex-shrink: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feed-status.is-connected .feed-status-dot {
+  opacity: 1;
+}
+
+.feed-status.is-live .feed-status-dot {
+  background: #4ade80;
+  animation: community-pulse 2s ease-in-out infinite;
+}
+
+/* ── Feed lines ──────────────────────────────────────────────── */
+
+.feed-line {
+  animation: feed-line-in 0.3s ease-out;
+  transition: background-color 0.2s ease;
+}
+
+@keyframes feed-line-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.feed-line:hover,
+.feed-line:focus-within {
+  background-color: color-mix(in srgb, var(--feed-accent) 6%, transparent);
+}
+
+.feed-line-new {
+  animation: feed-line-ping 1.6s ease-out;
+}
+
+@keyframes feed-line-ping {
+  0%   { background-color: color-mix(in srgb, var(--feed-accent) 18%, transparent); }
+  100% { background-color: transparent; }
+}
+
+/* ── Author dot + pulsing ring ──────────────────────────────── */
+
+.feed-author-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.feed-author-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+  animation: feed-author-ring 2.4s ease-out infinite;
+}
+
+@keyframes feed-author-ring {
+  0%   { transform: scale(0.6); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ── Typing reveal ───────────────────────────────────────────── */
+
+.feed-msg.feed-typing::after {
+  content: '';
+  display: inline-block;
+  width: 0.5ch;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: community-pulse 0.8s step-end infinite;
+}
+
+.feed-code {
+  background: color-mix(in srgb, var(--feed-accent) 14%, transparent);
+  color: var(--feed-accent);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+/* ── Trailing terminal cursor ───────────────────────────────── */
+
+.feed-cursor-blink {
+  display: inline-block;
+  animation: community-pulse 1s step-end infinite;
+}
+
+/* ── Feed meta (timestamp + Discord link) ───────────────────── */
+
+.feed-link {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.feed-line:hover .feed-link,
+.feed-line:focus-within .feed-link {
+  opacity: 1;
+}
+
+/* ── "tail -f" CTA ───────────────────────────────────────────── */
+
+.feed-cta-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.feed-cta:hover .feed-cta-arrow,
+.feed-cta:focus-visible .feed-cta-arrow {
+  transform: translateX(4px);
+  color: var(--feed-accent);
+}
+
+.feed-cta:hover,
+.feed-cta:focus-visible {
+  color: var(--feed-accent);
+}
+
+/* ── Spotlight cards ───────────────────────────────────────── */
+
+.spotlight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.spotlight-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ── Reduced motion ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .community-live-dot,
+  .feed-line,
+  .channel-card,
+  .spotlight-card,
+  #channelSectionHeading,
+  .section-tag-cursor,
+  .channel-cursor,
+  .channel-activity-dot,
+  .channel-desc-default,
+  .channel-desc-live {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .channel-card:hover,
+  .spotlight-card:hover {
+    transform: none;
+  }
+
+  .channel-card,
+  #channelSectionHeading {
+    opacity: 1;
+    transform: none;
+  }
+
+  .channel-card::before {
+    display: none;
+  }
+
+  .channel-card:hover .channel-desc-default,
+  .channel-card:focus-within .channel-desc-default {
+    opacity: 1;
+    transform: none;
+  }
+
+  .channel-card:hover .channel-desc-live,
+  .channel-card:focus-within .channel-desc-live {
+    opacity: 0;
+  }
+
+  .feed-terminal-dots span {
+    transition: none !important;
+  }
+
+  .feed-status-dot,
+  .feed-author-dot::after,
+  .feed-cursor-blink,
+  .feed-msg.feed-typing::after,
+  .feed-line-new {
+    animation: none !important;
+  }
+
+  .feed-line {
+    opacity: 1;
+    transform: none;
+  }
+}

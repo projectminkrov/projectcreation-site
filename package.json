@@ -5,7 +5,8 @@
   "scripts": {
     "build:css": "tailwindcss -i ./src/input.css -o ./assets/site.css --minify",
     "build": "npm run build:css && node build.js",
-    "dev": "python3 -m http.server 3000 --bind 127.0.0.1"
+    "dev": "python3 -m http.server 3000 --bind 127.0.0.1",
+    "dev:live": "npm run build && npx wrangler pages dev dist --port 3000 --compatibility-date=2024-01-01"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
