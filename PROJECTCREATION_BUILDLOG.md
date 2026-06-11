@@ -4363,3 +4363,23 @@ Tags:
 - pricing
 - bugfix
 - ux
+
+## 2026-06-11 12:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the standalone community page and its styles to start that section over
+- Pointed all "Community" nav links back to the existing newsletter section on the homepage
+
+Why it matters:
+Clears the slate for a redesigned community page without leaving any broken links in the meantime.
+
+Next:
+- Redesign the community page from scratch
+
+Tags:
+- community
+- cleanup
