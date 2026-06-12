@@ -4990,3 +4990,24 @@ Tags:
 - community
 - copy
 - graph
+
+## 2026-06-12 21:23 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Pushed today's community page fixes (edge hover flicker fix, expanded channel descriptions) to GitHub.
+- Deployed the latest build live.
+
+Why it matters:
+Wraps up today's community page polish — fixes and copy updates are now live for everyone.
+
+Next:
+- Gather feedback on the new channel descriptions.
+
+Tags:
+- deploy
+- community
+- ui
