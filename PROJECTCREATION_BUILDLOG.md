@@ -4721,3 +4721,24 @@ Tags:
 - community
 - ui
 - animation
+
+## 2026-06-12 09:40 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Build-log feed now caps at 5 entries (newest on top, oldest drops
+  off automatically) instead of 6
+- Added retry logic to the live feed loader so a slow or briefly
+  failed Discord fetch on first load doesn't get stuck on "sample data"
+
+Why it matters:
+Keeps the feed from getting crowded while making the "connecting"
+placeholder self-heal instead of sticking around.
+
+Tags:
+- community
+- live-feed
+- reliability

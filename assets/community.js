@@ -43,16 +43,30 @@
   }
 
   // ── Live feeds (build log + spotlight) ────────────────────────────────────
-  async function loadFeed(channel, containerId, render) {
+  const FEED_MAX_ENTRIES = 5;
+  const FEED_RETRY_MS = 4000;
+  const FEED_MAX_RETRIES = 4;
+
+  async function loadFeed(channel, containerId, render, attempt = 0) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     try {
       const res = await fetch(`/api/discord-feed?channel=${channel}`);
       const data = await res.json();
-      render(container, data.messages || [], data.live);
+      const messages = (data.messages || []).slice(0, FEED_MAX_ENTRIES);
+
+      if (!data.live && attempt < FEED_MAX_RETRIES) {
+        setTimeout(() => loadFeed(channel, containerId, render, attempt + 1), FEED_RETRY_MS);
+        return;
+      }
+
+      render(container, messages, data.live);
     } catch {
-      // Leave whatever was already rendered (sample/static fallback in HTML).
+      if (attempt < FEED_MAX_RETRIES) {
+        setTimeout(() => loadFeed(channel, containerId, render, attempt + 1), FEED_RETRY_MS);
+      }
+      // Otherwise leave whatever was already rendered (sample/static fallback in HTML).
     }
   }
 

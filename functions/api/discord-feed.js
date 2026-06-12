@@ -41,7 +41,7 @@ export async function onRequestGet({ request, env }) {
 
   try {
     const res = await fetch(
-      `https://discord.com/api/v10/channels/${channelId}/messages?limit=6`,
+      `https://discord.com/api/v10/channels/${channelId}/messages?limit=5`,
       { headers: { Authorization: `Bot ${env.DISCORD_BOT_TOKEN}` } }
     );
 
