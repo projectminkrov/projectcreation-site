@@ -4968,3 +4968,25 @@ Tags:
 - deploy
 - ui
 - status
+
+## 2026-06-12 20:51 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Rewrote the hover descriptions for all six community channels (build-log, goals-2026, showcase, wins, stuck, accountability) to explain what each channel is for and why it matters, instead of short one-line summaries.
+- Updated the default detail panel text shown on page load to match.
+
+Why it matters:
+The side panel felt empty when hovering a channel node. The new copy gives visitors a real reason to care about each channel and fills the space with useful context instead of whitespace.
+
+Next:
+- Gather feedback on the new copy and adjust tone if needed.
+
+Tags:
+- ui
+- community
+- copy
+- graph
