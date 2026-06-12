@@ -369,26 +369,12 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
   color: var(--feed-accent);
 }
 
-/* ── Spotlight cards ───────────────────────────────────────── */
-
-.spotlight-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.spotlight-card:hover {
-  transform: translateY(-4px);
-}
-
 /* ── Reduced motion ───────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .community-live-dot,
   .feed-line,
   .channel-card,
-  .spotlight-card,
   #channelSectionHeading,
   .section-tag-cursor,
   .channel-cursor,
@@ -399,8 +385,7 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
     transition: none !important;
   }
 
-  .channel-card:hover,
-  .spotlight-card:hover {
+  .channel-card:hover {
     transform: none;
   }
 

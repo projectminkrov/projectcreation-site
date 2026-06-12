@@ -229,16 +229,6 @@
     updateFeedStatus();
   }
 
-  function renderSpotlightCards(container, messages) {
-    if (!messages.length) return;
-    container.innerHTML = messages.map(m => `
-      <div class="spotlight-card border border-outline-variant bg-surface-container-lowest p-md">
-        <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">@${escapeHtml(m.author)}</span>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">${escapeHtml(m.content)}</p>
-      </div>
-    `).join('');
-  }
-
   // ── Channel section entrance + interactions ───────────────────────────────
   const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#$%&';
@@ -433,13 +423,11 @@
   function init() {
     loadMemberCount();
     loadFeed('buildlog', 'buildLogFeed', renderFeedLines);
-    loadFeed('showcase', 'spotlightFeed', renderSpotlightCards);
     initChannelSection();
     initBuildLogSection();
 
     setInterval(() => {
       loadFeed('buildlog', 'buildLogFeed', renderFeedLines);
-      loadFeed('showcase', 'spotlightFeed', renderSpotlightCards);
     }, FEED_POLL_MS);
   }
 

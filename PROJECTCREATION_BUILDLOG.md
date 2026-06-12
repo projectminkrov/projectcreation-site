@@ -4742,3 +4742,23 @@ Tags:
 - community
 - live-feed
 - reliability
+
+## 2026-06-12 10:17 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the "Builder spotlight / Shipped this week" section from
+  the community page and its sample-data card rendering
+- Renumbered the following section from // 04 to // 03
+
+Why it matters:
+The spotlight section was placeholder content pulled from sample
+data; removing it keeps the page focused on the live build-log feed.
+
+Tags:
+- community
+- ui
+- cleanup
