@@ -300,13 +300,38 @@
   }
 
   function initChannelSection() {
-    const grid = document.querySelector('.channel-grid');
-    const section = grid?.closest('section');
+    const network = document.querySelector('.channel-network');
+    const section = network?.closest('section');
     if (!section) return;
 
     const tag = document.getElementById('channelSectionTag');
     const heading = document.getElementById('channelSectionHeading');
-    const cards = Array.from(section.querySelectorAll('.channel-card'));
+    const nodes = Array.from(section.querySelectorAll('.channel-node'));
+    const hubNode = nodes.find(n => n.dataset.nodeId === 'build-log');
+
+    const panel = document.getElementById('channelDetailPanel');
+    const panelIcon = document.getElementById('channelDetailIcon');
+    const panelTag = document.getElementById('channelDetailTag');
+    const panelDesc = document.getElementById('channelDetailDesc');
+    const panelLive = document.getElementById('channelDetailLive');
+
+    function setPanel(node) {
+      if (!node || !panel) return;
+      const apply = () => {
+        if (panelIcon) panelIcon.textContent = node.dataset.icon || '';
+        if (panelTag) {
+          if (REDUCE_MOTION) panelTag.textContent = node.dataset.tag || '';
+          else glitchIn(panelTag, node.dataset.tag || '');
+        }
+        if (panelDesc) panelDesc.textContent = node.dataset.desc || '';
+        if (panelLive) panelLive.textContent = node.dataset.live || '';
+        panel.classList.remove('is-updating');
+      };
+
+      if (REDUCE_MOTION) { apply(); return; }
+      panel.classList.add('is-updating');
+      setTimeout(apply, 160);
+    }
 
     let triggered = false;
     const observer = new IntersectionObserver((entries) => {
@@ -318,11 +343,13 @@
         if (tag) await typewriter(tag, tag.textContent.trim());
         if (heading) heading.classList.add('is-visible');
 
-        cards.forEach((card, i) => {
+        network.classList.add('is-visible');
+
+        nodes.forEach((node, i) => {
           setTimeout(() => {
-            card.classList.add('is-visible');
-            const tagEl = card.querySelector('.channel-tag');
-            if (tagEl) glitchIn(tagEl, tagEl.textContent.trim());
+            node.classList.add('is-visible');
+            const labelEl = node.querySelector('.channel-icon-label');
+            if (labelEl) glitchIn(labelEl, labelEl.textContent.trim());
           }, i * 90);
         });
       });
@@ -330,49 +357,100 @@
 
     observer.observe(section);
 
-    cards.forEach(card => {
-      const liveEl = card.querySelector('.channel-desc-live');
-      if (liveEl) {
-        liveEl.dataset.final = liveEl.textContent.trim();
+    // ── Network hover: light up connected edges + neighbor nodes, update detail panel ──
+    const EDGE_ENDPOINTS = {
+      'e-hub-goals': ['build-log', 'goals'],
+      'e-hub-showcase': ['build-log', 'showcase'],
+      'e-hub-wins': ['build-log', 'wins'],
+      'e-hub-stuck': ['build-log', 'stuck'],
+      'e-hub-accountability': ['build-log', 'accountability'],
+      'e-ring-goals-showcase': ['goals', 'showcase'],
+      'e-ring-showcase-wins': ['showcase', 'wins'],
+      'e-ring-wins-stuck': ['wins', 'stuck'],
+      'e-ring-stuck-accountability': ['stuck', 'accountability'],
+      'e-ring-accountability-goals': ['accountability', 'goals'],
+    };
 
-        const reveal = () => scrambleReveal(liveEl, 380);
-        const restore = () => {
-          if (liveEl._scrambleId) {
-            clearInterval(liveEl._scrambleId);
-            liveEl._scrambleId = null;
-          }
-          liveEl.textContent = liveEl.dataset.final;
-        };
+    function drawEdge(edge, fromNodeId) {
+      if (REDUCE_MOTION) { edge.classList.add('is-active'); return; }
+      const id = edge.dataset.edgeId;
+      const [a, b] = EDGE_ENDPOINTS[id] || [];
+      if (!edge._origD) edge._origD = edge.getAttribute('d');
 
-        card.addEventListener('mouseenter', reveal);
-        card.addEventListener('focusin', reveal);
-        card.addEventListener('mouseleave', restore);
-        card.addEventListener('focusout', restore);
+      if (b === fromNodeId && a !== fromNodeId) {
+        const m = edge._origD.match(/M\s*([\d.\-]+)[ ,]+([\d.\-]+)\s*L\s*([\d.\-]+)[ ,]+([\d.\-]+)/);
+        if (m) edge.setAttribute('d', `M${m[3]},${m[4]} L${m[1]},${m[2]}`);
+      } else {
+        edge.setAttribute('d', edge._origD);
       }
 
-      if (!REDUCE_MOTION) {
-        card.addEventListener('mousemove', (e) => {
-          const r = card.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - 0.5;
-          const y = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `translateY(-4px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg)`;
-        });
+      edge.classList.add('is-active');
+      const len = edge.getTotalLength();
+      edge.style.transition = 'none';
+      edge.style.strokeDasharray = `${len}`;
+      edge.style.strokeDashoffset = `${len}`;
+      edge.getBoundingClientRect(); // force reflow
+      edge.classList.add('is-drawing');
+      edge.style.transition = '';
+      requestAnimationFrame(() => {
+        edge.style.strokeDashoffset = '0';
+      });
+    }
 
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = '';
+    function resetEdge(edge) {
+      edge.classList.remove('is-active', 'is-drawing');
+      if (edge._origD) edge.setAttribute('d', edge._origD);
+      // Snap dash properties back to their resting values with no transition
+      // first, so the leftover entrance transition on stroke-dashoffset
+      // (1.1s on .is-visible .edge) can't animate a stale offset back to 0
+      // and produce a visible dashed/segmented line for ~1s after mouseleave.
+      edge.style.transition = 'none';
+      edge.style.strokeDasharray = '48';
+      edge.style.strokeDashoffset = '0';
+      edge.getBoundingClientRect();
+      edge.style.transition = '';
+      edge.style.strokeDasharray = '';
+      edge.style.strokeDashoffset = '';
+    }
+
+    nodes.forEach(node => {
+      const edgeIds = (node.dataset.edges || '').split(/\s+/).filter(Boolean);
+      const neighborIds = (node.dataset.neighbors || '').split(/\s+/).filter(Boolean);
+
+      const activate = () => {
+        network.classList.add('has-hover');
+        node.classList.add('is-active');
+        edgeIds.forEach(id => {
+          const edge = network.querySelector(`[data-edge-id="${id}"]`);
+          if (edge) drawEdge(edge, node.dataset.nodeId);
         });
-      }
+        neighborIds.forEach(id => {
+          const neighbor = network.querySelector(`[data-node-id="${id}"]`);
+          if (neighbor) neighbor.classList.add('is-neighbor');
+        });
+        setPanel(node);
+      };
+
+      const deactivate = () => {
+        network.classList.remove('has-hover');
+        node.classList.remove('is-active');
+        edgeIds.forEach(id => {
+          const edge = network.querySelector(`[data-edge-id="${id}"]`);
+          if (edge) resetEdge(edge);
+        });
+        neighborIds.forEach(id => {
+          const neighbor = network.querySelector(`[data-node-id="${id}"]`);
+          if (neighbor) neighbor.classList.remove('is-neighbor');
+        });
+        if (hubNode && hubNode !== node) setPanel(hubNode);
+      };
+
+      node.addEventListener('mouseenter', activate);
+      node.addEventListener('focusin', activate);
+      node.addEventListener('mouseleave', deactivate);
+      node.addEventListener('focusout', deactivate);
     });
 
-    if (!REDUCE_MOTION) {
-      setInterval(() => {
-        const dots = section.querySelectorAll('.channel-activity-dot');
-        if (!dots.length) return;
-        const dot = dots[Math.floor(Math.random() * dots.length)];
-        dot.classList.add('spike');
-        setTimeout(() => dot.classList.remove('spike'), 700);
-      }, 3500);
-    }
   }
 
   function initBuildLogSection() {

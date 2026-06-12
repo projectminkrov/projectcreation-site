@@ -247,6 +247,9 @@
   // ════════════════════════════════════════════════════════
 
   let sensorsOpen = false;
+  let sensorsConnections = [];
+  let sensorsTickTimer = null;
+  let sensorsRefreshTimer = null;
 
   const sensorsPanel = document.createElement('div');
   sensorsPanel.className = 'sensors-panel';
@@ -295,6 +298,7 @@
   }
 
   function renderRows(connections) {
+    sensorsConnections = connections;
     let rows = '';
     for (const proj of PROJECTS) {
       if (!proj.available) {
@@ -350,6 +354,7 @@
 
       if (error) throw error;
       renderRows(rows || []);
+      startSensorsLiveUpdates(user.id);
 
     } catch {
       sensorsPanel.innerHTML = headerHTML() +
@@ -358,10 +363,43 @@
     }
   }
 
+  function stopSensorsLiveUpdates() {
+    if (sensorsTickTimer)    { clearInterval(sensorsTickTimer); sensorsTickTimer = null; }
+    if (sensorsRefreshTimer) { clearInterval(sensorsRefreshTimer); sensorsRefreshTimer = null; }
+  }
+
+  function startSensorsLiveUpdates(userId) {
+    stopSensorsLiveUpdates();
+
+    // Re-render "Xs/Xm ago" labels every second using the cached data —
+    // keeps the displayed time accurate to the second without a refetch.
+    sensorsTickTimer = setInterval(() => {
+      if (!sensorsOpen) return stopSensorsLiveUpdates();
+      renderRows(sensorsConnections);
+    }, 1000);
+
+    // Periodically refetch so a project that just came online/went offline
+    // updates without the user closing and reopening the panel.
+    sensorsRefreshTimer = setInterval(async () => {
+      if (!sensorsOpen) return stopSensorsLiveUpdates();
+      try {
+        const { data: rows, error } = await db
+          .from('project_connections')
+          .select('project_slug, last_active_at')
+          .eq('user_id', userId);
+        if (error) throw error;
+        renderRows(rows || []);
+      } catch {
+        // Keep showing the last known state; the tick timer keeps "ago" fresh.
+      }
+    }, 15000);
+  }
+
   function closeSensors() {
     if (!sensorsOpen) return;
     sensorsOpen = false;
     sensorsPanel.classList.remove('open');
+    stopSensorsLiveUpdates();
   }
 
   sensorsBtn.addEventListener('click', (e) => {

@@ -4762,3 +4762,189 @@ Tags:
 - community
 - ui
 - cleanup
+
+## 2026-06-12 19:13 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworked the community page channel graph so cards collapse by default and expand to full size on hover/focus, fitting the whole graph on screen.
+- Made the spokes connecting the build-log hub to every channel card always visible instead of only on hover.
+- Replaced the orbiting dot animation with shooting-star comet effects that periodically streak from the hub out to each card.
+
+Why it matters:
+The community graph now fits within the viewport and the build-log connections read as a constant, lively part of the layout instead of a hidden hover detail.
+
+Next:
+- Visually verify the new hover/expand and comet timing in a real browser across breakpoints.
+
+Tags:
+- community
+- ui
+- animation
+
+## 2026-06-12 19:24 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Redesigned the community page channel graph from large text cards to a compact icon-node constellation (matching the homepage hero graph style).
+- Added a side detail panel that shows the full channel description and a live-message preview, updating on hover/focus of each node.
+- Reworked the supporting CSS and JS (panel crossfade, entrance animation, reduced-motion fallback) to match the new layout.
+
+Why it matters:
+The graph now reads as a clean, branded network diagram instead of a stack of oversized boxes, while still surfacing each channel's full description through the side panel.
+
+Next:
+- Visually verify hover/focus interactions and mobile layout in a real browser.
+
+Tags:
+- community
+- ui
+- redesign
+
+## 2026-06-12 00:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Made the nav "Project Status" sensors panel update live while open instead of only on click.
+- "X ago" offline timestamps now tick every second from cached data, and the connection list refetches every 15 seconds so online/offline state updates without reopening the panel.
+
+Why it matters:
+Project status in the header now stays accurate to the second while the panel is open, removing the need to click the sensor icon twice to see a refreshed time.
+
+Next:
+- Check the connected app's heartbeat updates if "last active" still looks stale after this fix.
+
+Tags:
+- ui
+- nav
+- status
+- fix
+
+## 2026-06-12 19:37 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed leftover glow/dot artifacts from the community page channel-network graph hover effect
+- Realigned the graph's connecting line coordinates to match the icon-node layout
+- Added a "construct" animation so connecting lines now draw themselves outward from whichever node is hovered, instead of just fading in
+- Rebuilt the site and verified the new behavior is served locally
+
+Why it matters:
+The hover interaction on the community graph now feels intentional and polished instead of showing stray light artifacts before the lines appeared.
+
+Next:
+- Visual confirmation of the hover animation in-browser
+
+Tags:
+- ui
+- community
+- graph
+- animation
+- bugfix
+
+## 2026-06-12 19:41 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the small pulsing activity dots from every node in the community page channel-network graph and detail panel
+- Removed their idle pulse and "spike" flash animations and the interval that randomly triggered them
+- Rebuilt and verified the served output no longer includes any trace of these elements
+
+Why it matters:
+These dots were left flashing briefly after un-hovering a node, which looked unpolished. Removing them entirely cleans up the hover interaction.
+
+Next:
+- Visual confirmation in-browser
+
+Tags:
+- ui
+- community
+- graph
+- cleanup
+
+## 2026-06-12 19:48 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Bumped cache-busting version query strings for the community page stylesheet and script so browsers fetch the latest files instead of a stale cached copy
+- Rebuilt and re-served locally, then automated a headless browser pass: hovered a graph node, released, and inspected the live DOM/CSS state frame-by-frame
+- Confirmed no leftover dot elements, classes, or inline styles remain on the graph edges or nodes after un-hovering
+
+Why it matters:
+A stale cached script/stylesheet was the most likely reason the previous dot-removal fix wasn't visible after a refresh. The automated pass confirms the underlying code itself is clean.
+
+Next:
+- Confirm in-browser after a fresh load that the dots no longer appear
+
+Tags:
+- ui
+- community
+- graph
+- cache
+- verification
+
+## 2026-06-12 19:57 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found and fixed the real source of the lingering "dot flicker" on the community channel-network graph: the faint ring-connector lines had a dotted stroke pattern, and the hover-dim transition made those dots visibly fade back in after moving the mouse away.
+- Removed the dotted pattern so the ring connectors render as plain thin lines, with no visible flicker after hover.
+- Re-verified with frame-by-frame headless browser screenshots across the full hover/un-hover sequence.
+
+Why it matters:
+This was the actual cause of the "twinkling dots" the dashed pattern combined with the hover-dim fade made the ring lines blink. The graph now stays clean and steady before, during, and after hovering any node.
+
+Next:
+- Continue polishing the channel-network section as needed.
+
+Tags:
+- ui
+- community
+- graph
+- verification
+- fix
+
+## 2026-06-12 20:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found the actual root cause of the lingering "dots" on the community channel-network graph: when un-hovering a node, the two connector lines tied to that node would briefly render as a string of small dashes/dots for about a second before settling, due to a leftover animation property not resetting cleanly.
+- Fixed the reset so those connector lines snap back to a solid line instantly with no dash/dot artifacts.
+- Verified frame-by-frame with headless browser screenshots and raw style dumps across the full hover/un-hover sequence; confirmed the lines now look identical at every point in time.
+
+Why it matters:
+This closes out the channel-network hover polish entirely, no more flicker, dashes, or "dots" anywhere in the graph before, during, or after interaction.
+
+Next:
+- Move on to the next section of the community page.
+
+Tags:
+- ui
+- community
+- graph
+- verification
+- fix

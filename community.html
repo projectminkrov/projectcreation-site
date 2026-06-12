@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
   <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
   <link href="/assets/graph-20260527.css" rel="stylesheet"/>
-  <link href="/assets/community.css" rel="stylesheet"/>
+  <link href="/assets/community.css?v=202606121955" rel="stylesheet"/>
   <link href="/assets/nav-panels.css" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
@@ -101,90 +101,82 @@
         <h2 id="channelSectionHeading" class="font-headline-sm text-headline-sm text-on-background leading-snug">A culture built around goals, progress, and shipping.</h2>
       </div>
 
-      <div class="channel-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#goals-2026</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Post your dream and the plan to get there. Say it out loud, make it real.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@mira: just dropped my 2026 roadmap — feedback welcome 👀</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+      <div class="channel-network-layout">
+      <div class="channel-network">
+        <svg class="channel-network-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <!-- ring edges -->
+          <path class="edge edge-ring" data-edge-id="e-ring-goals-showcase" d="M50,12 L88,26"></path>
+          <path class="edge edge-ring" data-edge-id="e-ring-showcase-wins" d="M88,26 L78,88"></path>
+          <path class="edge edge-ring" data-edge-id="e-ring-wins-stuck" d="M78,88 L22,88"></path>
+          <path class="edge edge-ring" data-edge-id="e-ring-stuck-accountability" d="M22,88 L12,26"></path>
+          <path class="edge edge-ring" data-edge-id="e-ring-accountability-goals" d="M12,26 L50,12"></path>
+
+          <!-- hub-spoke edges -->
+          <path id="e-hub-goals" class="edge edge-hub" data-edge-id="e-hub-goals" d="M50,50 L50,12"></path>
+          <path id="e-hub-showcase" class="edge edge-hub" data-edge-id="e-hub-showcase" d="M50,50 L88,26"></path>
+          <path id="e-hub-wins" class="edge edge-hub" data-edge-id="e-hub-wins" d="M50,50 L78,88"></path>
+          <path id="e-hub-stuck" class="edge edge-hub" data-edge-id="e-hub-stuck" d="M50,50 L22,88"></path>
+          <path id="e-hub-accountability" class="edge edge-hub" data-edge-id="e-hub-accountability" d="M50,50 L12,26"></path>
+        </svg>
+
+        <div class="channel-node channel-node--hub" data-node-id="build-log" data-edges="e-hub-goals e-hub-showcase e-hub-wins e-hub-stuck e-hub-accountability" data-neighbors="goals showcase wins stuck accountability" tabindex="0"
+             data-tag="#build-log" data-icon="hub"
+             data-desc="Daily and weekly progress updates. Small steps count — this is the trail of the work."
+             data-live="@alex: shipped the dark mode toggle tonight 🌙">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">hub</span></div>
+          <span class="channel-icon-label">#build-log</span>
         </div>
 
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#build-log</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Daily and weekly progress updates. Small steps count — this is the trail of the work.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@alex: shipped the dark mode toggle tonight 🌙</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+        <div class="channel-node" data-node-id="goals" data-edges="e-hub-goals e-ring-goals-showcase e-ring-accountability-goals" data-neighbors="build-log showcase accountability" tabindex="0"
+             data-tag="#goals-2026" data-icon="flag"
+             data-desc="Post your dream and the plan to get there. Say it out loud, make it real."
+             data-live="@mira: just dropped my 2026 roadmap — feedback welcome 👀">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">flag</span></div>
+          <span class="channel-icon-label">#goals-2026</span>
         </div>
 
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#showcase</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Show what you shipped — demos, screenshots, launches, and finished builds.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@devkid: demo's up, would love a look 🎥</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+        <div class="channel-node" data-node-id="showcase" data-edges="e-hub-showcase e-ring-goals-showcase e-ring-showcase-wins" data-neighbors="build-log goals wins" tabindex="0"
+             data-tag="#showcase" data-icon="rocket_launch"
+             data-desc="Show what you shipped — demos, screenshots, launches, and finished builds."
+             data-live="@devkid: demo's up, would love a look 🎥">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">rocket_launch</span></div>
+          <span class="channel-icon-label">#showcase</span>
         </div>
 
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#accountability</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Pair up with another builder and check in on each other's progress.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@sam: day 14 — still on track 💪</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+        <div class="channel-node" data-node-id="wins" data-edges="e-hub-wins e-ring-showcase-wins e-ring-wins-stuck" data-neighbors="build-log showcase stuck" tabindex="0"
+             data-tag="#wins" data-icon="emoji_events"
+             data-desc="Celebrate the milestones — first user, first sale, first launch, finished feature."
+             data-live="@jordan: just hit 100 users! 🎉">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">emoji_events</span></div>
+          <span class="channel-icon-label">#wins</span>
         </div>
 
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#wins</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Celebrate the milestones — first user, first sale, first launch, finished feature.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@jordan: just hit 100 users! 🎉</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+        <div class="channel-node" data-node-id="stuck" data-edges="e-hub-stuck e-ring-wins-stuck e-ring-stuck-accountability" data-neighbors="build-log wins accountability" tabindex="0"
+             data-tag="#stuck" data-icon="help"
+             data-desc="Ask for help when you're blocked. No question is too small."
+             data-live="@riley: anyone know why this build keeps failing?">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">help</span></div>
+          <span class="channel-icon-label">#stuck</span>
         </div>
 
-        <div class="channel-card relative border border-outline-variant bg-surface-container-lowest p-md">
-          <div class="relative z-[1] flex flex-col gap-xs">
-            <div class="flex items-center justify-between">
-              <span class="channel-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest">#stuck</span>
-              <span class="channel-activity-dot" aria-hidden="true"></span>
-            </div>
-            <div class="channel-desc-wrap relative min-h-[76px]">
-              <p class="channel-desc-default font-body-md text-body-md text-on-surface-variant leading-relaxed">Ask for help when you're blocked. No question is too small.</p>
-              <p class="channel-desc-live font-body-md text-body-md font-mono leading-relaxed">@riley: anyone know why this build keeps failing?</p>
-            </div>
-          </div>
-          <span class="channel-cursor" aria-hidden="true">_</span>
+        <div class="channel-node" data-node-id="accountability" data-edges="e-hub-accountability e-ring-stuck-accountability e-ring-accountability-goals" data-neighbors="build-log stuck goals" tabindex="0"
+             data-tag="#accountability" data-icon="groups"
+             data-desc="Pair up with another builder and check in on each other's progress."
+             data-live="@sam: day 14 — still on track 💪">
+          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">groups</span></div>
+          <span class="channel-icon-label">#accountability</span>
         </div>
+      </div>
+
+      <aside class="channel-detail-panel border border-outline-variant bg-surface-container-lowest p-md" id="channelDetailPanel" aria-live="polite">
+        <div class="channel-detail-head">
+          <span class="material-symbols-outlined channel-detail-icon" id="channelDetailIcon">hub</span>
+          <span class="channel-detail-tag font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest" id="channelDetailTag">#build-log</span>
+          
+        </div>
+        <p class="channel-detail-desc font-body-md text-body-md text-on-surface-variant leading-relaxed" id="channelDetailDesc">Daily and weekly progress updates. Small steps count — this is the trail of the work.</p>
+        <p class="channel-detail-live font-body-md text-body-md font-mono leading-relaxed" id="channelDetailLive">@alex: shipped the dark mode toggle tonight 🌙</p>
+      </aside>
       </div>
     </section>
 
@@ -279,6 +271,6 @@
   <script src="/assets/supabase.min.js"></script>
   <script src="/assets/index.js?v=202605281214"></script>
   <script src="/assets/nav-panels.js?v=202606021800"></script>
-  <script src="/assets/community.js?v=202606121400"></script>
+  <script src="/assets/community.js?v=202606122005"></script>
 </body>
 </html>

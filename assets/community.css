@@ -40,144 +40,307 @@
   transform: none;
 }
 
-/* ── Channel grid ──────────────────────────────────────────── */
+/* ── Channel network ───────────────────────────────────────── */
 
-.channel-grid {
+.channel-network {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 24px);
   perspective: 1000px;
 }
 
-.channel-card {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.2s ease;
-  transform-style: preserve-3d;
-  will-change: transform;
+@media (min-width: 768px) {
+  .channel-network {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    min-height: 480px;
+    max-height: 80vh;
+  }
 }
 
-.channel-card.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.channel-network-svg {
+  display: none;
 }
 
-/* ── Card spin-in: a light sweeps around the border, then settles ──── */
-
-@property --spin-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+@media (min-width: 768px) {
+  .channel-network-svg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
 }
 
-.channel-card {
-  --spin-color: #2aa8ff;
+/* ── Edges ─────────────────────────────────────────────────── */
+
+.edge {
+  fill: none;
+  stroke: #2aa8ff;
+  stroke-width: 0.18;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.14;
+  transition: opacity 0.35s ease, stroke-width 0.35s ease;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
 }
 
-body.theme-red    .channel-card { --spin-color: #ff2a2a; }
-body.theme-green  .channel-card { --spin-color: #39ff14; }
-body.theme-purple .channel-card { --spin-color: #a855f7; }
+.edge-ring {
+  opacity: 0.08;
+}
 
-.channel-card::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  padding: 1.5px;
-  background: conic-gradient(from var(--spin-angle), transparent 0deg, var(--spin-color) 35deg, transparent 110deg, transparent 360deg);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
+.edge-hub {
+  opacity: 0.35;
+  stroke-width: 0.22;
+}
+
+.channel-network.is-visible .edge {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, stroke-width 0.35s ease;
+}
+
+.channel-network.is-visible .edge-hub {
+  transition-delay: 0.35s;
+}
+
+.channel-network.is-visible .edge-ring {
+  transition-delay: 0.85s;
+}
+
+.edge.is-active {
+  opacity: 0.9;
+  stroke-width: 0.4;
+}
+
+.channel-network.has-hover .edge:not(.is-active) {
+  opacity: 0.05;
+}
+
+/* ── Hover "construct" animation: edge redraws itself from the
+   hovered node outward. JS sets stroke-dasharray/dashoffset to the
+   path's real length, then animates dashoffset to 0. ──────────── */
+
+.edge.is-drawing {
+  transition: stroke-dashoffset 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, stroke-width 0.35s ease;
+}
+
+/* ── Layout: graph + detail panel ───────────────────────────── */
+
+.channel-network-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 32px);
+}
+
+@media (min-width: 1024px) {
+  .channel-network-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .channel-network {
+    flex: 1 1 60%;
+  }
+
+  .channel-detail-panel {
+    flex: 0 0 320px;
+  }
+}
+
+/* ── Nodes (icon + label) ──────────────────────────────────── */
+
+.channel-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .channel-network {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px 36px;
+    padding: var(--space-lg, 32px) 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .channel-node {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.2s ease;
+  }
+
+  .channel-node--hub {
+    z-index: 2;
+  }
+
+  .channel-node[data-node-id="build-log"]      { --x: 50%; --y: 50%; }
+  .channel-node[data-node-id="goals"]          { --x: 50%; --y: 12%; }
+  .channel-node[data-node-id="showcase"]       { --x: 88%; --y: 26%; }
+  .channel-node[data-node-id="wins"]           { --x: 78%; --y: 88%; }
+  .channel-node[data-node-id="stuck"]          { --x: 22%; --y: 88%; }
+  .channel-node[data-node-id="accountability"] { --x: 12%; --y: 26%; }
+
+  .channel-network.is-visible .channel-node {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .channel-network.is-visible .channel-node--hub {
+    transition-delay: 0s;
+  }
+
+  .channel-network.is-visible .channel-node:not(.channel-node--hub) {
+    transition-delay: 0.45s;
+  }
+
+  .channel-network.has-hover .channel-node:not(.is-active):not(.is-neighbor) {
+    opacity: 0.4;
+  }
+
+  .channel-node:hover,
+  .channel-node:focus-visible,
+  .channel-node.is-active {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 10;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .channel-node {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .channel-node:hover,
+  .channel-node:focus-visible,
+  .channel-node.is-active {
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* ── Icon box ─────────────────────────────────────────────── */
+
+.channel-icon-box {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.channel-icon-box .material-symbols-outlined {
+  font-size: 24px;
+  color: #6fd3ff;
+  transition: color 0.2s ease;
+}
+
+.channel-node--hub .channel-icon-box {
+  width: 68px;
+  height: 68px;
+  border-width: 2px;
+  border-color: #2aa8ff;
+  transform: rotate(45deg);
+  box-shadow: 0 0 24px rgba(42, 168, 255, 0.18);
+}
+
+.channel-node--hub .channel-icon-box .material-symbols-outlined {
+  transform: rotate(-45deg);
+  font-size: 28px;
+  color: #2aa8ff;
+}
+
+.channel-node:hover .channel-icon-box,
+.channel-node:focus-visible .channel-icon-box,
+.channel-node.is-active .channel-icon-box,
+.channel-node.is-neighbor .channel-icon-box {
+  border-color: #2aa8ff;
+  box-shadow: 0 0 0 1px rgba(42, 168, 255, 0.35), 0 0 22px rgba(42, 168, 255, 0.35);
+}
+
+.channel-node:hover .channel-icon-box .material-symbols-outlined,
+.channel-node:focus-visible .channel-icon-box .material-symbols-outlined,
+.channel-node.is-active .channel-icon-box .material-symbols-outlined {
+  color: #bfe9ff;
+}
+
+/* ── Label ────────────────────────────────────────────────── */
+
+.channel-icon-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #b2c7d6;
+  white-space: nowrap;
   pointer-events: none;
-  opacity: 0;
+  transition: color 0.2s ease;
 }
 
-.channel-card.is-visible::before {
-  animation: card-spin-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.channel-node--hub .channel-icon-label {
+  color: #2aa8ff;
 }
 
-@keyframes card-spin-in {
-  0%   { --spin-angle: 0deg;    opacity: 1; }
-  85%  { opacity: 1; }
-  100% { --spin-angle: 1080deg; opacity: 0; }
+.channel-node:hover .channel-icon-label,
+.channel-node:focus-visible .channel-icon-label,
+.channel-node.is-active .channel-icon-label {
+  color: #2aa8ff;
 }
 
-/* ── Live message preview ─────────────────────────────────── */
+/* ── Detail panel ─────────────────────────────────────────── */
 
-.channel-desc-wrap {
-  display: grid;
+.channel-detail-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 180px;
 }
 
-.channel-desc-default,
-.channel-desc-live {
-  grid-area: 1 / 1;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+.channel-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
-.channel-desc-default {
-  opacity: 1;
-  transform: none;
+.channel-detail-icon {
+  font-size: 20px;
+  color: #2aa8ff;
 }
 
-.channel-desc-live {
+.channel-detail-tag {
+  flex: 1 1 auto;
+}
+
+.channel-detail-desc,
+.channel-detail-live {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.channel-detail-live {
+  color: #2aa8ff;
+}
+
+.channel-detail-panel.is-updating .channel-detail-desc,
+.channel-detail-panel.is-updating .channel-detail-live {
   opacity: 0;
   transform: translateY(4px);
-  color: #2aa8ff;
-}
-
-.channel-card:hover .channel-desc-default,
-.channel-card:focus-within .channel-desc-default {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-.channel-card:hover .channel-desc-live,
-.channel-card:focus-within .channel-desc-live {
-  opacity: 1;
-  transform: none;
-}
-
-/* ── Corner cursor ─────────────────────────────────────────── */
-
-.channel-cursor {
-  position: absolute;
-  bottom: 8px;
-  right: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  color: #2aa8ff;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.channel-card:hover .channel-cursor,
-.channel-card:focus-within .channel-cursor {
-  opacity: 1;
-  animation: community-pulse 1s step-end infinite;
-}
-
-/* ── Activity dot ──────────────────────────────────────────── */
-
-.channel-activity-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #4ade80;
-  flex-shrink: 0;
-  opacity: 0.4;
-  animation: dot-idle 2.6s ease-in-out infinite;
-}
-
-@keyframes dot-idle {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 1; }
-}
-
-.channel-activity-dot.spike {
-  animation: dot-spike 0.7s ease-out;
-}
-
-@keyframes dot-spike {
-  0%   { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
-  70%  { opacity: 1; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-  100% { opacity: 0.4; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
 
 /* ── Build log section heading decode ──────────────────────── */
@@ -374,40 +537,37 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
 @media (prefers-reduced-motion: reduce) {
   .community-live-dot,
   .feed-line,
-  .channel-card,
   #channelSectionHeading,
   .section-tag-cursor,
-  .channel-cursor,
-  .channel-activity-dot,
-  .channel-desc-default,
-  .channel-desc-live {
+  .channel-detail-desc,
+  .channel-detail-live,
+  .channel-node,
+  .edge {
     animation: none !important;
     transition: none !important;
   }
 
-  .channel-card:hover {
+  .channel-node:hover,
+  .channel-node:focus-visible,
+  .channel-node.is-active {
     transform: none;
   }
 
-  .channel-card,
+  .channel-node,
   #channelSectionHeading {
     opacity: 1;
     transform: none;
   }
 
-  .channel-card::before {
-    display: none;
+  .edge {
+    stroke-dashoffset: 0;
+    opacity: 0.14;
   }
 
-  .channel-card:hover .channel-desc-default,
-  .channel-card:focus-within .channel-desc-default {
+  .channel-detail-panel.is-updating .channel-detail-desc,
+  .channel-detail-panel.is-updating .channel-detail-live {
     opacity: 1;
     transform: none;
-  }
-
-  .channel-card:hover .channel-desc-live,
-  .channel-card:focus-within .channel-desc-live {
-    opacity: 0;
   }
 
   .feed-terminal-dots span {
