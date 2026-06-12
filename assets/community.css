@@ -25,6 +25,10 @@
   animation: community-pulse 1s step-end infinite;
 }
 
+.section-tag-cursor.hidden {
+  display: none;
+}
+
 #channelSectionHeading {
   opacity: 0;
   transform: translateY(8px);

@@ -4682,3 +4682,42 @@ to read on wider screens.
 Tags:
 - community
 - ui
+
+## 2026-06-11 22:27 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Shipped the rebuilt community page with a live, animated build-log
+  feed connected to the project's Discord channel
+- Pushed all changes to GitHub and deployed to production
+
+Why it matters:
+Anyone visiting the community page can now watch real build progress
+update automatically, without refreshing.
+
+Tags:
+- community
+- deploy
+- live-feed
+
+## 2026-06-12 09:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Hid the blinking section-tag cursor on the build-log section once
+  its typewriter entrance animation finishes
+
+Why it matters:
+The leftover blinking cursor next to the heading looked unintentional
+once the animation was done.
+
+Tags:
+- community
+- ui
+- animation

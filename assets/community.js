@@ -393,11 +393,15 @@
         if (REDUCE_MOTION) {
           if (heading) heading.classList.add('is-visible');
           if (dots) dots.classList.add('is-visible');
+          if (tag) tag.nextElementSibling?.classList.add('hidden');
           revealBuildLogFeed();
           return;
         }
 
-        if (tag) await typewriter(tag, tag.textContent.trim());
+        if (tag) {
+          await typewriter(tag, tag.textContent.trim());
+          tag.nextElementSibling?.classList.add('hidden');
+        }
         if (heading) scrambleReveal(heading, 500);
         if (dots) dots.classList.add('is-visible');
         if (cta) {
