@@ -87,85 +87,48 @@
           <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-xs">Discord</p>
           <p class="font-headline-sm text-headline-sm text-on-background">Join the build</p>
           <p id="discordMemberCount" class="font-label-sm text-label-sm text-outline mt-xs font-mono break-words hidden"></p>
-          <a href="#" class="mt-sm inline-block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+          <a href="https://discord.gg/9UWvtc8RXT" target="_blank" rel="noopener" class="mt-sm inline-block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
             JOIN DISCORD →
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ════════════════ 2. CHANNEL SHOWCASE ════════════════ -->
+    <!-- ════════════════ 2. JOIN CTA ════════════════ -->
+    <section class="join-cta relative py-[80px] md:py-[120px] border-b border-outline-variant">
+      <div class="join-cta-pulses" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="join-cta-inner relative max-w-3xl mx-auto text-center px-md py-xl md:py-[64px]">
+        <div class="join-cta-frame" aria-hidden="true">
+          <span class="frame-edge frame-top"></span>
+          <span class="frame-edge frame-bottom"></span>
+          <span class="frame-edge frame-left"></span>
+          <span class="frame-edge frame-right"></span>
+        </div>
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="joinCtaTag">// 01 — Join the build</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
+        <h2 id="joinCtaHeading" class="font-headline-md text-headline-md text-on-background leading-snug mb-sm">Stop building alone.</h2>
+        <p id="joinCtaSub" class="font-body-md text-body-md text-on-surface-variant leading-relaxed max-w-xl mx-auto mb-lg">Everything below — the channels, the live feed, the people — is one click away. Come watch it happen, or come add to it.</p>
+        <p class="join-cta-terminal font-label-sm text-label-sm font-mono mb-lg" aria-hidden="true"><span class="join-cta-prompt">$ </span><span id="joinCtaCmd"></span><span class="feed-cursor-blink">▌</span></p>
+        <div class="join-cta-btn-wrap inline-block relative">
+          <div class="join-cta-rings" aria-hidden="true"><span></span><span></span><span></span></div>
+          <a href="https://discord.gg/9UWvtc8RXT" target="_blank" rel="noopener" class="join-cta-btn circuit-cta inline-block whitespace-nowrap px-lg md:px-xl py-md bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+            JOIN THE DISCORD →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════ 3. CHANNEL SHOWCASE ════════════════ -->
     <section class="py-xl md:py-[96px] border-b border-outline-variant">
       <div class="max-w-3xl mb-xl">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="channelSectionTag">// 01 — Inside the server</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="channelSectionTag">// 02 — Inside the server</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
         <h2 id="channelSectionHeading" class="font-headline-sm text-headline-sm text-on-background leading-snug">A culture built around goals, progress, and shipping.</h2>
       </div>
 
       <div class="channel-network-layout">
-      <div class="channel-network">
-        <svg class="channel-network-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <!-- ring edges -->
-          <path class="edge edge-ring" data-edge-id="e-ring-goals-showcase" d="M50,12 L88,26"></path>
-          <path class="edge edge-ring" data-edge-id="e-ring-showcase-wins" d="M88,26 L78,88"></path>
-          <path class="edge edge-ring" data-edge-id="e-ring-wins-stuck" d="M78,88 L22,88"></path>
-          <path class="edge edge-ring" data-edge-id="e-ring-stuck-accountability" d="M22,88 L12,26"></path>
-          <path class="edge edge-ring" data-edge-id="e-ring-accountability-goals" d="M12,26 L50,12"></path>
-
-          <!-- hub-spoke edges -->
-          <path id="e-hub-goals" class="edge edge-hub" data-edge-id="e-hub-goals" d="M50,50 L50,12"></path>
-          <path id="e-hub-showcase" class="edge edge-hub" data-edge-id="e-hub-showcase" d="M50,50 L88,26"></path>
-          <path id="e-hub-wins" class="edge edge-hub" data-edge-id="e-hub-wins" d="M50,50 L78,88"></path>
-          <path id="e-hub-stuck" class="edge edge-hub" data-edge-id="e-hub-stuck" d="M50,50 L22,88"></path>
-          <path id="e-hub-accountability" class="edge edge-hub" data-edge-id="e-hub-accountability" d="M50,50 L12,26"></path>
-        </svg>
-
-        <div class="channel-node channel-node--hub" data-node-id="build-log" data-edges="e-hub-goals e-hub-showcase e-hub-wins e-hub-stuck e-hub-accountability" data-neighbors="goals showcase wins stuck accountability" tabindex="0"
-             data-tag="#build-log" data-icon="hub"
-             data-desc="This is where ProjectCreation's own development happens in the open — every update, fix, and feature gets logged here in real time. Watch the build-log to see exactly what's being worked on and trust that progress is real, not just promises."
-             data-live="@alex: shipped the dark mode toggle tonight 🌙">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">hub</span></div>
-          <span class="channel-icon-label">#build-log</span>
-        </div>
-
-        <div class="channel-node" data-node-id="goals" data-edges="e-hub-goals e-ring-goals-showcase e-ring-accountability-goals" data-neighbors="build-log showcase accountability" tabindex="0"
-             data-tag="#goals-2026" data-icon="flag"
-             data-desc="Where builders publicly commit to what they're making this year. Posting your goal here turns a vague idea into a real deadline — and gives the community something to hold you to."
-             data-live="@mira: just dropped my 2026 roadmap — feedback welcome 👀">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">flag</span></div>
-          <span class="channel-icon-label">#goals-2026</span>
-        </div>
-
-        <div class="channel-node" data-node-id="showcase" data-edges="e-hub-showcase e-ring-goals-showcase e-ring-showcase-wins" data-neighbors="build-log goals wins" tabindex="0"
-             data-tag="#showcase" data-icon="rocket_launch"
-             data-desc="The highlight reel. This is where finished builds, demos, and launches get shown off — a steady stream of proof that people here actually ship. Scroll through for inspiration, or post your own when it's ready."
-             data-live="@devkid: demo's up, would love a look 🎥">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">rocket_launch</span></div>
-          <span class="channel-icon-label">#showcase</span>
-        </div>
-
-        <div class="channel-node" data-node-id="wins" data-edges="e-hub-wins e-ring-showcase-wins e-ring-wins-stuck" data-neighbors="build-log showcase stuck" tabindex="0"
-             data-tag="#wins" data-icon="emoji_events"
-             data-desc="Every milestone worth celebrating lives here — first user, first sale, first launch, first anything. A reminder that progress (even small) is worth sharing and cheering for."
-             data-live="@jordan: just hit 100 users! 🎉">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">emoji_events</span></div>
-          <span class="channel-icon-label">#wins</span>
-        </div>
-
-        <div class="channel-node" data-node-id="stuck" data-edges="e-hub-stuck e-ring-wins-stuck e-ring-stuck-accountability" data-neighbors="build-log wins accountability" tabindex="0"
-             data-tag="#stuck" data-icon="help"
-             data-desc="No one builds alone. This is the no-judgment zone for bugs, blockers, and &quot;why isn't this working&quot; moments — post here and someone in the community will likely have hit the same wall."
-             data-live="@riley: anyone know why this build keeps failing?">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">help</span></div>
-          <span class="channel-icon-label">#stuck</span>
-        </div>
-
-        <div class="channel-node" data-node-id="accountability" data-edges="e-hub-accountability e-ring-stuck-accountability e-ring-accountability-goals" data-neighbors="build-log stuck goals" tabindex="0"
-             data-tag="#accountability" data-icon="groups"
-             data-desc="Pair up, check in, stay consistent. This channel is for builders keeping each other on track — daily/weekly check-ins, progress streaks, and gentle peer pressure that actually works."
-             data-live="@sam: day 14 — still on track 💪">
-          <div class="channel-icon-box border border-outline-variant bg-surface-container-lowest"><span class="material-symbols-outlined">groups</span></div>
-          <span class="channel-icon-label">#accountability</span>
-        </div>
+      <div id="channelGraphContainer" class="channel-graph relative w-full border border-outline-variant bg-surface-container-lowest overflow-hidden">
+        <svg id="channelGraphSvg" class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
 
       <aside class="channel-detail-panel border border-outline-variant bg-surface-container-lowest p-md" id="channelDetailPanel" aria-live="polite">
@@ -180,11 +143,12 @@
       </div>
     </section>
 
-    <!-- ════════════════ 3. LIVE BUILD LOG FEED ════════════════ -->
+    <!-- ════════════════ 4. LIVE BUILD LOG FEED ════════════════ -->
     <section class="py-xl md:py-[96px] border-b border-outline-variant">
       <div class="max-w-3xl mb-xl">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="buildLogSectionTag">// 02 — Live from #build-log</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm font-mono"><span id="buildLogSectionTag">// 03 — Live from #build-log</span><span class="section-tag-cursor" aria-hidden="true">▌</span></p>
         <h2 id="buildLogSectionHeading" class="font-headline-sm text-headline-sm text-on-background leading-snug">Real progress, posted by the people doing the work.</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-sm">Every ProjectCreation tool is built in the open — every change, fix, and feature gets logged here as it happens. It's our accountability system: no silent disappearances, no "coming soon" with nothing behind it. If we're working on it, you can watch it happen.</p>
       </div>
 
       <div class="border border-outline-variant bg-surface-container-lowest">
@@ -199,9 +163,41 @@
           </span>
         </div>
         <div id="buildLogFeed" class="px-md py-sm divide-y divide-outline-variant">
-          <div class="feed-line flex items-start gap-sm py-xs">
+          <div class="feed-line feed-line-reveal flex items-start gap-sm py-xs">
             <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
-            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log…</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log — loading the latest updates from the team, please wait…</span>
+            <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
+              <span class="feed-time"></span>
+              <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+            </span>
+          </div>
+          <div class="feed-line feed-line-reveal flex items-start gap-sm py-xs">
+            <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log — loading the latest updates from the team, please wait…</span>
+            <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
+              <span class="feed-time"></span>
+              <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+            </span>
+          </div>
+          <div class="feed-line feed-line-reveal flex items-start gap-sm py-xs">
+            <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log — loading the latest updates from the team, please wait…</span>
+            <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
+              <span class="feed-time"></span>
+              <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+            </span>
+          </div>
+          <div class="feed-line feed-line-reveal flex items-start gap-sm py-xs">
+            <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log — loading the latest updates from the team, please wait…</span>
+            <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
+              <span class="feed-time"></span>
+              <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+            </span>
+          </div>
+          <div class="feed-line feed-line-reveal flex items-start gap-sm py-xs">
+            <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span>@ProjectDiver</span>
+            <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug">Connecting to #build-log — loading the latest updates from the team, please wait…</span>
             <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
               <span class="feed-time"></span>
               <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
@@ -214,41 +210,58 @@
         </div>
       </div>
 
-      <a id="buildLogCta" href="#" class="feed-cta inline-flex items-center gap-xs mt-md font-label-md text-label-md text-primary-fixed-dim font-mono transition-[gap] duration-200">
+      <a id="buildLogCta" href="https://discord.gg/9UWvtc8RXT" target="_blank" rel="noopener" class="feed-cta inline-flex items-center gap-xs mt-md font-label-md text-label-md text-primary-fixed-dim font-mono transition-[gap] duration-200">
         <span>$ tail -f #build-log on Discord</span>
         <span class="feed-cta-arrow" aria-hidden="true">→</span>
       </a>
     </section>
 
-    <!-- ════════════════ 6. WHY JOIN ════════════════ -->
-    <section class="py-xl md:py-[96px]">
-      <div class="max-w-3xl mb-xl">
-        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 03 — Why be here</p>
+    <!-- ════════════════ 5. WHY JOIN ════════════════ -->
+    <section class="py-[80px] md:py-[160px]">
+      <div class="max-w-3xl mb-xl md:mb-[80px]">
+        <p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mb-sm">// 04 — Why be here</p>
         <h2 class="font-headline-sm text-headline-sm text-on-background leading-snug">Three reasons builders stick around.</h2>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
-        <div class="border border-outline-variant bg-surface-container-lowest p-md">
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">check_circle</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Accountability</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Say your goal out loud, and someone will check on you.</p>
+      <div class="circuit-flow">
+        <div class="circuit-grid grid grid-cols-1 sm:grid-cols-3 gap-lg md:gap-[64px]">
+          <div class="circuit-card border border-outline-variant bg-surface-container-lowest p-lg" tabindex="0">
+            <span class="circuit-node material-symbols-outlined mb-sm">check_circle</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Accountability</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Say your goal out loud, and someone will check on you.</p>
+            <p class="circuit-detail font-body-md text-body-md text-primary-fixed-dim leading-relaxed font-mono" data-final="Post your goal in #goals-2026 and the community holds you to it — regular check-ins mean you can't quietly let a project die in a private folder."></p>
+            <div class="circuit-arrow" aria-hidden="true"></div>
+          </div>
+          <div class="circuit-card border border-outline-variant bg-surface-container-lowest p-lg" tabindex="0">
+            <span class="circuit-node material-symbols-outlined mb-sm">visibility</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Visibility</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Show your work and get real reactions from people who get it.</p>
+            <p class="circuit-detail font-body-md text-body-md text-primary-fixed-dim leading-relaxed font-mono" data-final="Drop a screenshot or demo in #showcase and get specific feedback from people who actually build — not generic 'looks great!' replies."></p>
+            <div class="circuit-arrow" aria-hidden="true"></div>
+          </div>
+          <div class="circuit-card border border-outline-variant bg-surface-container-lowest p-lg" tabindex="0">
+            <span class="circuit-node material-symbols-outlined mb-sm">groups</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Proximity</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Be near people actually building, not just talking about it.</p>
+            <p class="circuit-detail font-body-md text-body-md text-primary-fixed-dim leading-relaxed font-mono" data-final="A server full of people mid-build means faster unsticking, real collaborators, and momentum that rubs off when you're around it daily."></p>
+            <div class="circuit-arrow-final" aria-hidden="true"></div>
+          </div>
         </div>
-        <div class="border border-outline-variant bg-surface-container-lowest p-md">
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">visibility</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Visibility</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Show your work and get real reactions from people who get it.</p>
-        </div>
-        <div class="border border-outline-variant bg-surface-container-lowest p-md">
-          <span class="material-symbols-outlined text-primary-fixed-dim mb-sm block">groups</span>
-          <h3 class="font-headline-sm text-headline-sm text-on-background mb-xs">Proximity</h3>
-          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Be near people actually building, not just talking about it.</p>
-        </div>
-      </div>
 
-      <div class="mt-xl">
-        <a href="#" class="inline-block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
-          JOIN THE DISCORD →
-        </a>
+        <div class="circuit-bus" aria-hidden="true">
+          <svg class="circuit-bus-svg" viewBox="0 0 1000 120" preserveAspectRatio="none">
+            <path class="circuit-trace" d="M166.7,0 V46 H466 Q486,46 486,66 V120" />
+            <path class="circuit-trace" d="M500,0 V120" />
+            <path class="circuit-trace" d="M833.3,0 V46 H534 Q514,46 514,66 V120" />
+          </svg>
+        </div>
+        <div class="circuit-drop-cta" aria-hidden="true"></div>
+
+        <div class="circuit-cta-row flex justify-center">
+          <a href="https://discord.gg/9UWvtc8RXT" target="_blank" rel="noopener" class="circuit-cta inline-block px-xl py-md bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">
+            JOIN THE DISCORD →
+          </a>
+        </div>
       </div>
     </section>
 
@@ -272,5 +285,6 @@
   <script src="/assets/index.js?v=202605281214"></script>
   <script src="/assets/nav-panels.js?v=202606021800"></script>
   <script src="/assets/community.js?v=202606122005"></script>
+  <script src="/assets/community-graph.js?v=202606131200"></script>
 </body>
 </html>

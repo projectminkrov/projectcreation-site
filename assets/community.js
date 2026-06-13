@@ -132,25 +132,24 @@
     updateFeedStatus();
 
     const lines = Array.from(container.querySelectorAll('.feed-line'));
+    lines.forEach(line => {
+      const msgEl = line.querySelector('.feed-msg');
+      if (msgEl) msgEl.innerHTML = formatFeedContent(msgEl.dataset.final || msgEl.textContent.trim());
+    });
+
     if (REDUCE_MOTION) {
-      lines.forEach(line => {
-        const msgEl = line.querySelector('.feed-msg');
-        if (msgEl) msgEl.innerHTML = formatFeedContent(msgEl.dataset.final || msgEl.textContent.trim());
-      });
+      lines.forEach(line => line.classList.remove('feed-line-reveal'));
       return;
     }
 
-    let i = 0;
-    const next = () => {
-      if (i >= lines.length) return;
-      const msgEl = lines[i].querySelector('.feed-msg');
-      if (!msgEl) { i++; next(); return; }
-      typeFeedMessage(msgEl, msgEl.dataset.final || '', () => {
-        i++;
-        setTimeout(next, 220);
-      });
-    };
-    next();
+    // First-load reveal: fade + slide every line in together, staggered
+    // top-to-bottom. Lines start with feed-line-reveal (opacity 0) already
+    // applied from the markup, so the text is never painted at full opacity
+    // before this transition starts. New entries appended later still use
+    // typeFeedMessage and skip this class entirely.
+    lines.forEach((line, i) => {
+      setTimeout(() => line.classList.add('is-revealed'), 80 + i * 90);
+    });
   }
 
   function prepareFeedLines(container) {
@@ -186,8 +185,9 @@
     const prevIds = container._feedIds;
     const nextIds = messages.map(m => `@${m.author}:${m.content}`);
 
+    const lineClass = buildLogRevealed ? 'feed-line' : 'feed-line feed-line-reveal';
     container.innerHTML = messages.map(() => `
-      <div class="feed-line flex items-start gap-sm py-xs">
+      <div class="${lineClass} flex items-start gap-sm py-xs">
         <span class="feed-author font-label-sm text-label-sm text-primary-fixed-dim font-mono shrink-0 flex items-center gap-xs"><span class="feed-author-dot" aria-hidden="true"></span></span>
         <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug"></span>
         <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
@@ -279,59 +279,12 @@
     }, 40);
   }
 
-  function glitchIn(el, finalText, duration = 500) {
-    if (REDUCE_MOTION) { el.textContent = finalText; return; }
-    const start = performance.now();
-    function frame(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const settled = Math.floor(progress * finalText.length);
-      let out = '';
-      for (let i = 0; i < finalText.length; i++) {
-        const ch = finalText[i];
-        out += (i < settled || ch === ' ' || ch === '#' || ch === '-')
-          ? ch
-          : GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-      }
-      el.textContent = out;
-      if (progress < 1) requestAnimationFrame(frame);
-      else el.textContent = finalText;
-    }
-    requestAnimationFrame(frame);
-  }
-
   function initChannelSection() {
-    const network = document.querySelector('.channel-network');
-    const section = network?.closest('section');
+    const section = document.getElementById('channelGraphContainer')?.closest('section');
     if (!section) return;
 
     const tag = document.getElementById('channelSectionTag');
     const heading = document.getElementById('channelSectionHeading');
-    const nodes = Array.from(section.querySelectorAll('.channel-node'));
-    const hubNode = nodes.find(n => n.dataset.nodeId === 'build-log');
-
-    const panel = document.getElementById('channelDetailPanel');
-    const panelIcon = document.getElementById('channelDetailIcon');
-    const panelTag = document.getElementById('channelDetailTag');
-    const panelDesc = document.getElementById('channelDetailDesc');
-    const panelLive = document.getElementById('channelDetailLive');
-
-    function setPanel(node) {
-      if (!node || !panel) return;
-      const apply = () => {
-        if (panelIcon) panelIcon.textContent = node.dataset.icon || '';
-        if (panelTag) {
-          if (REDUCE_MOTION) panelTag.textContent = node.dataset.tag || '';
-          else glitchIn(panelTag, node.dataset.tag || '');
-        }
-        if (panelDesc) panelDesc.textContent = node.dataset.desc || '';
-        if (panelLive) panelLive.textContent = node.dataset.live || '';
-        panel.classList.remove('is-updating');
-      };
-
-      if (REDUCE_MOTION) { apply(); return; }
-      panel.classList.add('is-updating');
-      setTimeout(apply, 160);
-    }
 
     let triggered = false;
     const observer = new IntersectionObserver((entries) => {
@@ -342,115 +295,10 @@
 
         if (tag) await typewriter(tag, tag.textContent.trim());
         if (heading) heading.classList.add('is-visible');
-
-        network.classList.add('is-visible');
-
-        nodes.forEach((node, i) => {
-          setTimeout(() => {
-            node.classList.add('is-visible');
-            const labelEl = node.querySelector('.channel-icon-label');
-            if (labelEl) glitchIn(labelEl, labelEl.textContent.trim());
-          }, i * 90);
-        });
       });
     }, { threshold: 0.2 });
 
     observer.observe(section);
-
-    // ── Network hover: light up connected edges + neighbor nodes, update detail panel ──
-    const EDGE_ENDPOINTS = {
-      'e-hub-goals': ['build-log', 'goals'],
-      'e-hub-showcase': ['build-log', 'showcase'],
-      'e-hub-wins': ['build-log', 'wins'],
-      'e-hub-stuck': ['build-log', 'stuck'],
-      'e-hub-accountability': ['build-log', 'accountability'],
-      'e-ring-goals-showcase': ['goals', 'showcase'],
-      'e-ring-showcase-wins': ['showcase', 'wins'],
-      'e-ring-wins-stuck': ['wins', 'stuck'],
-      'e-ring-stuck-accountability': ['stuck', 'accountability'],
-      'e-ring-accountability-goals': ['accountability', 'goals'],
-    };
-
-    function drawEdge(edge, fromNodeId) {
-      if (REDUCE_MOTION) { edge.classList.add('is-active'); return; }
-      const id = edge.dataset.edgeId;
-      const [a, b] = EDGE_ENDPOINTS[id] || [];
-      if (!edge._origD) edge._origD = edge.getAttribute('d');
-
-      if (b === fromNodeId && a !== fromNodeId) {
-        const m = edge._origD.match(/M\s*([\d.\-]+)[ ,]+([\d.\-]+)\s*L\s*([\d.\-]+)[ ,]+([\d.\-]+)/);
-        if (m) edge.setAttribute('d', `M${m[3]},${m[4]} L${m[1]},${m[2]}`);
-      } else {
-        edge.setAttribute('d', edge._origD);
-      }
-
-      edge.classList.add('is-active');
-      const len = edge.getTotalLength();
-      edge.style.transition = 'none';
-      edge.style.strokeDasharray = `${len}`;
-      edge.style.strokeDashoffset = `${len}`;
-      edge.getBoundingClientRect(); // force reflow
-      edge.classList.add('is-drawing');
-      edge.style.transition = '';
-      requestAnimationFrame(() => {
-        edge.style.strokeDashoffset = '0';
-      });
-    }
-
-    function resetEdge(edge) {
-      edge.classList.remove('is-active', 'is-drawing');
-      if (edge._origD) edge.setAttribute('d', edge._origD);
-      // Snap dash properties back to their resting values with no transition
-      // first, so the leftover entrance transition on stroke-dashoffset
-      // (1.1s on .is-visible .edge) can't animate a stale offset back to 0
-      // and produce a visible dashed/segmented line for ~1s after mouseleave.
-      edge.style.transition = 'none';
-      edge.style.strokeDasharray = '48';
-      edge.style.strokeDashoffset = '0';
-      edge.getBoundingClientRect();
-      edge.style.transition = '';
-      edge.style.strokeDasharray = '';
-      edge.style.strokeDashoffset = '';
-    }
-
-    nodes.forEach(node => {
-      const edgeIds = (node.dataset.edges || '').split(/\s+/).filter(Boolean);
-      const neighborIds = (node.dataset.neighbors || '').split(/\s+/).filter(Boolean);
-
-      const activate = () => {
-        network.classList.add('has-hover');
-        node.classList.add('is-active');
-        edgeIds.forEach(id => {
-          const edge = network.querySelector(`[data-edge-id="${id}"]`);
-          if (edge) drawEdge(edge, node.dataset.nodeId);
-        });
-        neighborIds.forEach(id => {
-          const neighbor = network.querySelector(`[data-node-id="${id}"]`);
-          if (neighbor) neighbor.classList.add('is-neighbor');
-        });
-        setPanel(node);
-      };
-
-      const deactivate = () => {
-        network.classList.remove('has-hover');
-        node.classList.remove('is-active');
-        edgeIds.forEach(id => {
-          const edge = network.querySelector(`[data-edge-id="${id}"]`);
-          if (edge) resetEdge(edge);
-        });
-        neighborIds.forEach(id => {
-          const neighbor = network.querySelector(`[data-node-id="${id}"]`);
-          if (neighbor) neighbor.classList.remove('is-neighbor');
-        });
-        if (hubNode && hubNode !== node) setPanel(hubNode);
-      };
-
-      node.addEventListener('mouseenter', activate);
-      node.addEventListener('focusin', activate);
-      node.addEventListener('mouseleave', deactivate);
-      node.addEventListener('focusout', deactivate);
-    });
-
   }
 
   function initBuildLogSection() {
@@ -498,11 +346,65 @@
     observer.observe(section);
   }
 
+  function initJoinCtaSection() {
+    const section = document.querySelector('.join-cta');
+    const inner = section?.querySelector('.join-cta-inner');
+    if (!section || !inner) return;
+
+    const tag = document.getElementById('joinCtaTag');
+    const heading = document.getElementById('joinCtaHeading');
+    const sub = document.getElementById('joinCtaSub');
+    const cmd = document.getElementById('joinCtaCmd');
+
+    let triggered = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(async entry => {
+        if (!entry.isIntersecting || triggered) return;
+        triggered = true;
+        observer.disconnect();
+
+        if (REDUCE_MOTION) {
+          if (heading) heading.classList.add('is-visible');
+          if (sub) sub.classList.add('is-revealed');
+          if (cmd) cmd.textContent = 'connect --server ProjectCreation';
+          inner.classList.add('is-armed');
+          return;
+        }
+
+        if (tag) {
+          await typewriter(tag, tag.textContent.trim());
+          tag.nextElementSibling?.classList.add('hidden');
+        }
+        if (heading) heading.classList.add('is-visible');
+        if (sub) {
+          sub.classList.add('is-revealed');
+          scrambleReveal(sub, 500);
+        }
+        if (cmd) await typewriter(cmd, 'connect --server ProjectCreation', 30);
+        inner.classList.add('is-armed');
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(section);
+  }
+
+  function initCircuitCards() {
+    document.querySelectorAll('.circuit-card').forEach((card) => {
+      const detail = card.querySelector('.circuit-detail');
+      if (!detail) return;
+      const decipher = () => scrambleReveal(detail, 700);
+      card.addEventListener('mouseenter', decipher);
+      card.addEventListener('focusin', decipher);
+    });
+  }
+
   function init() {
     loadMemberCount();
     loadFeed('buildlog', 'buildLogFeed', renderFeedLines);
+    initJoinCtaSection();
     initChannelSection();
     initBuildLogSection();
+    initCircuitCards();
 
     setInterval(() => {
       loadFeed('buildlog', 'buildLogFeed', renderFeedLines);

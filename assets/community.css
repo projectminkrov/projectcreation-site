@@ -42,89 +42,17 @@
 
 /* ── Channel network ───────────────────────────────────────── */
 
-.channel-network {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md, 24px);
-  perspective: 1000px;
+.channel-graph {
+  aspect-ratio: 4 / 3;
+  min-height: 360px;
+  max-height: 80vh;
 }
 
 @media (min-width: 768px) {
-  .channel-network {
-    display: block;
-    position: relative;
-    width: 100%;
+  .channel-graph {
     aspect-ratio: 16 / 11;
     min-height: 480px;
-    max-height: 80vh;
   }
-}
-
-.channel-network-svg {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .channel-network-svg {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-}
-
-/* ── Edges ─────────────────────────────────────────────────── */
-
-.edge {
-  fill: none;
-  stroke: #2aa8ff;
-  stroke-width: 0.18;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.14;
-  transition: opacity 0.35s ease, stroke-width 0.35s ease;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-}
-
-.edge-ring {
-  opacity: 0.08;
-}
-
-.edge-hub {
-  opacity: 0.35;
-  stroke-width: 0.22;
-}
-
-.channel-network.is-visible .edge {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, stroke-width 0.35s ease;
-}
-
-.channel-network.is-visible .edge-hub {
-  transition-delay: 0.35s;
-}
-
-.channel-network.is-visible .edge-ring {
-  transition-delay: 0.85s;
-}
-
-.edge.is-active {
-  opacity: 0.9;
-  stroke-width: 0.4;
-}
-
-.channel-network.has-hover .edge:not(.is-active) {
-  opacity: 0.05;
-}
-
-/* ── Hover "construct" animation: edge redraws itself from the
-   hovered node outward. JS sets stroke-dasharray/dashoffset to the
-   path's real length, then animates dashoffset to 0. ──────────── */
-
-.edge.is-drawing {
-  transition: stroke-dashoffset 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, stroke-width 0.35s ease;
 }
 
 /* ── Layout: graph + detail panel ───────────────────────────── */
@@ -141,166 +69,13 @@
     align-items: stretch;
   }
 
-  .channel-network {
+  .channel-graph {
     flex: 1 1 60%;
   }
 
   .channel-detail-panel {
     flex: 0 0 320px;
   }
-}
-
-/* ── Nodes (icon + label) ──────────────────────────────────── */
-
-.channel-node {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  outline: none;
-}
-
-@media (max-width: 767px) {
-  .channel-network {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 28px 36px;
-    padding: var(--space-lg, 32px) 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .channel-node {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.2s ease;
-  }
-
-  .channel-node--hub {
-    z-index: 2;
-  }
-
-  .channel-node[data-node-id="build-log"]      { --x: 50%; --y: 50%; }
-  .channel-node[data-node-id="goals"]          { --x: 50%; --y: 12%; }
-  .channel-node[data-node-id="showcase"]       { --x: 88%; --y: 26%; }
-  .channel-node[data-node-id="wins"]           { --x: 78%; --y: 88%; }
-  .channel-node[data-node-id="stuck"]          { --x: 22%; --y: 88%; }
-  .channel-node[data-node-id="accountability"] { --x: 12%; --y: 26%; }
-
-  .channel-network.is-visible .channel-node {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .channel-network.is-visible .channel-node--hub {
-    transition-delay: 0s;
-  }
-
-  .channel-network.is-visible .channel-node:not(.channel-node--hub) {
-    transition-delay: 0.45s;
-  }
-
-  .channel-network.has-hover .channel-node:not(.is-active):not(.is-neighbor) {
-    opacity: 0.4;
-  }
-
-  .channel-node:hover,
-  .channel-node:focus-visible,
-  .channel-node.is-active {
-    transform: translate(-50%, -50%) scale(1.1);
-    z-index: 10;
-  }
-}
-
-@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-  .channel-node {
-    opacity: 1 !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .channel-node:hover,
-  .channel-node:focus-visible,
-  .channel-node.is-active {
-    transform: translate(-50%, -50%) !important;
-  }
-}
-
-/* ── Icon box ─────────────────────────────────────────────── */
-
-.channel-icon-box {
-  position: relative;
-  width: 52px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.channel-icon-box .material-symbols-outlined {
-  font-size: 24px;
-  color: #6fd3ff;
-  transition: color 0.2s ease;
-}
-
-.channel-node--hub .channel-icon-box {
-  width: 68px;
-  height: 68px;
-  border-width: 2px;
-  border-color: #2aa8ff;
-  transform: rotate(45deg);
-  box-shadow: 0 0 24px rgba(42, 168, 255, 0.18);
-}
-
-.channel-node--hub .channel-icon-box .material-symbols-outlined {
-  transform: rotate(-45deg);
-  font-size: 28px;
-  color: #2aa8ff;
-}
-
-.channel-node:hover .channel-icon-box,
-.channel-node:focus-visible .channel-icon-box,
-.channel-node.is-active .channel-icon-box,
-.channel-node.is-neighbor .channel-icon-box {
-  border-color: #2aa8ff;
-  box-shadow: 0 0 0 1px rgba(42, 168, 255, 0.35), 0 0 22px rgba(42, 168, 255, 0.35);
-}
-
-.channel-node:hover .channel-icon-box .material-symbols-outlined,
-.channel-node:focus-visible .channel-icon-box .material-symbols-outlined,
-.channel-node.is-active .channel-icon-box .material-symbols-outlined {
-  color: #bfe9ff;
-}
-
-/* ── Label ────────────────────────────────────────────────── */
-
-.channel-icon-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #b2c7d6;
-  white-space: nowrap;
-  pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-.channel-node--hub .channel-icon-label {
-  color: #2aa8ff;
-}
-
-.channel-node:hover .channel-icon-label,
-.channel-node:focus-visible .channel-icon-label,
-.channel-node.is-active .channel-icon-label {
-  color: #2aa8ff;
 }
 
 /* ── Detail panel ─────────────────────────────────────────── */
@@ -323,6 +98,13 @@
   font-size: 20px;
   color: #2aa8ff;
 }
+
+body.theme-red    .channel-detail-icon,
+body.theme-red    .channel-detail-live { color: #ff2a2a; }
+body.theme-green  .channel-detail-icon,
+body.theme-green  .channel-detail-live { color: #39ff14; }
+body.theme-purple .channel-detail-icon,
+body.theme-purple .channel-detail-live { color: #a855f7; }
 
 .channel-detail-tag {
   flex: 1 1 auto;
@@ -366,6 +148,17 @@ body.theme-green  .feed-cta { --feed-accent: #39ff14; }
 body.theme-purple #buildLogFeed,
 body.theme-purple .feed-cursor-line,
 body.theme-purple .feed-cta { --feed-accent: #a855f7; }
+
+/* ── Shared theme accent for circuit / join-cta elements ─────── */
+
+:root,
+body {
+  --circuit-accent: #2aa8ff;
+}
+
+body.theme-red    { --circuit-accent: #ff2a2a; }
+body.theme-green  { --circuit-accent: #39ff14; }
+body.theme-purple { --circuit-accent: #a855f7; }
 
 .feed-terminal-dots {
   display: inline-flex;
@@ -438,6 +231,18 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
   background-color: color-mix(in srgb, var(--feed-accent) 6%, transparent);
 }
 
+.feed-line-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: none;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feed-line-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
 .feed-line-new {
   animation: feed-line-ping 1.6s ease-out;
 }
@@ -471,6 +276,15 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
 @keyframes feed-author-ring {
   0%   { transform: scale(0.6); opacity: 0.6; }
   100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ── Reserve two lines so the empty -> filled swap on first load
+   doesn't change the feed's height (avoids a layout jump right
+   before the reveal animation plays). ─────────────────────────── */
+
+.feed-msg {
+  display: block;
+  min-height: 4.5rem;
 }
 
 /* ── Typing reveal ───────────────────────────────────────────── */
@@ -532,6 +346,382 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
   color: var(--feed-accent);
 }
 
+/* ── Join CTA hero ─────────────────────────────────────────── */
+
+.join-cta-inner {
+  position: relative;
+}
+
+/* Full frame that draws itself in once the section "arms" */
+.join-cta-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.frame-edge {
+  position: absolute;
+  background: var(--circuit-accent, #2aa8ff);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 60%, transparent);
+  transform: scale(0);
+  transition: transform 0.6s ease;
+}
+
+.frame-top,
+.frame-bottom {
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform-origin: left;
+}
+
+.frame-top    { top: 0; }
+.frame-bottom { bottom: 0; }
+
+.frame-left,
+.frame-right {
+  top: 0;
+  width: 2px;
+  height: 100%;
+  transform-origin: top;
+  transition-delay: 0.15s;
+}
+
+.frame-left  { left: 0; }
+.frame-right { right: 0; }
+
+.join-cta-inner.is-armed .frame-top,
+.join-cta-inner.is-armed .frame-bottom,
+.join-cta-inner.is-armed .frame-left,
+.join-cta-inner.is-armed .frame-right {
+  transform: scale(1);
+}
+
+/* Ambient grid pulses in the background of the section */
+.join-cta-pulses {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.join-cta-pulses span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--circuit-accent, #2aa8ff);
+  border-radius: 50%;
+  opacity: 0;
+  animation: join-cta-pulse-dot 4s ease-in-out infinite;
+}
+
+.join-cta-pulses span:nth-child(1) { top: 18%; left: 8%;  animation-delay: 0s; }
+.join-cta-pulses span:nth-child(2) { top: 72%; left: 14%; animation-delay: 1.4s; }
+.join-cta-pulses span:nth-child(3) { top: 30%; left: 88%; animation-delay: 0.7s; }
+.join-cta-pulses span:nth-child(4) { top: 80%; left: 82%; animation-delay: 2.4s; }
+.join-cta-pulses span:nth-child(5) { top: 50%; left: 4%;  animation-delay: 3s; }
+.join-cta-pulses span:nth-child(6) { top: 12%; left: 60%; animation-delay: 2s; }
+
+@keyframes join-cta-pulse-dot {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 0.7; }
+}
+
+#joinCtaHeading {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#joinCtaHeading.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+#joinCtaSub {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#joinCtaSub.is-revealed {
+  opacity: 1;
+}
+
+.join-cta-terminal {
+  color: var(--circuit-accent, #2aa8ff);
+  min-height: 1.4em;
+}
+
+.join-cta-prompt {
+  color: var(--circuit-accent, #2aa8ff);
+  opacity: 0.6;
+}
+
+/* Expanding square "power" rings around the CTA button */
+.join-cta-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.join-cta-rings span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--circuit-accent, #2aa8ff);
+  opacity: 0;
+}
+
+.join-cta-inner.is-armed .join-cta-rings span {
+  animation: join-cta-ring 3.5s ease-out infinite;
+}
+
+@keyframes join-cta-ring {
+  0%   { transform: scale(1); opacity: 0.5; }
+  20%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.join-cta-btn {
+  position: relative;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
+@media (min-width: 640px) {
+  .join-cta-btn {
+    font-size: 1.15rem;
+  }
+}
+
+/* ── Circuit flow ("Why be here" cards) ─────────────────────── */
+
+.circuit-flow {
+  position: relative;
+}
+
+.circuit-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  transition: border-color 0.3s ease, transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .circuit-card {
+    min-height: 260px;
+  }
+}
+
+/* PCB-style corner brackets */
+.circuit-card::before,
+.circuit-card::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+}
+
+.circuit-card::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid #37444b;
+  border-left: 2px solid #37444b;
+}
+
+.circuit-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid #37444b;
+  border-right: 2px solid #37444b;
+}
+
+.circuit-card:hover,
+.circuit-card:focus-within {
+  border-color: var(--circuit-accent, #2aa8ff);
+  transform: translateY(-3px);
+  background-color: color-mix(in srgb, var(--circuit-accent, #2aa8ff) 5%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 12%, transparent);
+  outline: none;
+}
+
+.circuit-card:hover::before,
+.circuit-card:hover::after,
+.circuit-card:focus-within::before,
+.circuit-card:focus-within::after {
+  border-color: var(--circuit-accent, #2aa8ff);
+  width: 20px;
+  height: 20px;
+}
+
+.circuit-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #37444b;
+  color: #7e9096 !important;
+  font-size: 24px !important;
+  transition: border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circuit-card:hover .circuit-node,
+.circuit-card:focus-within .circuit-node {
+  border-color: var(--circuit-accent, #2aa8ff);
+  color: var(--circuit-accent, #2aa8ff) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 35%, transparent);
+}
+
+/* Extra "benefit" copy — reserved space from the start, deciphered
+   in on hover/focus via scrambleReveal(). */
+.circuit-detail {
+  margin-top: 12px;
+  min-height: 4.5em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.circuit-card:hover .circuit-detail,
+.circuit-card:focus-within .circuit-detail {
+  opacity: 1;
+}
+
+/* ── Animated circuit traces (blue, flowing current) ──────────── */
+
+@keyframes circuit-flow-v {
+  to { background-position-y: -28px; }
+}
+
+@keyframes circuit-trace-flow {
+  to { stroke-dashoffset: -16; }
+}
+
+/* ── Connectors between stacked cards (mobile only) ──────────── */
+
+.circuit-arrow,
+.circuit-arrow-final {
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * 40px - 1px);
+  width: 2px;
+  height: calc(40px + 2px);
+  transform: translateX(-1px);
+  pointer-events: none;
+  background-image: repeating-linear-gradient(to bottom, var(--circuit-accent, #2aa8ff) 0 6px, transparent 6px 14px);
+  background-size: 2px 28px;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 50%, transparent);
+  animation: circuit-flow-v 0.8s linear infinite;
+}
+
+.circuit-arrow::after,
+.circuit-arrow-final::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  bottom: -1px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 4px 0 4px;
+  border-color: var(--circuit-accent, #2aa8ff) transparent transparent transparent;
+}
+
+.circuit-arrow-final {
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .circuit-arrow,
+  .circuit-arrow-final {
+    display: none;
+  }
+}
+
+/* ── Bus: each card gets its own trace, converging into the CTA ── */
+
+.circuit-bus {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .circuit-bus {
+    display: block;
+    height: 96px;
+  }
+
+  .circuit-bus-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .circuit-trace {
+    fill: none;
+    stroke: var(--circuit-accent, #2aa8ff);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 8 8;
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 60%, transparent));
+    animation: circuit-trace-flow 1s linear infinite;
+  }
+}
+
+@media (min-width: 768px) {
+  .circuit-bus {
+    height: 120px;
+  }
+}
+
+/* ── Final drop into the CTA (mobile only — on desktop the SVG bus
+   traces already land on the CTA) ────────────────────────────── */
+
+.circuit-drop-cta {
+  position: relative;
+  width: 2px;
+  height: 32px;
+  margin: 0 auto;
+  background-image: repeating-linear-gradient(to bottom, var(--circuit-accent, #2aa8ff) 0 6px, transparent 6px 14px);
+  background-size: 2px 28px;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 50%, transparent);
+  animation: circuit-flow-v 0.8s linear infinite;
+}
+
+@media (min-width: 640px) {
+  .circuit-drop-cta {
+    display: none;
+  }
+}
+
+/* ── CTA row ───────────────────────────────────────────────── */
+
+.circuit-cta-row {
+  margin-top: 32px;
+}
+
+@media (min-width: 640px) {
+  .circuit-cta-row {
+    margin-top: 0;
+  }
+}
+
+.circuit-cta {
+  position: relative;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  transform-origin: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.circuit-cta:hover,
+.circuit-cta:focus-visible {
+  box-shadow: 0 0 28px color-mix(in srgb, var(--circuit-accent, #2aa8ff) 45%, transparent);
+  transform: scale(1.04);
+}
+
 /* ── Reduced motion ───────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -540,28 +730,14 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
   #channelSectionHeading,
   .section-tag-cursor,
   .channel-detail-desc,
-  .channel-detail-live,
-  .channel-node,
-  .edge {
+  .channel-detail-live {
     animation: none !important;
     transition: none !important;
   }
 
-  .channel-node:hover,
-  .channel-node:focus-visible,
-  .channel-node.is-active {
-    transform: none;
-  }
-
-  .channel-node,
   #channelSectionHeading {
     opacity: 1;
     transform: none;
-  }
-
-  .edge {
-    stroke-dashoffset: 0;
-    opacity: 0.14;
   }
 
   .channel-detail-panel.is-updating .channel-detail-desc,
@@ -572,6 +748,40 @@ body.theme-purple .feed-cta { --feed-accent: #a855f7; }
 
   .feed-terminal-dots span {
     transition: none !important;
+  }
+
+  .circuit-card,
+  .circuit-node,
+  .circuit-cta,
+  .circuit-detail {
+    transition: none !important;
+  }
+
+  .circuit-detail {
+    opacity: 1 !important;
+  }
+
+  .circuit-arrow,
+  .circuit-arrow-final,
+  .circuit-drop-cta,
+  .circuit-trace {
+    animation: none !important;
+  }
+
+  #joinCtaHeading,
+  #joinCtaSub,
+  .frame-edge {
+    transition: none !important;
+  }
+
+  .join-cta-inner.is-armed .frame-edge {
+    transform: scale(1) !important;
+  }
+
+  .join-cta-rings span,
+  .join-cta-pulses span {
+    animation: none !important;
+    opacity: 0 !important;
   }
 
   .feed-status-dot,

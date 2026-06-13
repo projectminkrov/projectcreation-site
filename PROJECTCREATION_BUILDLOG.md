@@ -5011,3 +5011,400 @@ Tags:
 - deploy
 - community
 - ui
+
+## 2026-06-13 10:02 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Rebuilt the community page's channel network graph to use the same draggable, physics-based engine as the home page network (same node/line styling, spring layout, drag-and-release).
+- Kept the channel set (build-log, goals, showcase, wins, stuck, accountability) and the hover detail panel on the right, now driven by the new graph.
+- Removed the old hover-only edge-lighting animation system and its now-unused CSS/JS.
+
+Why it matters:
+The two network graphs on the site now share one consistent look and interaction model, while the community page keeps its channel-specific info panel.
+
+Next:
+- Spot-check the new graph on mobile and smaller breakpoints.
+
+Tags:
+- community
+- ui
+- graph
+
+## 2026-06-13 10:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a short intro paragraph under the "Live from #build-log" heading on the community page, explaining what the build-log is and why it's there.
+
+Why it matters:
+Gives new visitors quick context that the feed is a real accountability/transparency log of ongoing work, not just a list of messages.
+
+Next:
+- Continue polishing the community page sections.
+
+Tags:
+- community
+- ui
+- copy
+
+## 2026-06-13 10:18 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the sequential typewriter reveal of the build-log feed's first load with a smooth, staggered fade/slide-in for all entries at once.
+- Kept the typewriter effect for new entries that arrive while the feed is already visible.
+
+Why it matters:
+The initial view of the build-log felt clunky and overwhelming with each line typing out one after another — a single soft fade-in reads as far calmer on first load.
+
+Next:
+- Continue polishing the community page sections.
+
+Tags:
+- community
+- ui
+- animation
+
+## 2026-06-13 10:26 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed a layout jump on the community page's build-log feed: the feed used to start with a single placeholder line, then snap to its full 5-line height the instant live data loaded, shoving the rest of the page down.
+- Replaced the single placeholder with 5 sized placeholder lines matching the real feed's height, so the feed reserves its final size from first paint and the fade-in reveal plays smoothly with no jump.
+
+Why it matters:
+The reload "glitch" was a layout shift, not the fade animation itself — reserving the right amount of space up front makes the reveal feel smooth instead of janky.
+
+Next:
+- Continue polishing the community page sections.
+
+Tags:
+- community
+- ui
+- bugfix
+
+## 2026-06-13 10:45 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found the real cause of the build-log feed "drop down" glitch on the community page using a screen recording: the reserved placeholder space was sized for ~2 lines of text, but most real entries wrap to 3 lines at typical widths, so the feed still snapped taller right before the fade-in.
+- Increased the reserved height per entry so it matches the real wrapped text, confirmed in a headless browser that the feed height no longer changes when the live entries load and fade in.
+
+Why it matters:
+The fade-in animation was already correct — the visible "glitch" was the box resizing under it. With sizing fixed, the reveal now reads as one smooth fade with no jump.
+
+Next:
+- None — this closes out the build-log reveal polish.
+
+Tags:
+- community
+- ui
+- bugfix
+
+## 2026-06-13 10:34 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found the real cause of the build-log feed "drop down" glitch: the feed lines were briefly rendered at full visibility with their reserved empty space before the fade-in animation kicked in, creating a flash right before the smooth reveal.
+- Fixed by having every feed line start invisible from the very first paint, so the fade-in is the only thing that ever makes them appear — no more flash beforehand.
+- Verified frame-by-frame with a headless browser: opacity now ramps cleanly from 0 to 1 with zero flash.
+
+Why it matters:
+This was the actual source of the "everything drops down" glitch the previous fix didn't fully catch — the page now loads in cleanly with one smooth fade, no flicker.
+
+Next:
+- Keep an eye on live build-log updates to confirm the typewriter effect for new entries still feels right alongside this change.
+
+Tags:
+- community
+- ui
+- animation
+- bugfix
+
+## 2026-06-13 11:08 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Redesigned the "Three reasons builders stick around" section on the community page as a connected circuit: each reason is now a node with a terminal-style icon box, linked by dashed lines with a traveling pulse that flows from card to card and down into the "Join the Discord" button.
+- Added hover interactions — nodes and cards light up with the accent color, and the pulse speeds up under your cursor.
+- Verified the new layout across desktop and mobile, and respected reduced-motion preferences.
+
+Why it matters:
+This turns a static "why join" list into a small interactive moment that echoes the network-graph visuals used elsewhere on the site, making the case for joining feel more alive.
+
+Next:
+- Watch for feedback on the new section and consider extending the circuit motif to other parts of the community page if it lands well.
+
+Tags:
+- community
+- ui
+- animation
+- redesign
+
+## 2026-06-13 11:14 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Expanded the "Why be here" circuit section into a full diagram: PCB-style corner brackets on each card, dashed arrows with arrowheads connecting the three reasons left-to-right, and a shared bus underneath where all three converge and drop into the centered "Join the Discord" button.
+- Multiple pulses now travel the circuit simultaneously (cards, bus, and the final drop into the button), each lighting up the button with a glow when they arrive.
+- On mobile the layout collapses into a single vertical chain with downward arrows, still ending at the centered button.
+
+Why it matters:
+The earlier version felt too static for the "circuit flow" idea — this version makes the connections and motion much more visible and ties all three reasons visually into the call to action.
+
+Next:
+- Get feedback on the busier circuit look and tune pulse timing/density if it feels too noisy.
+
+Tags:
+- community
+- ui
+- animation
+- redesign
+
+
+## 2026-06-13 11:23 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reworked the "Three reasons builders stick around" cards into bigger, boxier panels with more breathing room
+- Removed all the traveling pulse-dot animations along the connector lines
+- Added a hover/focus "decipher" effect that scrambles in extra detail text explaining the benefit of each card
+- Enlarged the "Join the Discord" call-to-action button
+
+Why it matters:
+Makes the section feel more spacious, intentional, and rewarding to explore instead of cluttered with moving dots.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- animation
+- redesign
+
+
+## 2026-06-13 11:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Rebuilt the connector lines below the "Why be here" cards as three separate traces, each routing cleanly from its own card into the "Join the Discord" button instead of one line spanning the whole row
+- Restyled all connector lines (between cards and into the button) as glowing blue circuit-board traces with a flowing animation
+
+Why it matters:
+The connectors now read as an intentional circuit diagram funneling into the call to action, rather than a stray line crossing the section.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- animation
+- redesign
+
+
+## 2026-06-13 11:39 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Reduced the height of the "Why be here" cards so they don't feel stretched with empty space
+- Made the "Join the Discord" button noticeably bigger
+
+Why it matters:
+The section now feels more compact and proportionate instead of stretched out.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- layout
+
+
+## 2026-06-13 11:44 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Tightened the gap between the "Why be here" heading and the cards so the cards sit a bit higher
+- Confirmed the hover decipher effect and animated circuit traces still work correctly with the new spacing
+
+Why it matters:
+Gives the section more breathing room overall while keeping the interactive hover effects intact.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- layout
+
+
+## 2026-06-13 11:49 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Increased the vertical and horizontal spacing around the "Why be here" section (section padding, heading-to-cards gap, gap between cards, and the circuit trace area) without resizing the cards or button themselves
+
+Why it matters:
+The section now feels noticeably more spacious and less cramped while keeping the visual elements the same size.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- layout
+
+
+## 2026-06-13 12:14 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added a new "Join the build" call-to-action section right after the hero, now numbered // 01, with a typewriter-revealed heading, a deciphering subtext, an animated terminal-style command line, and a big glowing "Join the Discord" button with expanding circuit-style rings
+- Renumbered the existing sections: "Inside the server" is now // 02, "Live from #build-log" is // 03, and "Why be here" is // 04
+
+Why it matters:
+Gives visitors an immediate, animated invitation to join the Discord right after the hero, before walking them through the rest of the community page.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- animation
+- cta
+
+
+## 2026-06-13 12:22 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Replaced the floating corner brackets on the "Join the build" CTA section with a full frame that draws itself in around the block once the section comes into view
+- Added faint ambient pulse dots scattered across the section's background grid for extra life
+
+Why it matters:
+Makes the new CTA section feel more like a terminal window powering on, with a livelier background.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- animation
+- cta
+
+
+## 2026-06-13 12:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Slowed the "Join the Discord" button's pulse rings to a single heartbeat-style pulse every 3.5 seconds instead of three overlapping continuous pulses
+- Fixed the button hover effect on both CTA buttons to expand evenly from the center on all sides, instead of shifting up and to the left
+
+Why it matters:
+The pulse is now a calmer, intentional heartbeat rather than a distracting constant animation, and hover feels more solid and centered.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- ui
+- animation
+- cta
+
+
+## 2026-06-13 12:29 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Wired up all "Join Discord" style buttons and links on the community page (hero, the new "Join the build" CTA, the build-log "tail -f" link, and the "Why be here" CTA) to the real server invite, opening in a new tab
+
+Why it matters:
+Visitors can now actually join the community from any of the call-to-action buttons instead of clicking dead links.
+
+Next:
+- Keep gathering feedback on the redesigned community page
+
+Tags:
+- community
+- links
+- discord
+
+## 2026-06-13 12:38 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Made the community page's themed accent colors fully consistent — the channel panel icon/live-message text, the connector traces leading to the Discord CTA, the card hover glow/corners/icon, and the "Join the build" hero (frame border, ambient dots, terminal text, button pulse rings and hover glow) all now follow the site's active color theme instead of staying blue.
+
+Why it matters:
+- The community page's color theme switcher now applies consistently across every animated/interactive element, so the whole page feels cohesive no matter which theme a visitor picks.
+
+Next:
+- Continue polishing community page details as they come up.
+
+Tags:
+- community
+- theming
+- ui
