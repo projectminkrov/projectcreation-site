@@ -3,16 +3,24 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>ProjectCreation | Digital Craft Blue</title>
+  <title>ProjectCreation — One System, Endless Creation</title>
+  <meta name="description" content="ProjectCreation is a suite of builder tools — ProjectCipher (AI terminal orchestration), ProjectWord (macOS dictation), and ProjectBuilt (idea-to-plan AI) — for crafting software faster without losing the soul of the work."/>
+  <meta property="og:title" content="ProjectCreation — One System, Endless Creation"/>
+  <meta property="og:description" content="ProjectCreation is a suite of builder tools — ProjectCipher (AI terminal orchestration), ProjectWord (macOS dictation), and ProjectBuilt (idea-to-plan AI) — for crafting software faster without losing the soul of the work."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://projectcreation.net/"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
-  <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
-  <link href="/assets/graph-20260527.css" rel="stylesheet"/>
-  <link href="/assets/nav-panels.css" rel="stylesheet"/>
+  <link href="/assets/site.css?v=202606151400" rel="stylesheet"/>
+  <link href="/assets/graph-20260527.css?v=202606151500" rel="stylesheet"/>
+  <link href="/assets/nav-panels.css?v=202606151500" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-  <script src="/assets/theme-restore.js"></script>
-  <script src="/assets/font-guard.js"></script>
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary-container focus:text-on-primary focus:px-sm focus:py-xs">Skip to main content</a>
+  <script src="/assets/theme-restore.js?v=202606151500"></script>
+  <script src="/assets/font-guard.js?v=202606151500"></script>
   <div class="scan-line"></div>
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-full">
@@ -22,26 +30,26 @@
       <div class="hidden md:flex items-center gap-lg">
         <a id="navProjects"  class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/projects.html">Projects</a>
         <a id="navPricing"   class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/pricing.html">Pricing</a>
-        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#vision">Vision</a>
+        <a id="navVision"    class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/#vision">Vision</a>
         <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/community.html">Community</a>
       </div>
       <div class="flex items-center gap-sm">
-        <a id="navSignIn" href="/login.html" class="hidden md:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
-        <a id="navCreateAccount" href="/signup.html" class="hidden md:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
-        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
+        <a id="navSignIn" href="/login.html" class="hidden xl:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette" aria-haspopup="dialog" aria-expanded="false">
           <span class="material-symbols-outlined">terminal</span>
         </button>
-        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status">
+        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status" aria-haspopup="true" aria-expanded="false">
           <span class="material-symbols-outlined">sensors</span>
         </button>
 
         <!-- Profile icon (shown when logged in) -->
         <div id="profileWrapper">
-          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account" aria-haspopup="menu" aria-expanded="false">
             <img id="navAvatarImg" alt="" class="nav-avatar hidden">
             <span id="navAvatarIcon" class="material-symbols-outlined material-symbols-fill">account_circle</span>
           </button>
-          <div id="profileDropdown">
+          <div id="profileDropdown" role="menu">
             <div class="drop-divider dropdown-inner">
               <p id="dropHandle" class="drop-accent drop-status">&#9646; Session_Active</p>
               <p class="drop-label">Email</p>
@@ -65,7 +73,7 @@
     </nav>
   </header>
 
-  <main class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
+  <main id="main" class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
     <section class="flex flex-col items-center justify-center pt-xl pb-lg text-center">
       <h1 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
         ProjectCreation
@@ -74,7 +82,7 @@
         One system, Endless creation.
       </p>
       <div id="graphContainer" class="relative w-full aspect-video md:aspect-[21/9] border border-outline-variant bg-surface-container-lowest overflow-hidden mb-xl">
-        <svg id="graphSvg" class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg id="graphSvg" class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
       </div>
     </section>
 
@@ -84,10 +92,10 @@
       <div aria-hidden="true" class="vision-bracket tr"></div>
       <div aria-hidden="true" class="vision-bracket bl"></div>
       <div aria-hidden="true" class="vision-bracket br"></div>
-      <button id="vision-bg-toggle">BG: LOGS</button>
+      <button id="vision-bg-toggle" type="button" aria-label="Toggle background animation" aria-pressed="false">BG: LOGS</button>
       <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop py-[96px] md:py-[160px] relative z-[1]">
         <div class="flex items-center gap-xs mb-md">
-          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse" aria-hidden="true"></div>
           <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Manifesto.txt</span>
         </div>
         <h2 id="vision-headline" class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm leading-tight max-w-3xl">
@@ -123,7 +131,7 @@
       <!-- Centered header -->
       <div class="flex flex-col items-center text-center px-margin-mobile md:px-margin-desktop pt-[80px] pb-[40px]">
         <div class="flex items-center justify-center gap-xs mb-sm">
-          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+          <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse" aria-hidden="true"></div>
           <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono">System_Projects.init</span>
         </div>
         <h2 class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-container mb-sm leading-tight">
@@ -136,9 +144,6 @@
           Three tools. One ecosystem. Each one removes a different bottleneck from your creative workflow — so you can stay in flow from idea to shipped product.
         </p>
       </div>
-
-      <!-- Boot sequence terminal (filled by JS on scroll-in) -->
-      <div id="tools-boot" aria-hidden="true" class="flex flex-col items-center pb-xl px-margin-mobile md:px-margin-desktop"></div>
 
       <!-- Cards grid -->
       <div id="tools-cards" class="grid grid-cols-1 md:grid-cols-3 border-t border-outline-variant">
@@ -154,7 +159,7 @@
             <div class="flex items-center justify-between mb-lg">
               <span class="material-symbols-outlined text-primary-fixed-dim">terminal</span>
               <div class="flex items-center gap-xs">
-                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse" aria-hidden="true"></div>
                 <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
               </div>
             </div>
@@ -184,7 +189,7 @@
             <div class="flex items-center justify-between mb-lg">
               <span class="material-symbols-outlined text-primary-fixed-dim">mic</span>
               <div class="flex items-center gap-xs">
-                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse" aria-hidden="true"></div>
                 <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
               </div>
             </div>
@@ -214,7 +219,7 @@
             <div class="flex items-center justify-between mb-lg">
               <span class="material-symbols-outlined text-primary-fixed-dim">architecture</span>
               <div class="flex items-center gap-xs">
-                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 bg-primary-fixed-dim rounded-full animate-pulse" aria-hidden="true"></div>
                 <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest font-mono text-xs">Available</span>
               </div>
             </div>
@@ -240,7 +245,7 @@
 
       <!-- Copy -->
       <div class="flex items-center justify-center gap-xs mb-md">
-        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse" aria-hidden="true"></div>
         <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Signal_Open // Newsletter</span>
       </div>
       <h2 class="pixel-text font-headline-md text-headline-md text-primary-fixed-dim mb-sm">
@@ -261,7 +266,7 @@
               placeholder="your@email.com"
               autocomplete="email"
               required
-              class="w-full bg-background border border-outline-variant text-on-background font-mono font-label-md text-label-md px-sm py-sm placeholder:text-outline focus:outline-none focus:border-primary-fixed-dim transition-colors text-center"
+              class="w-full bg-background border border-outline-variant text-on-background font-mono font-label-md text-label-md px-sm py-sm placeholder:text-outline focus:outline-none focus:ring-0 focus:border-outline-variant transition-colors text-center"
             />
             <p id="newsletterError" class="font-label-sm text-label-sm text-error font-mono hidden">Please enter a valid email address.</p>
             <button
@@ -292,11 +297,11 @@
     <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-md w-full gap-md">
       <div class="font-headline-sm text-headline-sm text-on-surface">ProjectCreation</div>
       <div class="flex flex-wrap justify-center gap-md">
-        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="#">Documentation</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all link-disabled" href="#" aria-disabled="true" title="Coming soon">Documentation</a>
         <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/pricing.html">Pricing</a>
-        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="#">System Status</a>
-        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="#">Changelog</a>
-        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="#">Terms</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all link-disabled" href="#" aria-disabled="true" title="Coming soon">System Status</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all link-disabled" href="#" aria-disabled="true" title="Coming soon">Changelog</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all link-disabled" href="#" aria-disabled="true" title="Coming soon">Terms</a>
       </div>
       <div class="font-label-sm text-label-sm text-outline">
         &copy; 2026 ProjectCreation. Engineered for Digital Craft.
@@ -305,7 +310,8 @@
   </footer>
   <script src="/assets/supabase.min.js"></script>
   <script src="/assets/index.js?v=202605281214"></script>
-  <script src="/assets/graph.js"></script>
+  <script src="/assets/graph.js?v=202606151500"></script>
   <script src="/assets/nav-panels.js?v=202606021800"></script>
+  <script src="/assets/ld-json.js?v=202606151500"></script>
 </body>
 </html>

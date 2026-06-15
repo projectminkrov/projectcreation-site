@@ -4,15 +4,19 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Account | ProjectCreation</title>
+  <meta name="description" content="Manage your ProjectCreation account — profile, avatar, and connected projects."/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@400;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
-  <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
-  <link href="/assets/graph-20260527.css" rel="stylesheet"/>
-  <link href="/assets/nav-panels.css" rel="stylesheet"/>
+  <link href="/assets/site.css?v=202606151400" rel="stylesheet"/>
+  <link href="/assets/graph-20260527.css?v=202606151500" rel="stylesheet"/>
+  <link href="/assets/nav-panels.css?v=202606151500" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-  <script src="/assets/theme-restore.js"></script>
-  <script src="/assets/font-guard.js"></script>
+  <a href="#mainContent" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary-container focus:text-on-primary focus:px-sm focus:py-xs">Skip to main content</a>
+  <script src="/assets/theme-restore.js?v=202606151500"></script>
+  <script src="/assets/font-guard.js?v=202606151500"></script>
   <div class="scan-line"></div>
 
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
@@ -27,20 +31,20 @@
         <a id="navCommunity" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/community.html">Community</a>
       </div>
       <div class="flex items-center gap-sm">
-        <a id="navSignIn" href="/login.html" class="hidden xl:block font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
-        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
-        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
+        <a id="navSignIn" href="/login.html" class="hidden xl:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
+        <a id="navCreateAccount" href="/signup.html" class="hidden xl:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
+        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette" aria-haspopup="dialog" aria-expanded="false">
           <span class="material-symbols-outlined">terminal</span>
         </button>
-        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status">
+        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status" aria-haspopup="true" aria-expanded="false">
           <span class="material-symbols-outlined">sensors</span>
         </button>
         <div id="profileWrapper">
-          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account" aria-haspopup="menu" aria-expanded="false">
             <img id="navAvatarImg" alt="" class="nav-avatar hidden">
             <span id="navAvatarIcon" class="material-symbols-outlined material-symbols-fill">account_circle</span>
           </button>
-          <div id="profileDropdown">
+          <div id="profileDropdown" role="menu">
             <div class="drop-divider dropdown-inner">
               <p class="drop-accent drop-status">&#9646; Session_Active</p>
               <p class="drop-label">Email</p>
@@ -70,7 +74,7 @@
     <!-- Account header -->
     <div class="mb-xl">
       <div class="flex items-center gap-xs mb-sm">
-        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+        <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse" aria-hidden="true"></div>
         <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Session_Active</span>
       </div>
       <h1 class="font-headline-md text-headline-md text-on-background">Account</h1>
@@ -84,7 +88,7 @@
       <div class="border border-outline-variant bg-surface-container p-md">
         <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Status</span>
         <div class="flex items-center gap-xs mt-sm">
-          <div class="w-2 h-2 bg-primary-fixed-dim rounded-full animate-pulse"></div>
+          <div class="w-2 h-2 bg-primary-fixed-dim rounded-full animate-pulse" aria-hidden="true"></div>
           <span class="font-headline-sm text-headline-sm text-on-background">Active</span>
         </div>
         <p class="font-label-sm text-label-sm text-outline mt-xs">Account verified and operational.</p>
@@ -182,8 +186,25 @@
   </div>
 
   </main>
+
+  <footer class="bg-surface-container-lowest border-t border-outline-variant w-full">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-md w-full gap-md">
+      <div class="font-headline-sm text-headline-sm text-on-surface">ProjectCreation</div>
+      <div class="flex flex-wrap justify-center gap-md">
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/projects.html">Projects</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/pricing.html">Pricing</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/#vision">Vision</a>
+        <a class="font-label-sm text-label-sm text-outline hover:text-primary-fixed-dim underline transition-all" href="/community.html">Community</a>
+      </div>
+      <div class="font-label-sm text-label-sm text-outline">
+        &copy; 2026 ProjectCreation. Engineered for Digital Craft.
+      </div>
+    </div>
+  </footer>
   <script src="/assets/supabase.min.js"></script>
+  <script src="/assets/supabase-config.js?v=202606151500"></script>
   <script src="/assets/account.js?v=202605281214"></script>
   <script src="/assets/nav-panels.js?v=202606021800"></script>
+  <script src="/assets/theme-switch.js?v=202606151200"></script>
 </body>
 </html>

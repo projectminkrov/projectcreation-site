@@ -192,7 +192,7 @@
         <span class="feed-msg font-body-md text-body-md text-on-surface-variant font-mono leading-snug"></span>
         <span class="feed-meta font-label-sm text-label-sm text-outline font-mono shrink-0 ml-auto flex items-center gap-xs">
           <span class="feed-time"></span>
-          <a href="#" class="feed-link" aria-label="View on Discord">↗</a>
+          <a href="https://discord.gg/9UWvtc8RXT" target="_blank" rel="noopener" class="feed-link" aria-label="View on Discord">↗</a>
         </span>
       </div>
     `).join('');

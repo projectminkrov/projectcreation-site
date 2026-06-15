@@ -1,3 +1,8 @@
+-- SUPERSEDED: this file does not match the live schema as of 2026-06-15.
+-- The live `profiles` table includes columns (handle, avatar_url, username,
+-- bio, tradition, role, selected_house_id, etc.) and policies not defined
+-- here — see supabase/profiles.sql and the live migrations for the current
+-- schema. Kept for historical reference.
 -- ============================================================
 -- ProjectCreation — Supabase RLS Setup
 -- Run this entire file in: Supabase Dashboard → SQL Editor

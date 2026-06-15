@@ -579,7 +579,8 @@ body.theme-purple { --circuit-accent: #a855f7; }
    in on hover/focus via scrambleReveal(). */
 .circuit-detail {
   margin-top: 12px;
-  min-height: 4.5em;
+  min-height: 6.5em;
+  overflow: hidden;
   opacity: 0;
   transition: opacity 0.3s ease;
 }

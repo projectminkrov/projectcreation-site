@@ -4,17 +4,25 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Pricing | ProjectCreation</title>
+  <meta name="description" content="ProjectCreation pricing — one account, three tiers (Core, Pro, Max). Pick the amount of leverage your work needs, with a 3-day Pro trial and no card required to start."/>
+  <meta property="og:title" content="Pricing | ProjectCreation"/>
+  <meta property="og:description" content="ProjectCreation pricing — one account, three tiers (Core, Pro, Max). Pick the amount of leverage your work needs, with a 3-day Pro trial and no card required to start."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://projectcreation.net/pricing.html"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;700&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
-  <link href="/assets/site.css?v=202605281214" rel="stylesheet"/>
-  <link href="/assets/graph-20260527.css" rel="stylesheet"/>
-  <link href="/assets/pricing-discounts.css" rel="stylesheet"/>
-  <link href="/assets/pricing-animations.css" rel="stylesheet"/>
-  <link href="/assets/nav-panels.css" rel="stylesheet"/>
+  <link href="/assets/site.css?v=202606151400" rel="stylesheet"/>
+  <link href="/assets/graph-20260527.css?v=202606151500" rel="stylesheet"/>
+  <link href="/assets/pricing-discounts.css?v=202606151500" rel="stylesheet"/>
+  <link href="/assets/pricing-animations.css?v=202606151500" rel="stylesheet"/>
+  <link href="/assets/nav-panels.css?v=202606151500" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-  <script src="/assets/theme-restore.js"></script>
-  <script src="/assets/font-guard.js"></script>
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary-container focus:text-on-primary focus:px-sm focus:py-xs">Skip to main content</a>
+  <script src="/assets/theme-restore.js?v=202606151500"></script>
+  <script src="/assets/font-guard.js?v=202606151500"></script>
   <div class="scan-line"></div>
 
   <header class="bg-background dark:bg-background border-b border-outline-variant sticky top-0 z-50">
@@ -31,19 +39,19 @@
       <div class="flex items-center gap-sm">
         <a id="navSignIn" href="/login.html" class="hidden xl:block auth-nav-hidden font-label-md text-label-md text-on-surface-variant hover:text-primary-fixed-dim transition-colors duration-200">Sign in</a>
         <a id="navCreateAccount" href="/signup.html" class="hidden xl:block auth-nav-hidden px-sm py-xs bg-primary-container text-on-primary border border-primary-container font-label-md text-label-md hover:bg-transparent hover:text-primary-container transition-all">CREATE ACCOUNT</a>
-        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette">
+        <button id="terminalBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open command palette" aria-haspopup="dialog" aria-expanded="false">
           <span class="material-symbols-outlined">terminal</span>
         </button>
-        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status">
+        <button id="sensorsBtn" class="hidden sm:block p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Open project status" aria-haspopup="true" aria-expanded="false">
           <span class="material-symbols-outlined">sensors</span>
         </button>
 
         <div id="profileWrapper">
-          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account">
+          <button id="profileBtn" class="p-xs text-primary-fixed-dim hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 opacity-80" type="button" aria-label="Account" aria-haspopup="menu" aria-expanded="false">
             <img id="navAvatarImg" alt="" class="nav-avatar hidden">
             <span id="navAvatarIcon" class="material-symbols-outlined material-symbols-fill">account_circle</span>
           </button>
-          <div id="profileDropdown">
+          <div id="profileDropdown" role="menu">
             <div class="drop-divider dropdown-inner">
               <p class="drop-accent drop-status">&#9646; Session_Active</p>
               <p class="drop-label">Email</p>
@@ -67,12 +75,12 @@
     </nav>
   </header>
 
-  <main class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
+  <main id="main" class="relative w-full max-w-full px-margin-mobile md:px-margin-desktop">
     <section class="pt-lg pb-md border-b border-outline-variant">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-end">
         <div class="md:col-span-8 min-w-0">
           <div class="flex items-center gap-xs mb-sm">
-            <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse"></div>
+            <div class="w-2 h-2 bg-primary-fixed-dim animate-pulse" aria-hidden="true"></div>
             <span id="pricingLabel" class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">System_Pricing.cfg</span>
           </div>
           <h1 id="pricingHeadline" class="pixel-text font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-fixed-dim mb-sm">
@@ -116,7 +124,7 @@
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
               <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">Start</p>
-              <h2 class="font-headline-md text-headline-md text-on-background">Core</h2>
+              <h3 class="font-headline-md text-headline-md text-on-background">Core</h3>
             </div>
             <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono">001</span>
           </div>
@@ -157,7 +165,7 @@
           <div class="flex items-start gap-sm mb-md">
             <div>
               <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">Most useful</p>
-              <h2 class="font-headline-md text-headline-md text-on-background">Pro</h2>
+              <h3 class="font-headline-md text-headline-md text-on-background">Pro</h3>
             </div>
           </div>
           <div class="flex items-end gap-xs mb-xs">
@@ -191,7 +199,7 @@
           <div class="flex items-start justify-between gap-sm mb-md">
             <div>
               <p class="font-label-sm text-label-sm text-primary-fixed-dim font-mono uppercase tracking-widest mb-xs">No ceiling</p>
-              <h2 class="font-headline-md text-headline-md text-on-background">Max</h2>
+              <h3 class="font-headline-md text-headline-md text-on-background">Max</h3>
             </div>
             <span class="font-label-sm text-label-sm text-primary-fixed-dim font-mono">003</span>
           </div>
@@ -509,7 +517,7 @@
   </footer>
   <script src="/assets/supabase.min.js"></script>
   <script src="/assets/index.js?v=202605281214"></script>
-  <script src="/assets/pricing-toggle.js"></script>
+  <script src="/assets/pricing-toggle.js?v=202606151500"></script>
   <script src="/assets/nav-panels.js?v=202606021800"></script>
 </body>
 </html>

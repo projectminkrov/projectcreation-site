@@ -1,8 +1,8 @@
 (() => {
       const { createClient } = supabase;
       const db = createClient(
-        'https://gohyhxqvcjdthxvpewrx.supabase.co',
-        'sb_publishable_rBSID_xnOICGEpVQWPW8KA_FYFSdoS1'
+        window._supabaseConfig.url,
+        window._supabaseConfig.anonKey
       );
 
       const loadingState  = document.getElementById('loadingState');

@@ -5408,3 +5408,291 @@ Tags:
 - community
 - theming
 - ui
+
+## 2026-06-14 21:16 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- The homepage's animated background (log stream / code rain behind the hero manifesto) now follows the active color theme instead of always rendering blue.
+- Removed the scripted "boot sequence" terminal animation above the tools section. The tool cards now simply fade and slide in smoothly once they scroll into view.
+
+Why it matters:
+- The whole homepage now feels consistent with whichever theme color a visitor picks, and the tools section loads in with a cleaner, less busy entrance.
+
+Next:
+- Keep an eye out for any other hardcoded blue accents that should follow the theme.
+
+Tags:
+- homepage
+- theming
+- ui
+- animation
+
+## 2026-06-14 21:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Removed the always-blue focus highlight on the homepage newsletter email field so it no longer clashes with the active color theme.
+
+Why it matters:
+- Typing an email into the "Stay in the Feed" box no longer shows a mismatched blue outline when a different theme color is selected.
+
+Next:
+- None for now.
+
+Tags:
+- homepage
+- newsletter
+- ui
+
+## 2026-06-14 21:42 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- The animated visuals inside the "Tools for the Next Epoch" cards (ProjectCipher's character rain, ProjectWord's waveform, ProjectBuilt's blueprint dot grid) now follow the active color theme instead of always rendering blue. Pulled the theme-color logic into one shared helper reused across all of the homepage's animations.
+
+Why it matters:
+- Every animated element on the homepage — background, tool cards, and more — now matches whichever accent color a visitor picks, for a fully consistent themed experience.
+
+Next:
+- None for now.
+
+Tags:
+- homepage
+- theming
+- ui
+- animation
+
+## 2026-06-14 21:35 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found and removed the real source of the blue focus outline on the homepage newsletter email field — it was coming from the form-styling plugin's default focus ring, separate from the border color fixed earlier. Rebuilt the production output so the fix is live on the local preview.
+
+Why it matters:
+- Clicking into the email field no longer shows any leftover blue ring, on any theme.
+
+Next:
+- None for now.
+
+Tags:
+- homepage
+- newsletter
+- ui
+
+## 2026-06-14 21:50 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the "Who is this for?" pricing card hover effects on the pricing page — the terminal-style border glow, header/footer dividers, scan-line sweep, status dots, title/label text, the "Start ___" call-to-action link, the Max card's "12 terminals · unlimited workspaces · unlimited orchestrator · highest priority in queue" detail line, and the popular badge now all use one shared theme-color variable instead of a hardcoded blue.
+
+Why it matters:
+- Hovering any of the three pricing cards now consistently shows the visitor's chosen accent color everywhere, with far less duplicated CSS to keep in sync going forward.
+
+Next:
+- None for now.
+
+Tags:
+- pricing
+- theming
+- ui
+- animation
+
+## 2026-06-14 21:58 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the "Climb" section of the pricing page (the Core/Pro/Max progress track, its "RECOMMENDED" badge, hover callouts, and the Mission Control terminal's tier tabs, highlighted column, row-hover states, and feature bars/cursors) so every one of these now uses the visitor's chosen accent color instead of always rendering blue.
+
+Why it matters:
+- The pricing page's climb track and comparison terminal now feel like part of the same themed page no matter which accent color a visitor picks — completing the theme-consistency pass across the whole pricing page.
+
+Next:
+- None for now.
+
+Tags:
+- pricing
+- theming
+- ui
+
+## 2026-06-14 22:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the "Why be here" cards on the community page so they no longer change size on hover
+- Reserved enough space for the longest reveal text up front so all three cards stay a consistent, fixed size
+
+Why it matters:
+- Hovering one card used to permanently resize all three cards in the row, which felt buggy and inconsistent
+
+Next:
+- Continue monitoring theme consistency across remaining pages
+
+Tags:
+- community
+- ui
+- bugfix
+
+## 2026-06-15 10:37 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Made text selection highlight color follow the active site theme instead of always showing blue
+- Added matching selection colors for the default, red, green, and purple themes
+
+Why it matters:
+- Selecting text now feels consistent with whichever theme the user has chosen via the top-right toggle
+
+Next:
+- Continue monitoring theme consistency across remaining pages
+
+Tags:
+- ui
+- theme
+- enhancement
+
+## 2026-06-15 10:50 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed text selection still showing blue on non-default themes
+- The blue color came from a Tailwind selection utility on the body with higher CSS specificity than the new theme rules; raised specificity so theme-based selection colors now win
+
+Why it matters:
+- Selection color now correctly matches the active theme (red, green, purple) instead of always falling back to blue
+
+Next:
+- Continue monitoring theme consistency across remaining pages
+
+Tags:
+- ui
+- theme
+- bugfix
+
+## 2026-06-15 11:05 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Found that the local preview server serves the built "dist" output, so prior CSS edits weren't actually reaching the page
+- Rebuilt the production output and bumped the site stylesheet's cache-busting version across all pages
+- Verified with an automated browser check that text selection color now correctly matches each theme (default, red, green, purple)
+
+Why it matters:
+- The theme-based selection color fix now actually takes effect on the live local preview and was confirmed working end-to-end
+
+Next:
+- Continue monitoring theme consistency across remaining pages
+
+Tags:
+- ui
+- theme
+- bugfix
+
+## 2026-06-15 11:25 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Fixed the theme switcher on the Projects and Account pages by adding a small shared script that powers the button, instead of loading the full homepage bundle (which would have duplicated existing account logic on those pages)
+- Improved color contrast on the background-animation toggle button in the Vision section and added proper accessibility labeling/state attributes
+- Added pause/resume behavior to a second background canvas animation so it stops running when its section is off-screen or the browser tab is hidden, reducing unnecessary work
+- Compressed and resized the two large project thumbnail images used on the Projects page, added explicit width/height to prevent layout shift, and kept full-size originals for the larger screenshot views
+- Reviewed the two Supabase schema files for the profiles table against the live database and marked the older, out-of-date one with a clear "superseded" note for future reference
+- Bumped the site stylesheet cache-busting version across all pages and rebuilt the production output
+
+Why it matters:
+- Visitors on the Projects and Account pages can now use the theme switcher, background contrast meets accessibility guidelines, animations no longer run wastefully off-screen, and project pages load noticeably lighter images
+
+Next:
+- Continue working through remaining audit findings
+
+Tags:
+- ui
+- accessibility
+- performance
+- bugfix
+
+## 2026-06-15 14:20 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added unique meta descriptions and Open Graph/Twitter card tags to all main pages, fixed the homepage title tag, and added schema.org Organization/WebSite structured data via an external script (kept CSP-safe with no inline scripts)
+- Marked all auth pages (sign in, sign up, forgot/reset password, verify, account) as noindex so search engines focus on the main brand pages
+- Added a small SVG site favicon (matching the dark/cyan visual language) and linked it from every page
+- Added "skip to main content" links, marked decorative pulse-dots and background graph SVGs as aria-hidden, and lightened purple/red theme text colors on a few links for better contrast
+- Standardized the Sign In/Create Account nav breakpoint and the Vision link target across pages, added the missing footer to the Account and Projects pages, promoted the Projects hero to an h1, and demoted the pricing tier card titles to h3
+- Bumped the site stylesheet cache-busting version across all pages and rebuilt the production output
+
+Why it matters:
+- These changes directly improve how the site is discovered and represented in search results and link previews, while also making navigation and key UI elements clearer for screen reader and keyboard users
+
+Next:
+- Continue working through remaining audit findings
+
+Tags:
+- seo
+- accessibility
+- ui
+- bugfix
+
+## 2026-06-15 11:34 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Extracted the duplicated Supabase project config out of six auth-related scripts into one shared config file, loaded before each page's own script
+- Removed redundant `!important` overrides on the nav avatar hide/show styles after confirming plain specificity already resolves the rule conflict
+- Added cache-busting version query strings to several previously unversioned stylesheet and script references across all pages
+- Reviewed two older Supabase setup SQL files against the numbered migrations; kept them as-is since they're either still the referenced current schema or not yet covered by a migration
+- Updated placeholder footer links on the homepage with a clear "coming soon" treatment, and pointed the community feed's "View on Discord" links at the live Discord invite
+- Added proper ARIA popup/expanded states to the terminal, status, and account menu buttons, with matching JS updates so they toggle correctly when each panel opens and closes
+- Rebuilt the production output and verified the build completes cleanly
+
+Why it matters:
+- Cleans up duplicated config and styling so future auth or theming changes are easier and less error-prone, while improving cache control and screen-reader support for interactive nav elements
+
+Next:
+- Continue working through remaining audit findings
+
+Tags:
+- bugfix
+- accessibility
+- refactor
+- cleanup

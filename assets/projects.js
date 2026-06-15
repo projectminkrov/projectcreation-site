@@ -120,12 +120,19 @@
 
   profileBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    profileDropdown.classList.toggle('open');
+    const isOpen = profileDropdown.classList.toggle('open');
+    profileBtn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+  document.addEventListener('click', () => {
+    profileDropdown.classList.remove('open');
+    profileBtn.setAttribute('aria-expanded', 'false');
+  });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') profileDropdown.classList.remove('open');
+    if (e.key === 'Escape') {
+      profileDropdown.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
+    }
   });
   profileDropdown.addEventListener('click', (e) => e.stopPropagation());
 
@@ -142,6 +149,7 @@
     } else {
       profileWrapper.classList.remove('visible');
       profileDropdown.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
       showNavAvatarFallback(lastNavUserId); // Bug 4: pass userId so cache is cleaned up
       lastNavUserId = null;
       navSignIn.classList.remove('auth-nav-hidden');

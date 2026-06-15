@@ -1,7 +1,6 @@
 (() => {
   const { createClient } = supabase;
-  const SUPABASE_URL = 'https://gohyhxqvcjdthxvpewrx.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_rBSID_xnOICGEpVQWPW8KA_FYFSdoS1';
+  const { url: SUPABASE_URL, anonKey: SUPABASE_KEY } = window._supabaseConfig;
   const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   let currentUser    = null;
@@ -113,13 +112,20 @@
   // ── Nav event listeners ───────────────────────────────
   profileBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    profileDropdown.classList.toggle('open');
+    const isOpen = profileDropdown.classList.toggle('open');
+    profileBtn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+  document.addEventListener('click', () => {
+    profileDropdown.classList.remove('open');
+    profileBtn.setAttribute('aria-expanded', 'false');
+  });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') profileDropdown.classList.remove('open');
+    if (e.key === 'Escape') {
+      profileDropdown.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
+    }
   });
 
   profileDropdown.addEventListener('click', (e) => e.stopPropagation());

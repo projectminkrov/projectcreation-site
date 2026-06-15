@@ -1,3 +1,19 @@
+// ── Shared theme-aware accent colors ─────────────────────
+window._pcAccent = (() => {
+  const ACCENTS = {
+    'theme-red':    { main: '#ff2a2a', head: '#ffb2b2' },
+    'theme-green':  { main: '#39ff14', head: '#b2ffc2' },
+    'theme-purple': { main: '#a855f7', head: '#dab2ff' },
+  };
+  const DEFAULT_ACCENT = { main: '#2aa8ff', head: '#b2c7d6' };
+  return function getAccent() {
+    for (const cls in ACCENTS) {
+      if (document.body.classList.contains(cls)) return ACCENTS[cls];
+    }
+    return DEFAULT_ACCENT;
+  };
+})();
+
 (() => {
       const { createClient } = supabase;
       const db = createClient(
@@ -123,15 +139,20 @@
       // Toggle dropdown
       profileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        profileDropdown.classList.toggle('open');
+        const isOpen = profileDropdown.classList.toggle('open');
+        profileBtn.setAttribute('aria-expanded', String(isOpen));
       });
 
       // Close on outside click or Escape key
       document.addEventListener('click', () => {
         profileDropdown.classList.remove('open');
+        profileBtn.setAttribute('aria-expanded', 'false');
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') profileDropdown.classList.remove('open');
+        if (e.key === 'Escape') {
+          profileDropdown.classList.remove('open');
+          profileBtn.setAttribute('aria-expanded', 'false');
+        }
       });
       profileDropdown.addEventListener('click', (e) => e.stopPropagation());
 
@@ -150,6 +171,7 @@
         } else {
           profileWrapper.classList.remove('visible');
           profileDropdown.classList.remove('open');
+          profileBtn.setAttribute('aria-expanded', 'false');
           showNavAvatarFallback(lastNavUserId); // Bug 4: pass userId so cache is cleaned up
           lastNavUserId = null;
           navSignIn.classList.remove('auth-nav-hidden');
@@ -223,6 +245,7 @@
     () => `${ts()} [PROC] task:done exit:0`,
   ];
   const rl = () => T[Math.floor(Math.random() * T.length)]();
+  const getAccent = window._pcAccent;
 
   // ── State ───────────────────────────────────────────
   const MODES = ['logs', 'rain'];
@@ -265,7 +288,7 @@
     const h = canvas.height;
     ctx.clearRect(0, 0, canvas.width, h);
     ctx.font = '9px "JetBrains Mono",monospace';
-    ctx.fillStyle   = '#2aa8ff';
+    ctx.fillStyle   = getAccent().main;
     ctx.globalAlpha = 0.038;
     for (const c of logCols) {
       c.off += c.speed;
@@ -290,6 +313,7 @@
     const numRows = Math.ceil(h / CH) + 2;
     ctx.clearRect(0, 0, w, h);
     ctx.font = `${FS}px "JetBrains Mono",monospace`;
+    const accent = getAccent();
     for (let ci = 0; ci < rainCols.length; ci++) {
       const c = rainCols[ci];
       c.head += c.speed;
@@ -301,7 +325,7 @@
         if (y > h) break;
         const dist = headRow - row;
         ctx.globalAlpha = dist === 0 ? 0.18 : (1 - dist / c.trail) * 0.055;
-        ctx.fillStyle   = dist === 0 ? '#b2c7d6' : '#2aa8ff';
+        ctx.fillStyle   = dist === 0 ? accent.head : accent.main;
         ctx.fillText(c.chars[row % c.chars.length], ci * CW, y + FS);
       }
     }
@@ -313,6 +337,7 @@
     toggle.addEventListener('click', () => {
       modeIdx = (modeIdx + 1) % MODES.length;
       toggle.textContent = `BG: ${MODES[modeIdx].toUpperCase()}`;
+      toggle.setAttribute('aria-pressed', String(modeIdx !== 0));
     });
   }
 
@@ -398,75 +423,39 @@
   observer.observe(section);
 })();
 
-// ── Tools section: boot sequence on scroll-into-view ─────────────────
+// ── Tools section: reveal cards on scroll-into-view ─────────────────
 (() => {
   const toolsEl = document.getElementById('tools');
-  const bootEl  = document.getElementById('tools-boot');
   const cardsEl = document.getElementById('tools-cards');
-  if (!toolsEl || !bootEl || !cardsEl) return;
+  if (!toolsEl || !cardsEl) return;
 
-  const LINES = [
-    { text: '> INITIALIZING MODULE_REGISTRY...', cls: '' },
-    { text: '> [001] ProjectCipher ─────── LOADING', cls: '' },
-    { text: '> [001] ProjectCipher ─────── ████████████ OK', cls: 'ok' },
-    { text: '> [002] ProjectWord ───────── LOADING', cls: '' },
-    { text: '> [002] ProjectWord ───────── ████████████ OK', cls: 'ok' },
-    { text: '> [003] ProjectBuilt ──────── ████░░░░░░░░ PENDING', cls: 'pending' },
-    { text: '> SYSTEM READY — 2/3 MODULES ONLINE', cls: 'ready' },
-  ];
-  const DELAYS = [0, 200, 620, 940, 1360, 1660, 2080];
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    observer.disconnect();
+    cardsEl.classList.add('revealed');
+    if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
+  }, { threshold: 0.25 });
 
-  let booted = false;
-
-  // Pre-insert all lines at once so the DOM height is stable before
-  // any animation plays — prevents layout reflow / scroll-anchor jitter.
-  const lineEls = LINES.map(({ text, cls }) => {
-    const el = document.createElement('div');
-    el.className = 'boot-line' + (cls ? ' ' + cls : '');
-    el.textContent = text;
-    bootEl.appendChild(el);
-    return el;
-  });
-
-  function runBoot() {
-    lineEls.forEach((el, i) => {
-      setTimeout(() => {
-        el.classList.add('shown');
-
-        if (i === lineEls.length - 1) {
-          setTimeout(() => {
-            cardsEl.classList.add('revealed');
-            if (typeof window._pcInitCanvases === 'function') window._pcInitCanvases();
-          }, 480);
-        }
-      }, DELAYS[i]);
-    });
-  }
-
-  // Fire when the section top scrolls into the top 55% of the viewport —
-  // section title is clearly visible and the user is actively on this section.
-  function checkBoot() {
-    if (booted) return;
-    const top = toolsEl.getBoundingClientRect().top;
-    if (top <= window.innerHeight * 0.55 && top > -100) {
-      booted = true;
-      window.removeEventListener('scroll', checkBoot);
-      runBoot();
-    }
-  }
-
-  window.addEventListener('scroll', checkBoot, { passive: true });
-  checkBoot();
+  observer.observe(toolsEl);
 })();
 
-// ── Tools section: boot sequence + hover scramble + canvas animations ──
+// ── Tools section: hover scramble + canvas animations ──
 (() => {
   const toolsSection = document.getElementById('tools');
-  const bootEl       = document.getElementById('tools-boot');
   const cardsEl      = document.getElementById('tools-cards');
-  if (!toolsSection || !bootEl || !cardsEl) return;
+  if (!toolsSection || !cardsEl) return;
 
   const SCRAMBLE_CHARS = '!<>-_/[]{}=+*?#@$%ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  // ── Canvas loop gating: pause when off-screen or tab hidden ──
+  let canvasLoopActive = false;
+  new IntersectionObserver(e => {
+    canvasLoopActive = e[0].isIntersecting && !document.hidden;
+  }, { threshold: 0 }).observe(toolsSection);
+  document.addEventListener('visibilitychange', () => {
+    canvasLoopActive = !document.hidden && toolsSection.getBoundingClientRect().top < window.innerHeight
+      && toolsSection.getBoundingClientRect().bottom > 0;
+  });
 
   // ── Scramble utility ─────────────────────────────────
   function scramble(el, duration) {
@@ -547,6 +536,7 @@
         const numRows = Math.ceil(h / CH) + 2;
         ctx.clearRect(0, 0, w, h);
         ctx.font = `${FS}px "JetBrains Mono",monospace`;
+        const accent = window._pcAccent();
         rainCols.forEach((c, ci) => {
           c.head += c.speed;
           if (c.head - c.trail > numRows) c.head = -Math.floor(Math.random() * 8);
@@ -559,7 +549,7 @@
             if (y > h) break;
             const dist = headRow - row;
             ctx.globalAlpha = dist === 0 ? 0.55 : (1 - dist / c.trail) * 0.14;
-            ctx.fillStyle   = dist === 0 ? '#b2c7d6' : '#2aa8ff';
+            ctx.fillStyle   = dist === 0 ? accent.head : accent.main;
             ctx.fillText(c.chars[row % c.chars.length], ci * CW, y + FS);
           }
         });
@@ -570,7 +560,7 @@
       function drawWave() {
         const w = canvas.width, h = canvas.height;
         ctx.clearRect(0, 0, w, h);
-        ctx.strokeStyle = '#2aa8ff';
+        ctx.strokeStyle = window._pcAccent().main;
         const cy = h / 2;
         const amp = h * 0.13;
         [{ a: 0.38, lw: 1.5, ph: 0 }, { a: 0.18, lw: 1, ph: 0.9 }, { a: 0.08, lw: 0.7, ph: 1.8 }]
@@ -603,9 +593,10 @@
         const w = canvas.width, h = canvas.height;
         ctx.clearRect(0, 0, w, h);
         dotPulse += 0.013;
+        const accent = window._pcAccent();
 
         // faint grid lines
-        ctx.strokeStyle = '#2aa8ff';
+        ctx.strokeStyle = accent.main;
         ctx.lineWidth = 0.5;
         ctx.globalAlpha = 0.035;
         const gs = 60;
@@ -613,7 +604,7 @@
         for (let y = gs; y < h; y += gs) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
         // pulsing dots
-        ctx.fillStyle = '#2aa8ff';
+        ctx.fillStyle = accent.main;
         dots.forEach(d => {
           ctx.globalAlpha = Math.max(0, 0.07 + 0.12 * Math.sin(dotPulse + d.phase));
           ctx.beginPath();
@@ -633,7 +624,7 @@
       if (typeof ResizeObserver !== 'undefined')
         new ResizeObserver(resize).observe(card);
 
-      (function loop() { draw(); requestAnimationFrame(loop); })();
+      (function loop() { if (canvasLoopActive) draw(); requestAnimationFrame(loop); })();
     });
   }
 

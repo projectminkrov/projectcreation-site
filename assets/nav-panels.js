@@ -185,6 +185,7 @@
     // Mutual exclusivity — only one panel open at a time
     if (sensorsOpen) closeSensors();
     paletteOpen = true;
+    terminalBtn.setAttribute('aria-expanded', 'true');
 
     let user = null;
     try { const { data } = await db.auth.getUser(); user = data?.user || null; } catch {}
@@ -204,6 +205,7 @@
   function closePalette() {
     if (!paletteOpen) return;
     paletteOpen = false;
+    terminalBtn.setAttribute('aria-expanded', 'false');
     overlay.classList.remove('open');
     cmdInput.value = '';
     document.body.style.overflow = '';
@@ -329,6 +331,7 @@
     // Mutual exclusivity — only one panel open at a time
     if (paletteOpen) closePalette();
     sensorsOpen = true;
+    sensorsBtn.setAttribute('aria-expanded', 'true');
     positionPanel();
 
     // Loading skeleton
@@ -398,6 +401,7 @@
   function closeSensors() {
     if (!sensorsOpen) return;
     sensorsOpen = false;
+    sensorsBtn.setAttribute('aria-expanded', 'false');
     sensorsPanel.classList.remove('open');
     stopSensorsLiveUpdates();
   }
