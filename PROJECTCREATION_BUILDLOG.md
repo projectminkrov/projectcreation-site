@@ -5787,3 +5787,24 @@ Tags:
 - seo
 - performance
 - technical
+
+## 2026-06-15 19:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Pushed the full SEO/marketing audit pass (sitemap, robots, share images, structured data, conversion fixes, FAQ, custom 404) to GitHub main and deployed to production via wrangler
+
+Why it matters:
+- The live site is now fully crawlable and indexable, shares correctly on social platforms, has working calls-to-action throughout, and gives visitors useful answers on the pricing page before they sign up
+
+Next:
+- Consider real trust signals (testimonials, user counts) and dedicated per-page share images when available
+
+Tags:
+- seo
+- marketing
+- deploy
+- milestone
