@@ -5696,3 +5696,94 @@ Tags:
 - accessibility
 - refactor
 - cleanup
+
+## 2026-06-15 12:30 — ProjectCreation
+
+Status: Done
+Visibility: public-auto
+Public channel: creation-feed
+
+Changed:
+- Shipped a full audit pass to the live site: SEO meta tags, Open Graph data, favicon, and structured data; accessibility improvements (skip links, ARIA roles, contrast fixes); performance fixes (gated animations, optimized images); and cross-page consistency fixes (footers, nav, headings)
+- Pushed to GitHub main and deployed to production via wrangler
+
+Why it matters:
+- The site is now properly discoverable and indexable by search engines, more accessible, and more consistent across pages — a meaningful step toward ranking well for brand searches
+
+Next:
+- Monitor search indexing and consider adding a sitemap.xml/robots.txt if not already present
+
+Tags:
+- seo
+- deploy
+- milestone
+
+## 2026-06-15 14:00 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added robots.txt and sitemap.xml (wired into the build so they ship to the live site)
+- Added canonical link tags to all public pages
+- Added Open Graph and Twitter share images (with dimensions and alt text) plus theme-color branding across every page
+- Extended structured data (schema.org JSON-LD) from the homepage to the Projects, Pricing, and Community pages
+
+Why it matters:
+- Closes the remaining gaps from the earlier SEO audit — search engines now have a sitemap/robots file to crawl, every page has a canonical URL, and social shares get a proper preview image instead of a blank card
+
+Next:
+- Consider commissioning dedicated 1200x630 share images per page instead of reusing one screenshot
+
+Tags:
+- seo
+- marketing
+
+## 2026-06-15 14:30 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Homepage hero now states what ProjectCreation actually is (a suite of builder tools) in a line under the tagline
+- Replaced two dead, non-functional buttons ("Initialize Flow" / "Read Docs") in the homepage vision section with working Create Account and Explore Tools links
+- Fixed dead "Download" buttons on the ProjectCipher and ProjectWord product sections (previously linked nowhere) to point to signup
+- Added Projects and Community links to the homepage footer so the community/Discord is reachable from every page
+- Added an FAQ section to the pricing page covering trial terms, tier switching, monthly vs yearly billing, and tool access per tier
+
+Why it matters:
+- Closes several broken or dead-end paths in the conversion flow and gives first-time visitors and pricing-page skeptics the answers and next step they need before signing up
+
+Next:
+- Consider real trust signals (user counts, testimonials) once available — flagged but not fabricated
+
+Tags:
+- marketing
+- conversion
+- copy
+
+## 2026-06-15 19:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added preconnect hints for Google Fonts on every page (faster font loading)
+- Added a custom branded 404 page
+- Extended structured data so the Projects and Pricing pages describe each tool and plan more fully for search engines
+- Added width/height to a remaining product illustration to prevent layout shift
+- Tightened a few page titles and descriptions on account-related pages for clarity and search quality
+
+Why it matters:
+Small technical SEO and performance touches that help pages load faster, look better in search results, and give visitors a proper landing page instead of a generic error if they hit a broken link.
+
+Next:
+- Consider an apple touch icon / web app manifest once a suitable icon asset exists
+
+Tags:
+- seo
+- performance
+- technical
