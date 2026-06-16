@@ -5873,3 +5873,26 @@ Tags:
 - seo
 - structured-data
 - images
+
+## 2026-06-16 09:10 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Added Google Search Console HTML verification file to site root and build pipeline
+- Deployed to production via Cloudflare Pages
+
+Why it matters:
+Verifying ownership in Google Search Console unlocks sitemap submission, crawl requests, and ranking data — required first step for actively managing search performance.
+
+Next:
+- Click VERIFY in Google Search Console
+- Submit sitemap at https://projectcreation.net/sitemap.xml
+- Request indexing for the homepage via URL Inspection
+
+Tags:
+- seo
+- google-search-console
+- verification
