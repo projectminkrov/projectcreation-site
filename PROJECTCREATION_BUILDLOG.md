@@ -5808,3 +5808,68 @@ Tags:
 - marketing
 - deploy
 - milestone
+
+## 2026-06-16 08:36 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Updated `<title>` tags across index, projects, pricing, community to be keyword-rich and brand-first (e.g. "ProjectCreation — AI Developer Tools Suite")
+- Added `<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">` to all public pages — unlocks rich snippets on Google/Bing
+- Added `<meta property="og:site_name" content="ProjectCreation">` to all pages
+- Added `<meta name="twitter:title">` and `<meta name="twitter:description">` to all pages
+- Added `<meta name="keywords">` to all public pages with brand and product keyword coverage
+- Improved `assets/ld-json.js` structured data: added `@id` URIs to Organization and WebSite, `logo` entity, `alternateName`, `publisher` link, `WebPage` entities with breadcrumbs for every route, `priceValidUntil` on Offers, and an FAQ entry defining what ProjectCreation is
+- Updated `sitemap.xml` lastmod dates to today and bumped community priority to 0.8
+- Bumped ld-json.js cache-bust version to 202606161000
+
+Why it matters:
+Google was generating its own title ("ProjectCreation | Digital Craft Blue") instead of using our title tag — a sign it didn't understand which text was authoritative. The `robots` meta directive also blocked rich-snippet extraction. These changes give search engines clear, consistent signals: explicit keyword-rich titles, full Open Graph/Twitter card sets, complete schema.org graph with entity IDs, and breadcrumbs on every page.
+
+Next:
+- Deploy and submit updated sitemap to Google Search Console and Bing Webmaster Tools
+- Monitor ranking position for "projectcreation" keyword over the next 2-4 weeks
+- Consider adding more content depth to homepage (product descriptions, testimonials) to improve topical authority
+
+Tags:
+- seo
+- structured-data
+- meta-tags
+- search-ranking
+
+## 2026-06-16 08:55 — ProjectCreation
+
+Status: In progress
+Visibility: public-auto
+Public channel: build-log
+
+Changed:
+- Converted all PNG assets to WebP using Pillow — 85% size reduction on hero images (675KB → 95KB, 393KB → 70KB; thumbnails 60% smaller)
+- Added `<picture>` elements with WebP source + PNG fallback in projects.html for all project screenshots and orbit thumbnails
+- Updated image alt text to be keyword-descriptive ("ProjectCipher terminal room — AI terminal orchestration room with up to 12 agents")
+- Added `fetchpriority="high"` on the above-fold ProjectCipher screenshot (LCP element)
+- Added `defer` to all bottom-of-body scripts across all 4 public pages (supabase, index, graph, nav-panels, ld-json)
+- Fixed Material Symbols font `display=block` → `display=swap` on all public pages (removes render-blocking icon font)
+- Added `<link rel="apple-touch-icon">` using a freshly generated 180×180 PNG on all public pages
+- Added `<link rel="dns-prefetch">` for Supabase on all public pages
+- Added homepage "About ProjectCreation" section with keyword-rich text describing all three tools — gives search engines a clear, crawlable answer block
+- Added FAQ structured data to homepage in ld-json.js (4 Q&As covering "What is ProjectCreation?", each tool, and pricing)
+- Bumped ld-json.js cache version to 202606161100
+
+Why it matters:
+Core Web Vitals are a confirmed Google ranking factor. Images were the biggest bottleneck — 675KB PNG on the projects page vs 95KB WebP is a massive LCP improvement. Deferred scripts + font-display swap eliminate render-blocking. The About section and FAQ schema give Google high-quality, dense keyword content to use for snippets and knowledge panels, strengthening brand authority for "projectcreation" searches.
+
+Next:
+- Deploy to Cloudflare Pages
+- Submit sitemap to Google Search Console and Bing Webmaster Tools
+- Begin backlink outreach (Product Hunt, GitHub, developer communities)
+
+Tags:
+- performance
+- webp
+- core-web-vitals
+- seo
+- structured-data
+- images
