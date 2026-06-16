@@ -44,7 +44,7 @@ copyDir('assets', path.join('dist', 'assets'));
 console.log('  ✓ assets/');
 
 // ── Cloudflare Pages config files ────────────────────────
-for (const file of ['_headers', '_redirects', 'robots.txt', 'sitemap.xml']) {
+for (const file of ['_headers', '_redirects', 'robots.txt', 'sitemap.xml', 'googlec54f5e7287c79b49.html']) {
   if (fs.existsSync(file)) {
     fs.copyFileSync(file, path.join('dist', file));
     console.log(`  ✓ ${file}`);
